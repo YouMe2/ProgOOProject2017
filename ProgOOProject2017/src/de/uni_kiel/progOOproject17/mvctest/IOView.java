@@ -1,16 +1,13 @@
 package de.uni_kiel.progOOproject17.mvctest;
 
 import java.awt.Color;
-import java.awt.GraphicsConfiguration;
-import java.awt.HeadlessException;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
-import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
+import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
 import de.uni_kiel.progOOproject17.mvctest.mvc.InputView;
 import de.uni_kiel.progOOproject17.mvctest.mvc.MappedInputView;
 import de.uni_kiel.progOOproject17.mvctest.mvc.OutputView;
@@ -36,10 +33,12 @@ public class IOView extends JFrame implements OutputView, InputView {
     }
 
     @Override
-    public void updateView() {
-	contentPane.setBackground(new Color((int) (Math.random() * 256 * 256 * 256)));
+    public void updateView(AbstractDataModel model) {
+	contentPane.setBackground(((Model) model).getBGColor());
+	
     }
-
+   
+   
     @Override
     public void addAction(String actionKey, Action action) {
 	in.addAction(actionKey, action);
@@ -63,5 +62,9 @@ public class IOView extends JFrame implements OutputView, InputView {
 	in.addActionMap(actionMap);
 	
     }
+
+
+
+
 
 }

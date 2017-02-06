@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.mvctest.mvc.MappedInputView;
+import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
 import de.uni_kiel.progOOproject17.mvctest.mvc.OutputView;
 
 public class OView extends JFrame implements OutputView{
@@ -26,8 +26,11 @@ public class OView extends JFrame implements OutputView{
     }
 
     @Override
-    public void updateView() {
-	contentPane.setBackground(new Color((int) (Math.random() * 256 * 256 * 256)));
+    public void updateView(AbstractDataModel model) {
+	contentPane.setBackground(((Model) model).getBGColor());
+	
     }
+
+    
 
 }

@@ -1,11 +1,24 @@
 package de.uni_kiel.progOOproject17.mvctest;
 
-import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractModel;
+import java.awt.Color;
 
-public class Model extends AbstractModel {
+import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
 
+public class Model extends AbstractDataModel {
+
+    private Color c;
+    
     public Model() {
-	// TODO Auto-generated constructor stub
+	changeColor();
     }
+    
+    public void changeColor() {
+	c = new Color((int)(Math.random()*256*256*256));
+    }
+
+   
+    public Color getBGColor() {
+	return c;
+	}
 
 }

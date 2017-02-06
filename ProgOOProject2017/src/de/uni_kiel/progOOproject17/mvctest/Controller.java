@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 
 import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractController;
-import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractModel;
+import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
 import de.uni_kiel.progOOproject17.mvctest.mvc.InputView;
 import de.uni_kiel.progOOproject17.mvctest.mvc.OutputView;
 
@@ -18,20 +18,21 @@ public class Controller extends AbstractController {
 
 	IOView v = new IOView("Test");
 	Model m = new Model();
-	new Controller(v, v, m);
+	new Controller(v, m);
 
     }
 
-    public Controller(OutputView out, InputView in, AbstractModel model) {
-	super(out, in, model);
+    public Controller(IOView view, Model model) {
+	super(view, view, model);
 
 	actions = new ActionMap();
 	actions.put("pressed A", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		updateAllViews();
-		in.setEnabeled("pressed A", false);
+		model.changeColor();
+		updateAllViews(model);
+		setEnabledAll("pressed A", false);
 	    }
 	});
 
@@ -39,7 +40,8 @@ public class Controller extends AbstractController {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-		in.setEnabeled("pressed A", true);
+		
+		setEnabledAll("pressed A", true);
 	    }
 	});
 
