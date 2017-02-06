@@ -7,9 +7,9 @@ import javax.swing.AbstractAction;
 
 public abstract class AbstractController {
 
-    private OutputView standardOut;
+    public final OutputView standardOut;
     private ArrayList<OutputView> outs = new ArrayList<>();
-    private InputView standardIn;
+    public final InputView standardIn;
     private ArrayList<InputView> ins = new ArrayList<>();
     private AbstractModel model;
 
@@ -45,16 +45,9 @@ public abstract class AbstractController {
 
     // GETTERS & SETTERS
 
-    public OutputView getStandardOut() {
-	return standardOut;
-    }
 
     public OutputView getOutputView(int i) {
 	return outs.get(i);
-    }
-
-    public InputView getStandardIn() {
-	return standardIn;
     }
 
     public InputView getInputView(int i) {

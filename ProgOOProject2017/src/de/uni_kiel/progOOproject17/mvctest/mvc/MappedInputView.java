@@ -1,6 +1,6 @@
 package de.uni_kiel.progOOproject17.mvctest.mvc;
 
-import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
@@ -19,8 +19,17 @@ public class MappedInputView implements InputView {
     }
 
     @Override
-    public void addAction(String actionKey, AbstractAction action) {
+    public void addAction(String actionKey, Action action) {
 	KeyStroke key = KeyStroke.getKeyStroke(actionKey);
+	if (enabeled) {
+	    inMap.put(key, key);
+	} else {
+	    inMap.put(key, "none");
+	}
+	aMap.put(key, action);
+    }
+    
+    public void addAction(KeyStroke key, Action action) {
 	if (enabeled) {
 	    inMap.put(key, key);
 	} else {
@@ -53,6 +62,15 @@ public class MappedInputView implements InputView {
 	    inMap.put((KeyStroke) key, "none");
 	}
 
+    }
+
+    @Override
+    public void addActionMap(ActionMap actionMap) {
+	
+	for (Object o : actionMap.keys()) {	    
+	    addAction((String)o, actionMap.get(o));
+	    
+	}
     }
 
 }
