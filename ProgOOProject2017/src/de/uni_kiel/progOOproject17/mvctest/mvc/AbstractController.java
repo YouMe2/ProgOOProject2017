@@ -10,7 +10,7 @@ public abstract class AbstractController {
     public final OutputView standardOut;
     private ArrayList<OutputView> outs = new ArrayList<>();
     public final InputView standardIn;
-    private ArrayList<InputView> ins = new ArrayList<>();
+    private ArrayList<InputView> ins = new ArrayList<>(); // nicht unebdingt notwending
     private AbstractModel model;
 
     public AbstractController(OutputView out, InputView in, AbstractModel model) {
@@ -29,14 +29,7 @@ public abstract class AbstractController {
 	ins.add(in);
     }
 
-    public void updateStandardView() {
-	standardOut.updateView();
-    }
-
-    public void updateView(int i) {
-	outs.get(i).updateView();
-    }
-
+  
     public void updateAllViews() {
 	for (OutputView out : outs) {
 	    out.updateView();
