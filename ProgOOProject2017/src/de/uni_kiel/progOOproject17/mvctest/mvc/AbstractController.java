@@ -11,9 +11,9 @@ public abstract class AbstractController {
     private ArrayList<OutputView> outs = new ArrayList<>();
     public final InputView standardIn;
     private ArrayList<InputView> ins = new ArrayList<>(); // nicht unebdingt notwending
-    private AbstractModel model;
+    private AbstractDataModel model;
 
-    public AbstractController(OutputView out, InputView in, AbstractModel model) {
+    public AbstractController(OutputView out, InputView in, AbstractDataModel model) {
 	this.standardOut = out;
 	addOutputView(standardOut);
 	this.standardIn = in;
@@ -29,10 +29,23 @@ public abstract class AbstractController {
 	ins.add(in);
     }
 
-  
-    public void updateAllViews() {
+    public void setEnabledAll(boolean enabeled) {
+	for (InputView in : ins) {
+	    in.setEnabeled(enabeled);
+	}
+
+    }
+    
+    public void setEnabledAll(String actionKey, boolean enabeled) {
+   	for (InputView in : ins) {
+   	    in.setEnabeled(actionKey, enabeled);   	}
+
+       }
+    
+    
+    public void updateAllViews(AbstractDataModel m) {
 	for (OutputView out : outs) {
-	    out.updateView();
+	    out.updateView(m);
 	}
     }
 
@@ -47,11 +60,11 @@ public abstract class AbstractController {
 	return ins.get(i);
     }
 
-    public AbstractModel getModel() {
+    public AbstractDataModel getModel() {
 	return model;
     }
 
-    public void setModel(AbstractModel model) {
+    public void setModel(AbstractDataModel model) {
 	this.model = model;
     }
 }
