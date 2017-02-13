@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.tests.mvc;
+package de.uni_kiel.progOOproject17.tests.mvc.outstest;
 
 import java.awt.Color;
 
