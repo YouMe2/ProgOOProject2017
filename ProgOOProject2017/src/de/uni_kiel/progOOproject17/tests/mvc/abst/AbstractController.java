@@ -1,28 +1,28 @@
-package de.uni_kiel.progOOproject17.mvctest.mvc;
+package de.uni_kiel.progOOproject17.tests.mvc.abst;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-
-import javax.swing.AbstractAction;
 
 public abstract class AbstractController {
 
     public final OutputView standardOut;
     private ArrayList<OutputView> outs = new ArrayList<>();
+    
     public final InputView standardIn;
     private ArrayList<InputView> ins = new ArrayList<>(); // nicht unebdingt notwending
+    
     private AbstractDataModel model;
 
     public AbstractController(OutputView out, InputView in, AbstractDataModel model) {
 	this.standardOut = out;
-	addOutputView(standardOut);
 	this.standardIn = in;
-	addInputView(standardIn);
 	this.model = model;
+	addOutputView(standardOut);
+	addInputView(standardIn);
     }
 
     public void addOutputView(OutputView out) {
 	outs.add(out);
+//	out.setDataModel(model);
     }
 
     public void addInputView(InputView in) {
@@ -42,15 +42,13 @@ public abstract class AbstractController {
 
        }
     
-    
-    public void updateAllViews(AbstractDataModel m) {
+    public void rederAllViews() {
 	for (OutputView out : outs) {
-	    out.updateView(m);
+	    out.render(model);
 	}
     }
-
+    
     // GETTERS & SETTERS
-
 
     public OutputView getOutputView(int i) {
 	return outs.get(i);
@@ -64,7 +62,4 @@ public abstract class AbstractController {
 	return model;
     }
 
-    public void setModel(AbstractDataModel model) {
-	this.model = model;
-    }
 }

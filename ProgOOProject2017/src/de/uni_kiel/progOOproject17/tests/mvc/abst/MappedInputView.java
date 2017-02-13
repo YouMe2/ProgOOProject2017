@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.mvctest.mvc;
+package de.uni_kiel.progOOproject17.tests.mvc.abst;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -19,7 +19,7 @@ public class MappedInputView implements InputView {
     }
 
     @Override
-    public void addAction(String actionKey, Action action) {
+    public void addKeyAction(String actionKey, Action action) {
 	KeyStroke key = KeyStroke.getKeyStroke(actionKey);
 	if (enabeled) {
 	    inMap.put(key, key);
@@ -65,10 +65,10 @@ public class MappedInputView implements InputView {
     }
 
     @Override
-    public void addActionMap(ActionMap actionMap) {
+    public void addKeyActionMap(ActionMap actionMap) {
 	
 	for (Object o : actionMap.keys()) {	    
-	    addAction((String)o, actionMap.get(o));
+	    addKeyAction((String)o, actionMap.get(o));
 	    
 	}
     }
