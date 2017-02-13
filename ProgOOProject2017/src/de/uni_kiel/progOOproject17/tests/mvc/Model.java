@@ -1,12 +1,14 @@
-package de.uni_kiel.progOOproject17.mvctest;
+package de.uni_kiel.progOOproject17.tests.mvc;
 
 import java.awt.Color;
 
-import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
 
 public class Model extends AbstractDataModel {
 
     private Color c;
+    
+   
     
     public Model() {
 	changeColor();
@@ -19,6 +21,10 @@ public class Model extends AbstractDataModel {
    
     public Color getBGColor() {
 	return c;
-	}
+    }
+    
+    
+    
+    
 
 }

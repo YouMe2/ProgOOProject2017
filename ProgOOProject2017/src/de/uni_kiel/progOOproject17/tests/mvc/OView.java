@@ -1,18 +1,19 @@
-package de.uni_kiel.progOOproject17.mvctest;
+package de.uni_kiel.progOOproject17.tests.mvc;
 
 import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
-import de.uni_kiel.progOOproject17.mvctest.mvc.OutputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.OutputView;
 
 public class OView extends JFrame implements OutputView{
 
 
     private JPanel contentPane;
-
+    
+    
     public OView(String title) {
 	this.setTitle(title);
 	contentPane = new JPanel();
@@ -26,7 +27,7 @@ public class OView extends JFrame implements OutputView{
     }
 
     @Override
-    public void updateView(AbstractDataModel model) {
+    public void render(AbstractDataModel model) {
 	contentPane.setBackground(((Model) model).getBGColor());
 	
     }

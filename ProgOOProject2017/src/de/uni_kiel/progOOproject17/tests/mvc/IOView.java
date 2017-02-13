@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.mvctest;
+package de.uni_kiel.progOOproject17.tests.mvc;
 
 import java.awt.Color;
 
@@ -7,17 +7,17 @@ import javax.swing.ActionMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.mvctest.mvc.AbstractDataModel;
-import de.uni_kiel.progOOproject17.mvctest.mvc.InputView;
-import de.uni_kiel.progOOproject17.mvctest.mvc.MappedInputView;
-import de.uni_kiel.progOOproject17.mvctest.mvc.OutputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.InputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.MappedInputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.OutputView;
 
 public class IOView extends JFrame implements OutputView, InputView {
 
     private MappedInputView in;
 
     private JPanel contentPane;
-
+    
     public IOView(String title) {
 	this.setTitle(title);
 	in = new MappedInputView();
@@ -33,15 +33,14 @@ public class IOView extends JFrame implements OutputView, InputView {
     }
 
     @Override
-    public void updateView(AbstractDataModel model) {
-	contentPane.setBackground(((Model) model).getBGColor());
+    public void render(AbstractDataModel model) {
+	contentPane.setBackground(((Model)model).getBGColor());
 	
-    }
-   
+    }   
    
     @Override
-    public void addAction(String actionKey, Action action) {
-	in.addAction(actionKey, action);
+    public void addKeyAction(String actionKey, Action action) {
+	in.addKeyAction(actionKey, action);
 
     }
 
@@ -58,8 +57,8 @@ public class IOView extends JFrame implements OutputView, InputView {
     }
 
     @Override
-    public void addActionMap(ActionMap actionMap) {
-	in.addActionMap(actionMap);
+    public void addKeyActionMap(ActionMap actionMap) {
+	in.addKeyActionMap(actionMap);
 	
     }
 
