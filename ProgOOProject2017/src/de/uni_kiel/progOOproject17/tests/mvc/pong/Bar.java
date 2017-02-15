@@ -1,6 +1,8 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-public class Bar {
+import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+
+public class Bar extends TickedDataModel {
 
     public int x;
     public int y;
@@ -28,7 +30,7 @@ public class Bar {
 	this.f = f;
     }
     
-    public void tick(){
+    public void tick(long timestamp){
 	if(moving == NONE)
 	    return;
 	if(y + h + (moving * speed) < f.h && y + (moving * speed) > 0) {
