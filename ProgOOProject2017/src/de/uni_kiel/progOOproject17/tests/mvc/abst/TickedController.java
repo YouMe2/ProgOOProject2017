@@ -21,7 +21,7 @@ public abstract class TickedController extends AbstractController implements Run
 
 	// time allways in ms!
 	
-
+	
 	long oldTime = System.currentTimeMillis();
 	long timeAccumulator = 0;
 

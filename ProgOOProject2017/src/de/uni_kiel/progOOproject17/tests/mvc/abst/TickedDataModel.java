@@ -5,4 +5,6 @@ public abstract class TickedDataModel extends AbstractDataModel{
 
     public abstract void tick(long timestamp);
     
+    
+    
 }

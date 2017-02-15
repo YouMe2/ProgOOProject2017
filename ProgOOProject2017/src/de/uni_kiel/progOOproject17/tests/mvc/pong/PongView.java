@@ -1,6 +1,7 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -13,9 +14,8 @@ public class PongView extends FramedIOView {
     private BufferedImage img;
 
     public PongView(String title, int w, int h) {
-	super(title, w, h);
+	super(title, w, h, false);
 	img = new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
-	setResizable(false);
     }
 
     @Override
