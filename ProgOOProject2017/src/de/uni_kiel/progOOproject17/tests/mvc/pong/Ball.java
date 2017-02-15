@@ -1,6 +1,8 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-public class Ball {
+import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+
+public class Ball extends TickedDataModel {
 
     public int x;
     public int y;
@@ -21,7 +23,7 @@ public class Ball {
 	resetBall();
     }
 
-    public void tick() {
+    public void tick(long timestamp) {
 
 	if (x + r + xSpeed > f.w - bar2.w && y > bar2.y && y < bar2.y + bar2.h) { // treffer
 										  // 2

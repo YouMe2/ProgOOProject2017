@@ -6,10 +6,11 @@ public abstract class AbstractController {
 
     public final OutputView standardOut;
     private ArrayList<OutputView> outs = new ArrayList<>();
-    
+
     public final InputView standardIn;
-    private ArrayList<InputView> ins = new ArrayList<>(); // nicht unebdingt notwending
-    
+    private ArrayList<InputView> ins = new ArrayList<>(); // nicht unebdingt
+							  // notwending
+
     private AbstractDataModel model;
 
     public AbstractController(OutputView out, InputView in, AbstractDataModel model) {
@@ -22,7 +23,7 @@ public abstract class AbstractController {
 
     public void addOutputView(OutputView out) {
 	outs.add(out);
-//	out.setDataModel(model);
+	// out.setDataModel(model);
     }
 
     public void addInputView(InputView in) {
@@ -30,24 +31,33 @@ public abstract class AbstractController {
     }
 
     public void setEnabledAll(boolean enabeled) {
-	for (InputView in : ins) {
-	    in.setEnabeled(enabeled);
+	synchronized (ins) {
+
+	    for (InputView in : ins) {
+		in.setEnabeled(enabeled);
+	    }
 	}
 
     }
-    
+
     public void setEnabledAll(String actionKey, boolean enabeled) {
-   	for (InputView in : ins) {
-   	    in.setEnabeled(actionKey, enabeled);   	}
+	synchronized (ins) {
 
-       }
-    
+	    for (InputView in : ins) {
+		in.setEnabeled(actionKey, enabeled);
+	    }
+	}
+
+    }
+
     public void rederAllViews() {
-	for (OutputView out : outs) {
-	    out.render(model);
+	synchronized (outs) {
+	    for (OutputView out : outs) {
+		out.render(model);
+	    }
 	}
     }
-    
+
     // GETTERS & SETTERS
 
     public OutputView getOutputView(int i) {

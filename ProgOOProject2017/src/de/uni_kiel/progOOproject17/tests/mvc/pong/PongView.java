@@ -21,6 +21,12 @@ public class PongView extends FramedIOView {
     @Override
     public void render(AbstractDataModel model) {
 
+	/*
+	 * TODO
+	 * This redering part is not very beautiful...
+	 * How to do u get the data in the model in a more elegant way?
+	 * 
+	*/
 	PongModel m = (PongModel) model;
 
 	Graphics gr = img.getGraphics();
@@ -29,8 +35,8 @@ public class PongView extends FramedIOView {
 
 
 	gr.setColor(Color.BLACK);
-	gr.fillRect(m.bar1.x, m.bar1.y, m.bar1.w, m.bar1.h);
-	gr.fillRect(m.bar2.x, m.bar2.y, m.bar2.w, m.bar2.h);
+	gr.fillRect(m.field.bar1.x, m.field.bar1.y, m.field.bar1.w, m.field.bar1.h);
+	gr.fillRect(m.field.bar2.x, m.field.bar2.y, m.field.bar2.w, m.field.bar2.h);
 	
 	gr.drawLine(m.field.w/2, 0, m.field.w/2, m.field.h);
 
@@ -39,7 +45,7 @@ public class PongView extends FramedIOView {
 	gr.drawString(" " + m.field.points2, m.field.w/2 + 45, 60);
 	
 	gr.setColor(Color.BLUE);
-	gr.fillOval(m.ball.x - m.ball.r, m.ball.y - m.ball.r, m.ball.r*2, m.ball.r*2);
+	gr.fillOval(m.field.ball.x - m.field.ball.r, m.field.ball.y - m.field.ball.r, m.field.ball.r*2, m.field.ball.r*2);
 
 	gr.dispose();
 	gr = centerPane.getGraphics();

@@ -27,6 +27,7 @@ public class PongController extends TickedController {
 	PongView v = new PongView("MiniPong - YaAlex", 450, 300);
 	PongModel m = new PongModel(450, 300);
 	new PongController(v, m).start();
+	
 
     }
 
@@ -68,6 +69,16 @@ public class PongController extends TickedController {
 
 	    }
 	});
+	
+	standardIn.addKeyAction("pressed F", new AbstractAction() {
+
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+
+		c.addOutputView(new PongView("test", m.field.w, m.field.h));
+
+	    }
+	});
 
 	standardIn.addKeyAction("pressed W", new AbstractAction() {
 
@@ -75,7 +86,7 @@ public class PongController extends TickedController {
 	    public void actionPerformed(ActionEvent e) {
 		standardIn.setEnabeled("released W", true);
 		standardIn.setEnabeled("released S", false);
-		m.bar1.moving = Bar.UP;
+		m.field.bar1.moving = Bar.UP;	//TODO also these parts of getting the change in to the model is NOT beautiful yet... 
 
 	    }
 	});
@@ -85,7 +96,7 @@ public class PongController extends TickedController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		m.bar1.moving = Bar.NONE;
+		m.field.bar1.moving = Bar.NONE;
 
 	    }
 	});
@@ -96,7 +107,7 @@ public class PongController extends TickedController {
 	    public void actionPerformed(ActionEvent e) {
 		standardIn.setEnabeled("released S", true);
 		standardIn.setEnabeled("released W", false);
-		m.bar1.moving = Bar.DOWN;
+		m.field.bar1.moving = Bar.DOWN;
 
 	    }
 	});
@@ -106,7 +117,7 @@ public class PongController extends TickedController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		m.bar1.moving = Bar.NONE;
+		m.field.bar1.moving = Bar.NONE;
 
 	    }
 	});

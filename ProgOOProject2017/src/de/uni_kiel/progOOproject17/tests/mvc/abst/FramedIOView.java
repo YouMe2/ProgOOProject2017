@@ -27,22 +27,18 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 	
 	
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
-	this.setLayout(new BorderLayout()); //sets the layout of the window
-	this.add(centerPane, BorderLayout.CENTER);  //Adds the game (which is a canvas) to the center of the screen.
+	this.setLayout(new BorderLayout());
+	this.add(centerPane, BorderLayout.CENTER);
 	
 	this.setResizable(resizeable);
-	this.pack();
 	this.setVisible(true);
+	this.pack();
 	this.setLocationRelativeTo(null);
 
 	
 	
     }
 
-    
-    public AbstractDataModel getDataModel() {
-	return model;
-    }
 
     @Override
     public void addKeyAction(String key, Action action) {
