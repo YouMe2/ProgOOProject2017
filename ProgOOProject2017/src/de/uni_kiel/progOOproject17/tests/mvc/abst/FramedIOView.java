@@ -1,7 +1,6 @@
 package de.uni_kiel.progOOproject17.tests.mvc.abst;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.Action;
