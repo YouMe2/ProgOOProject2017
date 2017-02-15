@@ -73,7 +73,8 @@ public class PongController extends TickedController {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-
+		standardIn.setEnabeled("released W", true);
+		standardIn.setEnabeled("released S", false);
 		m.bar1.moving = Bar.UP;
 
 	    }
@@ -93,7 +94,8 @@ public class PongController extends TickedController {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-
+		standardIn.setEnabeled("released S", true);
+		standardIn.setEnabeled("released W", false);
 		m.bar1.moving = Bar.DOWN;
 
 	    }

@@ -28,7 +28,7 @@ public class PongModel extends TickedDataModel {
 
 	
 	
-	if (timestamp > lastTickTime + botlatency) {
+	if (timestamp > lastTickTime + botlatency || timestamp < lastTickTime) {
 	    lastTickTime = timestamp;
 	    
 	    if (ball.y > bar2.y + bar2.h / 2)
@@ -41,5 +41,7 @@ public class PongModel extends TickedDataModel {
 	bar2.tick();
 
     }
+    
+    
 
 }
