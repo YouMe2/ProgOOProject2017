@@ -31,7 +31,7 @@ public class Controller extends AbstractController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		model.changeColor();
-		rederAllViews();
+		renderAllViews();
 		setEnabledAll("pressed A", false);
 	    }
 	});
@@ -71,6 +71,12 @@ public class Controller extends AbstractController {
 	ioV.addKeyActionMap(actions);
 	addOutputView(ioV);
 	addInputView(ioV);// nur der vollständigkeit halber
+    }
+
+    @Override
+    public AbstractDataModel getModel() {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }

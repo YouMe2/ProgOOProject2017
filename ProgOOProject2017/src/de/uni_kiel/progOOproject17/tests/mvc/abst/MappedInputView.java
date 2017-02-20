@@ -21,12 +21,7 @@ public class MappedInputView implements InputView {
     @Override
     public void addKeyAction(String actionKey, Action action) {
 	KeyStroke key = KeyStroke.getKeyStroke(actionKey);
-	if (enabeled) {
-	    inMap.put(key, key);
-	} else {
-	    inMap.put(key, "none");
-	}
-	aMap.put(key, action);
+	addAction(key, action);
     }
     
     public void addAction(KeyStroke key, Action action) {
