@@ -45,7 +45,7 @@ public abstract class TickedController extends AbstractController implements Run
 		    gametime += ticklength;
 		}
 //		System.out.println("render");
-		rederAllViews();
+		renderAllViews();
 	    }
 
 	}
@@ -66,9 +66,10 @@ public abstract class TickedController extends AbstractController implements Run
     }
     
     public void tick(long timestamp) {
-	((TickedDataModel)getModel()).tick(timestamp);
+	getModel().tick(timestamp);
     }
     
-    
+    @Override
+    public abstract TickedDataModel getModel();
 
 }
