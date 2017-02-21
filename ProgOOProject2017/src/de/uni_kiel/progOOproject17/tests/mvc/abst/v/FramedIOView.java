@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.tests.mvc.abst;
+package de.uni_kiel.progOOproject17.tests.mvc.abst.v;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -7,6 +7,8 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
 
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {
 

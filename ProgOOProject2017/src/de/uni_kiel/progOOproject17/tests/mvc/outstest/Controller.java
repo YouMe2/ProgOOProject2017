@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractController;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.InputView;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.OutputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.c.AbstractController;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.InputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.OutputView;
 
 public class Controller extends AbstractController {
 

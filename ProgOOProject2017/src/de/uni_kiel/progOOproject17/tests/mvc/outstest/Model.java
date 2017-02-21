@@ -2,7 +2,7 @@ package de.uni_kiel.progOOproject17.tests.mvc.outstest;
 
 import java.awt.Color;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
 
 public class Model extends AbstractDataModel {
 

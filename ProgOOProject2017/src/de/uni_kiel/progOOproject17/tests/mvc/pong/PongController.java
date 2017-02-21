@@ -6,9 +6,9 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractAction;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.FramedIOView;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedController;
 import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.c.TickedController;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.FramedIOView;
 
 /**
  * This is a sort of quick and dirty Pong Game based on the AbstarctMVC Classes:
@@ -27,7 +27,7 @@ public class PongController extends TickedController {
 
     }
 
-    public PongController(PongView view, TickedDataModel model) {
+    public PongController(PongView view, PongModel model) {
 	super(view, view, model);
 
 //	view.addWindowListener(new WindowAdapter() {

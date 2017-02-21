@@ -1,18 +1,23 @@
-package de.uni_kiel.progOOproject17.tests.mvc.abst;
+package de.uni_kiel.progOOproject17.tests.mvc.abst.c;
 
-public abstract class TickedController extends AbstractController implements Runnable {
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.Ticked;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModelContainer;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.InputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.OutputView;
+
+public abstract class TickedController extends AbstractController implements Runnable, Ticked{
 
     private Thread thread;
     private boolean runnig = false;
     private int ticklength = 20;//ms
     private long gametime = 0;
     
-    public TickedController(OutputView out, InputView in, TickedDataModel model, int ticklength) {
+    public TickedController(OutputView out, InputView in, TickedDataModelContainer model, int ticklength) {
 	super(out, in, model);
 	this.ticklength = ticklength;
     }
     
-    public TickedController(OutputView out, InputView in, TickedDataModel model) {
+    public TickedController(OutputView out, InputView in, TickedDataModelContainer model) {
 	super(out, in, model);
     }
 
@@ -70,6 +75,6 @@ public abstract class TickedController extends AbstractController implements Run
     }
     
     @Override
-    public abstract TickedDataModel getModel();
+    public abstract TickedDataModelContainer getModel();
 
 }

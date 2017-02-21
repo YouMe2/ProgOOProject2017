@@ -1,8 +1,8 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModelContainer;
 
-public class PongField extends TickedDataModel {
+public class PongField extends TickedDataModelContainer {
 
     public int h;
     public int w;
