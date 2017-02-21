@@ -1,6 +1,10 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+import java.awt.Color;
+import java.awt.Graphics;
+
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.Viewable;
 
 public class Bar extends TickedDataModel {
 
@@ -38,6 +42,21 @@ public class Bar extends TickedDataModel {
 	    y += (moving * speed);
 	    
 	}
+    }
+
+
+    @Override
+    public Viewable getViewable() {
+	return new Viewable() {
+	    
+	    @Override
+	    public void render(Graphics gr) {
+
+		gr.setColor(Color.BLACK);
+		gr.fillRect(x, y, w, h);
+		
+	    }
+	};
     }
 
 }

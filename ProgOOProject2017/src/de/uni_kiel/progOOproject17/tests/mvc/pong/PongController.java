@@ -1,13 +1,11 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.AbstractAction;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
 import de.uni_kiel.progOOproject17.tests.mvc.abst.c.TickedController;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModel;
 import de.uni_kiel.progOOproject17.tests.mvc.abst.v.FramedIOView;
 
 /**
@@ -30,16 +28,6 @@ public class PongController extends TickedController {
     public PongController(PongView view, PongModel model) {
 	super(view, view, model);
 
-//	view.addWindowListener(new WindowAdapter() {
-//
-//	    @Override
-//	    public void windowClosing(WindowEvent e) {
-//
-//		PongController.this.stop();
-//		System.exit(0);
-//	    }
-//
-//	});
 
 	standardIn.addKeyAction("pressed SPACE", new AbstractAction() {
 

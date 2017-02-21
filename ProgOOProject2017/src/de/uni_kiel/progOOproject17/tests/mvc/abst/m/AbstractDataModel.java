@@ -1,15 +1,13 @@
 package de.uni_kiel.progOOproject17.tests.mvc.abst.m;
 
-import java.util.Vector;
-
-import de.uni_kiel.progOOproject17.tests.mvc.abst.v.ViewableData;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.Viewable;
 
 public abstract class AbstractDataModel {
     
     /**
-     * @return layered ViewableData
+     * @return zB ViewableData
      */
-    public abstract ViewableData getViewabelData();
+    public abstract Viewable getViewable();
     
     
 }
