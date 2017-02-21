@@ -1,7 +1,7 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
 import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModelContainer;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.v.AbstractViewableData;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.ViewableData;
 
 public class PongModel extends TickedDataModelContainer {
 
@@ -34,7 +34,7 @@ public class PongModel extends TickedDataModelContainer {
 
     
     @Override
-    public AbstractViewableData getViewabelData() {
+    public ViewableData getViewabelData() {
 	// TODO Auto-generated method stub
 	return null;
     }

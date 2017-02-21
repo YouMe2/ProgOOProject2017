@@ -1,8 +1,7 @@
 
 package de.uni_kiel.progOOproject17.tests.mvc.abst.v;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.Graphics;
 
 
 /**
@@ -12,8 +11,7 @@ import java.awt.Point;
  */
 public interface Viewable {
 
-    public Point getPosion();
-    public Dimension getDimension();
+    public void render(Graphics gr);
     
     
 }
