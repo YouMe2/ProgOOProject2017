@@ -5,8 +5,8 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.OutputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.OutputView;
 
 public class OView extends JFrame implements OutputView{
 

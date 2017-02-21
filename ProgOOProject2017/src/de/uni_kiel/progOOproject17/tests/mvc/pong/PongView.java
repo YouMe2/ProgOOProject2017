@@ -6,8 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.AbstractDataModel;
-import de.uni_kiel.progOOproject17.tests.mvc.abst.FramedIOView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.FramedIOView;
 
 public class PongView extends FramedIOView {
 

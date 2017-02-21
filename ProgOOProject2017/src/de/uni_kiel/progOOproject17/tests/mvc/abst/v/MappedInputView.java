@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.tests.mvc.abst;
+package de.uni_kiel.progOOproject17.tests.mvc.abst.v;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;

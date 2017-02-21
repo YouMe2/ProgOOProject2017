@@ -1,8 +1,9 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModelContainer;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.AbstractViewableData;
 
-public class PongModel extends TickedDataModel {
+public class PongModel extends TickedDataModelContainer {
 
     public PongField field;
 
@@ -29,6 +30,13 @@ public class PongModel extends TickedDataModel {
 	}
 
 	super.tick(timestamp);
+    }
+
+    
+    @Override
+    public AbstractViewableData getViewabelData() {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }

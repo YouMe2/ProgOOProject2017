@@ -1,6 +1,10 @@
-package de.uni_kiel.progOOproject17.tests.mvc.abst;
+package de.uni_kiel.progOOproject17.tests.mvc.abst.c;
 
 import java.util.Vector;
+
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.InputView;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.OutputView;
 
 public abstract class AbstractController {
 
@@ -8,7 +12,7 @@ public abstract class AbstractController {
     private Vector<OutputView> outs = new Vector<>();
 
     public final InputView standardIn;
-    private Vector<InputView> ins = new Vector<>(); // nicht unebdingt
+    private Vector<InputView> ins = new Vector<>(); // nicht unbedingt
 						    // notwending
 
     protected final AbstractDataModel model;
