@@ -1,6 +1,7 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
 import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModelContainer;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.Viewable;
 import de.uni_kiel.progOOproject17.tests.mvc.abst.v.ViewableData;
 
 public class PongModel extends TickedDataModelContainer {
@@ -32,11 +33,24 @@ public class PongModel extends TickedDataModelContainer {
 	super.tick(timestamp);
     }
 
-    
     @Override
-    public ViewableData getViewabelData() {
-	// TODO Auto-generated method stub
-	return null;
+    public Viewable getViewable() {
+	
+	ViewableData vD = new ViewableData();
+	
+	//layer1:
+	vD.add(field.getViewable());
+	
+	//layer2:
+	ViewableData layer2 = new ViewableData();
+	layer2.add(field.ball.getViewable());
+	layer2.add(field.bar1.getViewable());
+	layer2.add(field.bar2.getViewable());
+	vD.add(layer2);
+	
+	
+	
+	return vD;
     }
 
 }

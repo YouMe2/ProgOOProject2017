@@ -52,7 +52,7 @@ public abstract class AbstractController {
     public void renderAllViews() {
 
 	for (OutputView out : outs) {
-	    out.render(model);
+	    out.render(model.getViewable());
 	}
 
     }

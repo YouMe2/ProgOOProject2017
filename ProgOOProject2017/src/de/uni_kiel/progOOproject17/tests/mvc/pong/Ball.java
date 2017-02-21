@@ -1,6 +1,10 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
-import de.uni_kiel.progOOproject17.tests.mvc.abst.TickedDataModel;
+import java.awt.Color;
+import java.awt.Graphics;
+
+import de.uni_kiel.progOOproject17.tests.mvc.abst.m.TickedDataModel;
+import de.uni_kiel.progOOproject17.tests.mvc.abst.v.Viewable;
 
 public class Ball extends TickedDataModel {
 
@@ -50,7 +54,7 @@ public class Ball extends TickedDataModel {
 	    resetBall();
 	    xSpeed = -3;
 	    ySpeed = (int) (Math.random() * 7) - 3;
-	    
+
 	} else if (x - r < 0) { // aus1 point 2
 	    Sound.playerHurt.play();
 	    f.points2++;
@@ -75,8 +79,20 @@ public class Ball extends TickedDataModel {
     private void resetBall() {
 	x = f.w / 2;
 	y = f.h / 2;
-//	xSpeed = (int) Math.pow(-1, (int) (Math.random() * 2)) * 3;
-//	ySpeed = (int) (Math.random() * 7) - 3;
+	// xSpeed = (int) Math.pow(-1, (int) (Math.random() * 2)) * 3;
+	// ySpeed = (int) (Math.random() * 7) - 3;
+    }
+
+    @Override
+    public Viewable getViewable() {
+	return new Viewable() {
+
+	    @Override
+	    public void render(Graphics gr) {
+		gr.setColor(Color.BLUE);
+		gr.fillOval(x - r, y - r, r * 2, r * 2);
+	    }
+	};
     }
 
 }
