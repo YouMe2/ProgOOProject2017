@@ -20,7 +20,7 @@ public class PongField extends TickedDataModel {
 	    @Override
 	    public void render(Graphics gr) {
 		
-		gr.setColor(Color.RED);
+		gr.setColor(Color.GREEN);
 		gr.fillRect(0, 0, w, h);
 		
 		gr.setColor(Color.BLACK);
