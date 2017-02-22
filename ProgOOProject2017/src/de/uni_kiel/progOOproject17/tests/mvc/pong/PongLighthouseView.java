@@ -1,10 +1,17 @@
 package de.uni_kiel.progOOproject17.tests.mvc.pong;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import de.uni_kiel.progOOproject17.tests.mvc.abst.v.FramedIOView;
 import de.uni_kiel.progOOproject17.tests.mvc.abst.v.Viewable;
@@ -24,6 +31,13 @@ public class PongLighthouseView extends FramedIOView {
 	super(title, lhW*wScale, lhH*hScale, false);
 	img = new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);	
 	
+	JMenuBar mb = new JMenuBar();
+	this.setJMenuBar(mb);
+	
+	JButton testB = new JButton("TEST");
+	testB.setName("TEST");
+	addJButton(testB, mb, null);
+	pack();
     }
 
    

@@ -27,10 +27,12 @@ public class PongController extends TickedController {
 
     private PongModel myModel;
 
+    private PongLighthouseView lhView;
+    
     public PongController(PongView view, PongModel model) {
 	super(view, view, model /*, 18*/ );
 
-	setEnableTpsFpsPrint(true);
+//	setEnableTpsFpsPrint(true);
 	
 	standardIn.addAction("pressed SPACE", new AbstractAction() {
 
@@ -59,9 +61,12 @@ public class PongController extends TickedController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		PongController.this.addOutputView(new PongLighthouseView("Output-Test-Frame", 450, 300));
+		toggelLighthouseView();
+		
 
 	    }
+
+	   
 	});
 
 	standardIn.addAction("pressed W", new AbstractAction() {
@@ -107,6 +112,27 @@ public class PongController extends TickedController {
 	    }
 	});
 
+	
+	
+    }
+    
+    private void toggelLighthouseView() {
+	if( lhView == null) {
+	    lhView =  new PongLighthouseView("LighthouseView", 450, 300);
+	    this.addOutputView(lhView);
+	    this.addInputView(lhView);
+	    lhView.addAction("TEST", new AbstractAction("TEST") {
+		    
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			System.out.println("test");
+			
+		    }
+		});
+	    
+	}
+	else
+	    lhView.setVisible(!lhView.isVisible());		
     }
 
     @Override
