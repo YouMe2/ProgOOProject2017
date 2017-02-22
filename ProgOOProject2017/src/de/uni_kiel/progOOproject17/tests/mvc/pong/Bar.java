@@ -22,15 +22,16 @@ public class Bar extends TickedDataModel {
 
     private int speed = 3;
 
-//    public final ModelAction moveUP = new ModelAction("move bar UP") {
-    public final AbstractAction moveUP = new AbstractAction() {
+    // public final ModelAction moveUP = new ModelAction("move bar UP") {
+    public final AbstractAction moveUP = new AbstractAction("move bar UP") {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    moving = UP;
 	}
     };
 
-    public final ModelAction moveDOWN = new ModelAction("move bar DOWN") {
+    // public final ModelAction moveDOWN = new ModelAction("move bar DOWN") {
+    public final AbstractAction moveDOWN = new ModelAction("move bar DOWN") {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -38,7 +39,8 @@ public class Bar extends TickedDataModel {
 	}
     };
 
-    public final ModelAction moveNONE = new ModelAction("move bar NONE") {
+    // public final ModelAction moveNONE = new ModelAction("move bar NONE") {
+    public final AbstractAction moveNONE = new ModelAction("move bar NONE") {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -68,10 +70,6 @@ public class Bar extends TickedDataModel {
 	this.w = w;
 	this.h = h;
 	this.f = f;
-	
-	
-	
-	
 
     }
 
