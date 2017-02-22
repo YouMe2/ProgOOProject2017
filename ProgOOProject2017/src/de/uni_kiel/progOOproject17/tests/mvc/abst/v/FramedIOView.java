@@ -35,8 +35,9 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.setLayout(new BorderLayout());
-	this.add(centerPane, BorderLayout.CENTER);
-
+//	this.add(centerPane, BorderLayout.CENTER);
+	this.setContentPane(centerPane);
+	
 	this.setResizable(resizeable);
 	this.setVisible(true);
 	this.pack();
@@ -48,13 +49,18 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 	    return;
 	comp.add(b, constraints);
 	buttons.put(b.getName(), b);
+	assert buttons.containsKey("TEST") : "button not added??";
+	
     }
 
     @Override
     public void addAction(String key, Action action) {
 
+	
+	
 	if (buttons.get(key) != null) {
-	    buttons.get(key).setAction(action);
+	    buttons.get(key).addActionListener(action);
+//	    .setAction(action);
 	} else {
 	    in.addAction(key, action);
 	}
