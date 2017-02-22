@@ -4,6 +4,7 @@
 package de.uni_kiel.progOOproject17.tests.mvc.abst.v;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -11,15 +12,18 @@ import java.util.Vector;
  * @since 21.02.2017
  *
  */
-public class ViewableData extends Vector<Viewable> implements Viewable{
+public class ViewableData extends ArrayList<Viewable> implements Viewable {
 
     @Override
     public void render(Graphics gr) {
+	synchronized (this) {
 
-	for (Viewable v : this) {
-	    v.render(gr);
+	    for (Viewable v : this) {
+		if (v != null)
+		    v.render(gr);
+	    }
 	}
-	
+
     }
-    
+
 }

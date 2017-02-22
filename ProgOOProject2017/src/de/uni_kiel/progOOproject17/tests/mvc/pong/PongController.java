@@ -25,11 +25,14 @@ public class PongController extends TickedController {
 
     }
 
+    private PongModel myModel;
+
     public PongController(PongView view, PongModel model) {
-	super(view, view, model);
+	super(view, view, model /*, 18*/ );
 
-
-	standardIn.addKeyAction("pressed SPACE", new AbstractAction() {
+	setEnableTpsFpsPrint(true);
+	
+	standardIn.addAction("pressed SPACE", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
@@ -40,7 +43,7 @@ public class PongController extends TickedController {
 	    }
 	});
 
-	standardIn.addKeyAction("released SPACE", new AbstractAction() {
+	standardIn.addAction("released SPACE", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
@@ -51,58 +54,55 @@ public class PongController extends TickedController {
 	    }
 	});
 
-	standardIn.addKeyAction("pressed F", new AbstractAction() {
+	standardIn.addAction("pressed F", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		PongController.this
-			.addOutputView(new PongView("Output-Test-Frame", getModel().field.w, getModel().field.h));
+		PongController.this.addOutputView(new PongLighthouseView("Output-Test-Frame", 450, 300));
 
 	    }
 	});
 
-	standardIn.addKeyAction("pressed W", new AbstractAction() {
+	standardIn.addAction("pressed W", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		standardIn.setEnabeled("released W", true);
 		standardIn.setEnabeled("released S", false);
-		getModel().field.bar1.moving = Bar.UP; // TODO also these parts
-						       // of getting the change
-						       // in to the model is NOT
-						       // beautiful yet...
+
+		getModel().moveUP.actionPerformed(e);
 
 	    }
 	});
 
-	standardIn.addKeyAction("released W", new AbstractAction() {
+	standardIn.addAction("released W", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		getModel().field.bar1.moving = Bar.NONE;
+		getModel().moveNONE.actionPerformed(e);
 
 	    }
 	});
 
-	standardIn.addKeyAction("pressed S", new AbstractAction() {
+	standardIn.addAction("pressed S", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		standardIn.setEnabeled("released S", true);
 		standardIn.setEnabeled("released W", false);
-		getModel().field.bar1.moving = Bar.DOWN;
 
+		getModel().moveDOWN.actionPerformed(e);
 	    }
 	});
 
-	standardIn.addKeyAction("released S", new AbstractAction() {
+	standardIn.addAction("released S", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 
-		getModel().field.bar1.moving = Bar.NONE;
+		getModel().moveNONE.actionPerformed(e);
 
 	    }
 	});
@@ -111,7 +111,9 @@ public class PongController extends TickedController {
 
     @Override
     public PongModel getModel() {
-	return (PongModel) model;
+	if (myModel == null)
+	    myModel = (PongModel) model;
+	return myModel;
     }
 
 }
