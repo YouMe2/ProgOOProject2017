@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.uni_kiel.ProgOOProject17;
+package de.uni_kiel.progOOproject17;
 
 /**
  * @author Yannik Eikmeier
