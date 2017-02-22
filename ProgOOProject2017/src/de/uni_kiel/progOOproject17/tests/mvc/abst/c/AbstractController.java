@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.tests.mvc.abst.c;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.uni_kiel.progOOproject17.tests.mvc.abst.m.AbstractDataModel;
@@ -13,7 +14,7 @@ public abstract class AbstractController {
 
     public final InputView standardIn;
     private Vector<InputView> ins = new Vector<>(); // nicht unbedingt
-						    // notwending
+    // notwending
 
     protected final AbstractDataModel model;
 
@@ -34,25 +35,31 @@ public abstract class AbstractController {
     }
 
     public void setEnabledAll(boolean enabeled) {
+	synchronized (ins) {
 
-	for (InputView in : ins) {
-	    in.setEnabeled(enabeled);
+	    for (InputView in : ins) {
+		in.setEnabeled(enabeled);
+	    }
 	}
 
     }
 
     public void setEnabledAll(String actionKey, boolean enabeled) {
+	synchronized (ins) {
 
-	for (InputView in : ins) {
-	    in.setEnabeled(actionKey, enabeled);
+	    for (InputView in : ins) {
+		in.setEnabeled(actionKey, enabeled);
+	    }
 	}
 
     }
 
     public void renderAllViews() {
+	synchronized (outs) {
 
-	for (OutputView out : outs) {
-	    out.render(model.getViewable());
+	    for (OutputView out : outs) {
+		out.render(model.getViewable());
+	    }
 	}
 
     }

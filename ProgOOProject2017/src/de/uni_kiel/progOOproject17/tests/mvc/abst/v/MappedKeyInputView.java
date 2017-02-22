@@ -5,7 +5,7 @@ import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
 
-public class MappedInputView implements InputView {
+public class MappedKeyInputView implements InputView {
 
     private InputMap inMap;
     private ActionMap aMap;
@@ -19,12 +19,13 @@ public class MappedInputView implements InputView {
     }
 
     @Override
-    public void addKeyAction(String actionKey, Action action) {
+    public void addAction(String actionKey, Action action) {
 	KeyStroke key = KeyStroke.getKeyStroke(actionKey);
-	addAction(key, action);
+	if(key != null)
+	    addKeyAction(key, action);
     }
     
-    public void addAction(KeyStroke key, Action action) {
+    public void addKeyAction(KeyStroke key, Action action) {
 	if (enabeled) {
 	    inMap.put(key, key);
 	} else {
@@ -60,10 +61,10 @@ public class MappedInputView implements InputView {
     }
 
     @Override
-    public void addKeyActionMap(ActionMap actionMap) {
+    public void addActionMap(ActionMap actionMap) {
 	
 	for (Object o : actionMap.keys()) {	    
-	    addKeyAction((String)o, actionMap.get(o));
+	    addAction((String)o, actionMap.get((String)o));
 	    
 	}
     }

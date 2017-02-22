@@ -5,9 +5,9 @@ import javax.swing.ActionMap;
 
 public interface InputView {
 
-    public void addKeyAction(String key, Action action);
+    public void addAction(String key, Action action);
     
-    public void addKeyActionMap(ActionMap actionMap);
+    public void addActionMap(ActionMap actionMap);
     
     public void setEnabeled(boolean enabeled);
     

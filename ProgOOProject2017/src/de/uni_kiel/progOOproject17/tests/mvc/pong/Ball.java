@@ -18,12 +18,22 @@ public class Ball extends TickedDataModel {
     private PongField f;
     public Bar bar1;
     public Bar bar2;
+    
+    private final Viewable view = new Viewable() {
+
+	    @Override
+	    public void render(Graphics gr) {
+		gr.setColor(Color.BLUE);
+		gr.fillOval(x - r, y - r, r * 2, r * 2);
+	    }
+	};
 
     public Ball(int r, PongField f, Bar bar1, Bar bar2) {
 	this.f = f;
 	this.r = r;
 	this.bar1 = bar1;
 	this.bar2 = bar2;
+	
 	resetBall();
     }
 
@@ -85,14 +95,7 @@ public class Ball extends TickedDataModel {
 
     @Override
     public Viewable getViewable() {
-	return new Viewable() {
-
-	    @Override
-	    public void render(Graphics gr) {
-		gr.setColor(Color.BLUE);
-		gr.fillOval(x - r, y - r, r * 2, r * 2);
-	    }
-	};
+	return view;
     }
 
 }
