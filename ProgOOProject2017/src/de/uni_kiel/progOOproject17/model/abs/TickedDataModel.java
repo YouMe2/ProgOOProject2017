@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.abs;
 
 /**
  * @author Yannik Eikmeier

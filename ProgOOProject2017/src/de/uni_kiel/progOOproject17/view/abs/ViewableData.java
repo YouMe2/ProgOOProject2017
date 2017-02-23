@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.uni_kiel.progOOproject17.view;
+package de.uni_kiel.progOOproject17.view.abs;
 
 import java.awt.Graphics;
 import java.util.ArrayList;

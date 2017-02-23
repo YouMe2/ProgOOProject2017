@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.abs;
 
 import java.util.ArrayList;
 import java.util.Vector;

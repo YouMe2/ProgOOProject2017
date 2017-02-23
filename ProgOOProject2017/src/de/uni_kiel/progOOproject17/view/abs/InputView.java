@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.view;
+package de.uni_kiel.progOOproject17.view.abs;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;

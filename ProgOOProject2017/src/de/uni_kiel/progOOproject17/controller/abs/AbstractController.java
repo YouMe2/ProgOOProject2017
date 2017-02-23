@@ -1,10 +1,10 @@
-package de.uni_kiel.progOOproject17.controller;
+package de.uni_kiel.progOOproject17.controller.abs;
 
 import java.util.Vector;
 
-import de.uni_kiel.progOOproject17.model.AbstractDataModel;
-import de.uni_kiel.progOOproject17.view.InputView;
-import de.uni_kiel.progOOproject17.view.OutputView;
+import de.uni_kiel.progOOproject17.model.abs.AbstractDataModel;
+import de.uni_kiel.progOOproject17.view.abs.InputView;
+import de.uni_kiel.progOOproject17.view.abs.OutputView;
 
 public abstract class AbstractController {
 

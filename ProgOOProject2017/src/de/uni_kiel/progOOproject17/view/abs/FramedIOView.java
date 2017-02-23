@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.view;
+package de.uni_kiel.progOOproject17.view.abs;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.model.AbstractDataModel;
+import de.uni_kiel.progOOproject17.model.abs.AbstractDataModel;
 
 
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {

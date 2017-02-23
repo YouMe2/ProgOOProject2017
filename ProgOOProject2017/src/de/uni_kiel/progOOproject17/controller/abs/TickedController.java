@@ -1,9 +1,9 @@
-package de.uni_kiel.progOOproject17.controller;
+package de.uni_kiel.progOOproject17.controller.abs;
 
-import de.uni_kiel.progOOproject17.model.Ticked;
-import de.uni_kiel.progOOproject17.model.TickedDataModel;
-import de.uni_kiel.progOOproject17.view.InputView;
-import de.uni_kiel.progOOproject17.view.OutputView;
+import de.uni_kiel.progOOproject17.model.abs.Ticked;
+import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
+import de.uni_kiel.progOOproject17.view.abs.InputView;
+import de.uni_kiel.progOOproject17.view.abs.OutputView;
 
 public abstract class TickedController extends AbstractController implements Runnable, Ticked{
 
