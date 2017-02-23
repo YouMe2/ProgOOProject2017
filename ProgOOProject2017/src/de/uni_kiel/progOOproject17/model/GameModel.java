@@ -12,7 +12,7 @@ import de.uni_kiel.progOOproject17.view.abs.ViewableData;
  * @since 23.02.2017
  *
  */
-public class SCDataModel extends TickedDataModelContainer {
+public class GameModel extends TickedDataModelContainer {
 
     //bg?
     //floors?
@@ -23,7 +23,7 @@ public class SCDataModel extends TickedDataModelContainer {
     /**
      * 
      */
-    public SCDataModel(/* params ?*/) {
+    public GameModel(/* params ?*/) {
 	//TODO
     }
     

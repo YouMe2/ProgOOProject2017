@@ -4,7 +4,7 @@
 package de.uni_kiel.progOOproject17.controller;
 
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
-import de.uni_kiel.progOOproject17.model.SCDataModel;
+import de.uni_kiel.progOOproject17.model.GameModel;
 import de.uni_kiel.progOOproject17.view.SCDektopView;
 import de.uni_kiel.progOOproject17.view.SCLighthouseView;
 
@@ -16,17 +16,19 @@ import de.uni_kiel.progOOproject17.view.SCLighthouseView;
 public class SCController extends TickedController{
 
     private SCLighthouseView lhView;
-    private SCDataModel myModel;
+    private GameModel myModel;
     
+ 
     /**
-     * @param out
-     * @param in
+     * @param view
      * @param model
      */
-    public SCController(SCDektopView view, SCDataModel model) {
+    public SCController(SCDektopView view, GameModel model) {
 	super(view, view, model);
 	toggelLighthouseView(); //turn on the Light house view
 	
+	
+	//maybe add a button to toggel the lhView too?
 	
 	//init the actions for the standartIn (view)
 	
@@ -51,9 +53,9 @@ public class SCController extends TickedController{
     }
 
     @Override
-    public SCDataModel getModel() {
+    public GameModel getModel() {
 	if (myModel == null)
-	    myModel = (SCDataModel) model;
+	    myModel = (GameModel) model;
 	return myModel;
     }
 
