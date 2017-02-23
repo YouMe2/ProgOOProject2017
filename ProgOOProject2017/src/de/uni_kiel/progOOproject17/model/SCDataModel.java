@@ -5,6 +5,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.model.abs.TickedDataModelContainer;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import de.uni_kiel.progOOproject17.view.abs.ViewableData;
 
 /**
  * @author Yannik Eikmeier
@@ -13,13 +14,40 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  */
 public class SCDataModel extends TickedDataModelContainer {
 
-    /* (non-Javadoc)
-     * @see de.uni_kiel.progOOproject17.model.abs.AbstractDataModel#getViewable()
+    //bg?
+    //floors?
+    //entities?
+    //particles?
+    //sounds???
+
+    /**
+     * 
      */
+    public SCDataModel(/* params ?*/) {
+	//TODO
+    }
+    
+    
+   
     @Override
     public Viewable getViewable() {
-	// TODO Auto-generated method stub
-	return null;
+	
+	ViewableData vD = new ViewableData();
+	
+	//TODO
+	
+	//layer0
+	
+	//layer1
+	
+	//layer2
+	
+	//usw
+	
+	
+	
+	
+	return vD;
     }
 
 }

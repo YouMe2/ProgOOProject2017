@@ -4,9 +4,9 @@
 package de.uni_kiel.progOOproject17.controller;
 
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
-import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
-import de.uni_kiel.progOOproject17.view.abs.InputView;
-import de.uni_kiel.progOOproject17.view.abs.OutputView;
+import de.uni_kiel.progOOproject17.model.SCDataModel;
+import de.uni_kiel.progOOproject17.view.SCDektopView;
+import de.uni_kiel.progOOproject17.view.SCLighthouseView;
 
 /**
  * @author Yannik Eikmeier
@@ -15,23 +15,46 @@ import de.uni_kiel.progOOproject17.view.abs.OutputView;
  */
 public class SCController extends TickedController{
 
+    private SCLighthouseView lhView;
+    private SCDataModel myModel;
+    
     /**
      * @param out
      * @param in
      * @param model
      */
-    public SCController(OutputView out, InputView in, TickedDataModel model) {
-	super(out, in, model);
-	// TODO Auto-generated constructor stub
+    public SCController(SCDektopView view, SCDataModel model) {
+	super(view, view, model);
+	toggelLighthouseView(); //turn on the Light house view
+	
+	
+	//init the actions for the standartIn (view)
+	
+	
+	
+	
+	
+    }
+    
+    private void toggelLighthouseView() {
+	if( lhView == null) {
+	    lhView =  new SCLighthouseView("LighthouseView", 450, 300);
+	    this.addOutputView(lhView);
+	    this.addInputView(lhView);
+	    
+	    //add Actions to lhView here
+	    
+	   
+	}
+	else
+	    lhView.setVisible(!lhView.isVisible());		
     }
 
-    /* (non-Javadoc)
-     * @see de.uni_kiel.progOOproject17.controller.abs.TickedController#getModel()
-     */
     @Override
-    public TickedDataModel getModel() {
-	// TODO Auto-generated method stub
-	return null;
+    public SCDataModel getModel() {
+	if (myModel == null)
+	    myModel = (SCDataModel) model;
+	return myModel;
     }
 
 }

@@ -3,6 +3,9 @@
  */
 package de.uni_kiel.progOOproject17.view;
 
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -13,23 +16,28 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  */
 public class SCDektopView extends FramedIOView {
 
+    private BufferedImage img;
+
+   
     /**
      * @param title
      * @param w
      * @param h
-     * @param resizeable
      */
-    public SCDektopView(String title, int w, int h, boolean resizeable) {
-	super(title, w, h, resizeable);
-	// TODO Auto-generated constructor stub
+    public SCDektopView(String title, int w, int h) {
+	super(title, w, h, true);
+	img = new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
     }
 
-    /* (non-Javadoc)
-     * @see de.uni_kiel.progOOproject17.view.abs.OutputView#render(de.uni_kiel.progOOproject17.view.abs.Viewable)
-     */
     @Override
     public void render(Viewable viewable) {
-	// TODO Auto-generated method stub
+
+	Graphics gr = img.getGraphics();
+	viewable.render(gr);
+	gr.dispose();
+	gr = centerPane.getGraphics();
+	gr.drawImage(img, 0, 0, centerPane.getWidth(), centerPane.getHeight(), null);
+	gr.dispose();
 
     }
 

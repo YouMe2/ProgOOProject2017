@@ -20,7 +20,7 @@ public class PongLighthouseView extends FramedIOView {
 
     private BufferedImage img;
 
-    private static final int lhW = 29;
+    private static final int lhW = 28;
     private static final int lhH = 14;
     
     private static final int wScale = 15;
