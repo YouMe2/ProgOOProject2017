@@ -3,10 +3,13 @@
  */
 package de.uni_kiel.progOOproject17.view;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
+import de.uni_kiel.progOOproject17.model.SCGameModel;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -19,12 +22,6 @@ public class SCLighthouseView extends FramedIOView {
 
 
     private BufferedImage img;
-
-    private static final int lhW = 28;
-    private static final int lhH = 14;
-    
-    private static final int wScale = 15;
-    private static final int hScale = 35 ;
     
     
     private LighthouseNetwork lhNetwork;
@@ -38,10 +35,10 @@ public class SCLighthouseView extends FramedIOView {
      * @param host
      * @param port
      */
-    public SCLighthouseView(String title, int w, int h) {
-	super(title, lhW*wScale, lhH*hScale, false);
+    public SCLighthouseView(String title) {
+	super(title, SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, false);
 	
-	img = new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
+	img = new BufferedImage(SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 	
 	//host? port?
 	lhNetwork = new LighthouseNetwork("host??", 000000);
@@ -66,7 +63,22 @@ public class SCLighthouseView extends FramedIOView {
      */
     @Override
     public void render(Viewable viewable) {
-	// TODO redering and sending
+	Graphics gr = img.getGraphics();
+	
+	//SPECIAL RENDERING HERE!!
+	viewable.renderLOW(gr);
+	
+	gr.dispose();
+	
+	Image i = img.getScaledInstance(SCGameModel.LH_WIDTH, SCGameModel.LH_HEIGHT, BufferedImage.SCALE_AREA_AVERAGING);
+	
+	//TODO send data here -> util Method needed!
+//	lhNetwork.send(data);
+	
+	gr = centerPane.getGraphics();
+	gr.drawImage(i, 0, 0, SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, null);
+	gr.dispose();
+
 	
     }
 

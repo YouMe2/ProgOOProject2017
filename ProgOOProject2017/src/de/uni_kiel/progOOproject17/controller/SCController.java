@@ -4,7 +4,7 @@
 package de.uni_kiel.progOOproject17.controller;
 
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
-import de.uni_kiel.progOOproject17.model.GameModel;
+import de.uni_kiel.progOOproject17.model.SCGameModel;
 import de.uni_kiel.progOOproject17.view.SCDektopView;
 import de.uni_kiel.progOOproject17.view.SCLighthouseView;
 
@@ -16,14 +16,14 @@ import de.uni_kiel.progOOproject17.view.SCLighthouseView;
 public class SCController extends TickedController{
 
     private SCLighthouseView lhView;
-    private GameModel myModel;
+    private SCGameModel myModel;
     
  
     /**
      * @param view
      * @param model
      */
-    public SCController(SCDektopView view, GameModel model) {
+    public SCController(SCDektopView view, SCGameModel model) {
 	super(view, view, model);
 	toggelLighthouseView(); //turn on the Light house view
 	
@@ -40,7 +40,7 @@ public class SCController extends TickedController{
     
     private void toggelLighthouseView() {
 	if( lhView == null) {
-	    lhView =  new SCLighthouseView("LighthouseView", 450, 300);
+	    lhView =  new SCLighthouseView("LighthouseView");
 	    this.addOutputView(lhView);
 	    this.addInputView(lhView);
 	    
@@ -53,9 +53,9 @@ public class SCController extends TickedController{
     }
 
     @Override
-    public GameModel getModel() {
+    public SCGameModel getModel() {
 	if (myModel == null)
-	    myModel = (GameModel) model;
+	    myModel = (SCGameModel) model;
 	return myModel;
     }
 

@@ -25,5 +25,19 @@ public class ViewableData extends ArrayList<Viewable> implements Viewable {
 	}
 
     }
+    
+    @Override
+    public void renderLOW(Graphics gr) {
+
+	synchronized (this) {
+
+	    for (Viewable v : this) {
+		if (v != null)
+		    v.renderLOW(gr);
+	    }
+	}
+    }
+    
+    
 
 }

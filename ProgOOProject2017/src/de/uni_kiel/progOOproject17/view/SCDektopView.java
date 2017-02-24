@@ -6,6 +6,7 @@ package de.uni_kiel.progOOproject17.view;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import de.uni_kiel.progOOproject17.model.SCGameModel;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -24,9 +25,15 @@ public class SCDektopView extends FramedIOView {
      * @param w
      * @param h
      */
-    public SCDektopView(String title, int w, int h) {
-	super(title, w, h, true);
-	img = new BufferedImage(w, h, BufferedImage.TYPE_3BYTE_BGR);
+    public SCDektopView(String title) {
+	super(title, SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, true);
+	img = new BufferedImage(SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+	
+	//maybe add a button to toggel the lhView too?
+	
+	
+	
+	
     }
 
     @Override
@@ -36,7 +43,7 @@ public class SCDektopView extends FramedIOView {
 	viewable.render(gr);
 	gr.dispose();
 	gr = centerPane.getGraphics();
-	gr.drawImage(img, 0, 0, centerPane.getWidth(), centerPane.getHeight(), null);
+	gr.drawImage(img, 0, 0, SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, null);
 	gr.dispose();
 
     }

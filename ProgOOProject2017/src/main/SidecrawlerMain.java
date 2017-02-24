@@ -4,7 +4,7 @@
 package main;
 
 import de.uni_kiel.progOOproject17.controller.SCController;
-import de.uni_kiel.progOOproject17.model.GameModel;
+import de.uni_kiel.progOOproject17.model.SCGameModel;
 import de.uni_kiel.progOOproject17.view.SCDektopView;
 
 /**
@@ -19,7 +19,9 @@ public class SidecrawlerMain {
      */
     public static void main(String[] args) {
 	
-	new SCController(new SCDektopView("Sidecrawler Test Title", 400, 400), new GameModel()).start();
+	
+	//TODO set Title
+	new SCController(new SCDektopView("Sidecrawler Test Title"), new SCGameModel()).start();
 	
 	
 

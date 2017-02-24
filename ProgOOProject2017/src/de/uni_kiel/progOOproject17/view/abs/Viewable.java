@@ -13,4 +13,6 @@ public interface Viewable {
 
     public void render(Graphics gr);
     
+    public void renderLOW(Graphics gr);
+    
 }
