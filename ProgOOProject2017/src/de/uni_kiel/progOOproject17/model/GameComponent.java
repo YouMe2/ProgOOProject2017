@@ -16,67 +16,67 @@ import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
  */
 public abstract class GameComponent extends TickedDataModel {
 
-    private int x;
-    private int y;
+	private int x;
+	private int y;
 
-    private int w;
-    private int h;
+	private int w;
+	private int h;
 
-    public GameComponent(int x, int y, int w, int h) {
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
-    }
+	public GameComponent(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
 
-    public void move(int x, int y) {
-	this.x = x;
-	this.y = y;
-    }
-    
-    public void translate(int dx, int dy) {
-	this.x = this.x + dx;
-	this.y = this.y + dy;
-    }
+	public void move(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
-    public void move(Point p) {
-	move(p.x, p.y);
-    }
+	public void translate(int dx, int dy) {
+		this.x = this.x + dx;
+		this.y = this.y + dy;
+	}
 
-    /**
-     * @return the x
-     */
-    public int getX() {
-	return x;
-    }
+	public void move(Point p) {
+		move(p.x, p.y);
+	}
 
-    /**
-     * @return the y
-     */
-    public int getY() {
-	return y;
-    }
+	/**
+	 * @return the x
+	 */
+	public int getX() {
+		return x;
+	}
 
-    public Point getPosition() {
-	return new Point(x, y);
-    }
+	/**
+	 * @return the y
+	 */
+	public int getY() {
+		return y;
+	}
 
-    /**
-     * @return the w
-     */
-    public int getWidth() {
-	return w;
-    }
+	public Point getPosition() {
+		return new Point(x, y);
+	}
 
-    /**
-     * @return the h
-     */
-    public int getHeight() {
-	return h;
-    }
+	/**
+	 * @return the w
+	 */
+	public int getWidth() {
+		return w;
+	}
 
-    public Rectangle getBoundingRect() {
-	return new Rectangle(x, y, w, h);
-    }
+	/**
+	 * @return the h
+	 */
+	public int getHeight() {
+		return h;
+	}
+
+	public Rectangle getBoundingRect() {
+		return new Rectangle(x, y, w, h);
+	}
 
 }

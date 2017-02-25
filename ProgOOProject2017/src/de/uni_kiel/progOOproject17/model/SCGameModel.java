@@ -24,6 +24,9 @@ public class SCGameModel extends TickedDataModelContainer {
     //sounds???
 
     //LevelGenerator
+	
+	//a Destroyer for the Particles
+	//a Destroyer for the Objects
     
     public static final int LH_WIDTH = 28;
     public static final int LH_HEIGHT = 14;

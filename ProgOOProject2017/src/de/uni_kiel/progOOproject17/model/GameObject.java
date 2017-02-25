@@ -7,27 +7,32 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
  *
  */
-public abstract class GameObject extends GameComponent implements Collidable {
+public abstract class GameObject extends GameComponent implements Collidable, Destroyable{
 
+	// maybe a LinkedList? cuz removing in easy?
     public static final ArrayList<GameObject> OBJECTS = new ArrayList<>();
+    
 
+    
     public GameObject(int x, int y, int w, int h) {
 	super(x, y, w, h);
 	OBJECTS.add(this);
     }
 
     @Override
-    public boolean collides(GameComponent obj) {
+    public boolean collides(GameObject obj) {
 	return this.getBoundingRect().intersects(obj.getBoundingRect());
     }
 
     @Override
-    public boolean willCollide(GameComponent obj, int dx, int dy) {
+	public boolean willCollide(GameObject obj, int dx, int dy) {
 	Rectangle rect = this.getBoundingRect();
 	rect.translate(dx, dy);
 	return rect.intersects(obj.getBoundingRect());
@@ -35,7 +40,7 @@ public abstract class GameObject extends GameComponent implements Collidable {
     }
 
     @Override
-    public Dimension getCollisionDistance(GameComponent obj, int max_dx, int max_dy) {
+    public Dimension getCollisionDistance(GameObject obj, int max_dx, int max_dy) {
 
 	if (max_dx == 0 && max_dy == 0)
 	    return new Dimension(0, 0);
@@ -91,7 +96,7 @@ public abstract class GameObject extends GameComponent implements Collidable {
 	    for (GameObject comp : gObjects) {
 		
 		if (collides(comp)) {
-		    return new Dimension(max_dx, max_dy);
+		    return new Dimension(0, 0);
 		}
 		
 		if (willCollide(comp, max_dx, max_dy)) {
@@ -119,7 +124,7 @@ public abstract class GameObject extends GameComponent implements Collidable {
 
 		// für jede mögliche position:
 
-		for (GameComponent comp : collObjts) {
+		for (GameObject comp : collObjts) {
 		    if (willCollide(comp, dx * xSign, dy * ySign))
 			continue nextPos; // wenn collision mit nur einem
 					  // anderen object -> nächtse pos
@@ -143,4 +148,28 @@ public abstract class GameObject extends GameComponent implements Collidable {
 	return new Dimension(currbestDist.width * xSign, currbestDist.height * ySign);
 
     }
+    
+    @Override
+    public ArrayList<GameObject> getCollObjects(ArrayList<GameObject> gObjs, int dx, int dy) {
+    	
+    	ArrayList<GameObject> collObjts = new ArrayList<>();
+
+    	synchronized (gObjs) {
+    	    for (GameObject comp : gObjs) {
+    		
+    		if (collides(comp)) {
+    		    collObjts.add(comp);
+    		}
+    		
+    		if (willCollide(comp, dx, dy)) {
+    		    collObjts.add(comp);
+    		}
+    	    }
+    	}
+    	
+    	return collObjts;
+    	
+    }
+    
+    
 }
