@@ -24,8 +24,6 @@ public class GameFloor extends GameComponent {
 
     private Color color;
     private Image img;
-
-    private final GameBackgroundImage bgImg;
     private final Viewable view;
 
     public GameFloor(int x, int y, int w, int h, Color c) {
@@ -38,9 +36,20 @@ public class GameFloor extends GameComponent {
 	color = c;
 	img = i;
 
-	bgImg = new GameBackgroundImage(x, y, w, h, i, c);
-
-	view = bgImg.getViewable();
+	view = new Viewable() {
+		
+		@Override
+		public void renderLOW(Graphics gr) {
+			gr.setColor(color);
+			gr.fillRect(getX(), getY(), getWidth(), getHeight());
+		}
+		
+		@Override
+		public void render(Graphics gr) {
+			gr.drawImage(img, getX(), getY(), getWidth(), getHeight(), null);
+			
+		}
+	};
 
     }
 

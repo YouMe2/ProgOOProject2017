@@ -41,18 +41,18 @@ public class GameBackgroundColor extends GameComponent {
 	    @Override
 	    public void render(Graphics gr) {
 
-		gr.setColor(c);
-		gr.fillRect(x, y, w, h);
+		gr.setColor(color);
+		gr.fillRect(getX(), getY(), getWidth(), getHeight());
 		
 		gr.setColor(Color.BLACK);
-		gr.drawRect(x, y, w, h);
+		gr.drawRect(getX(), getY(), getWidth(), getHeight());
 		
 	    }
 
 	    @Override
 	    public void renderLOW(Graphics gr) {
-		gr.setColor(c);
-		gr.fillRect(x, y, w, h);
+		gr.setColor(color);
+		gr.fillRect(getX(), getY(), getWidth(), getHeight());
 
 
 	    }

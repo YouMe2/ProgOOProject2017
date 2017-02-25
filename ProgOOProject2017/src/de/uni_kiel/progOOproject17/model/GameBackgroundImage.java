@@ -38,18 +38,18 @@ public class GameBackgroundImage extends GameComponent {
 	super(x, y, w, h);
 	img = i;
 
-	lowBG = new GameBackgroundColor(x, y, w, h, c);
 
 	view = new Viewable() {
 
 	    @Override
 	    public void renderLOW(Graphics gr) {
-		lowBG.getViewable().renderLOW(gr);
+	    	gr.setColor(c);
+	    	gr.fillRect(getX(), getY(), getWidth(), getHeight());
 	    }
 
 	    @Override
 	    public void render(Graphics gr) {
-		gr.drawImage(img, x, y, w, h, null);
+		gr.drawImage(img, getX(), getY(), getWidth(), getHeight(), null);
 	    }
 	};
 
