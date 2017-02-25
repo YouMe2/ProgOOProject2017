@@ -14,7 +14,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * @since 23.02.2017
  *
  */
-public abstract class GameObject extends GameComponent implements Collidable, Destroyable{
+public abstract class GameObject extends GameComponent implements Collidable, Destroyable, Deadly{
 
 	// maybe a LinkedList? cuz removing in easy?
     public static final ArrayList<GameObject> OBJECTS = new ArrayList<>();

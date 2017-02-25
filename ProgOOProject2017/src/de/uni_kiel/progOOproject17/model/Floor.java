@@ -18,7 +18,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * @since 23.02.2017
  *
  */
-public class Floor extends GameObject implements Deadly{
+public class Floor extends GameObject{
 
 	private Color color;
 	private Image img;

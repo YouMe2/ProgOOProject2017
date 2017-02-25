@@ -2,7 +2,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-public class Block extends GameEntity implements Deadly{
+public class Block extends GameEntity{
 
 
 	private boolean deadly = false;

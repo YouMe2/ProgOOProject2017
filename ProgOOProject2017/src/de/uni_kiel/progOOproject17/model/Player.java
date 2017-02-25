@@ -81,14 +81,9 @@ public class Player extends GameEntity {
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS, getVelocity().width, getVelocity().height);
 			
 			for (GameObject obj : colls) {
-				
-				if(obj instanceof Deadly) {
-					Deadly d = (Deadly) obj;
-					if(d.isDeadly()){
-						this.kill();
-						d.addKill();
-						
-					}
+				if(obj.isDeadly()) {
+					this.kill();
+					obj.addKill();
 				}
 				
 			}
@@ -116,6 +111,16 @@ public class Player extends GameEntity {
 	public Viewable getViewable() {
 		//even if !isAlive()??
 		return view;
+	}
+
+	@Override
+	public boolean isDeadly() {
+		return false;
+	}
+
+	@Override
+	public void addKill() {
+		//nothing here
 	}
 
 }

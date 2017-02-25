@@ -2,7 +2,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-public class Enemy extends GameEntity implements Deadly{
+public class Enemy extends GameEntity{
 
 	
 
