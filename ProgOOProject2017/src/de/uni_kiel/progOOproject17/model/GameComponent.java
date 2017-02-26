@@ -38,9 +38,22 @@ public abstract class GameComponent extends TickedDataModel {
 		this.x = this.x + dx;
 		this.y = this.y + dy;
 	}
+	
+	public void translate(Dimension dis) {
+		translate(dis.width, dis.height);
+	}
 
 	public void move(Point p) {
 		move(p.x, p.y);
+	}
+
+	public void setSize(int w, int h) {
+		this.w = w;
+		this.h = h;
+	}
+
+	public void setSize(Rectangle rect) {
+		setSize(rect.width, rect.height);
 	}
 
 	/**

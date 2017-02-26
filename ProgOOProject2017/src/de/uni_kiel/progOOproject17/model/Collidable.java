@@ -4,8 +4,8 @@
 package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yannik Eikmeier
@@ -18,10 +18,12 @@ public interface Collidable {
     
     public boolean willCollide(GameObject obj, int dx, int dy);
     
+    public boolean willCollide(List<GameObject> gObjts, int dx, int dy);
+    
     public Dimension getCollisionDistance(GameObject obj, int max_dx, int max_dy);
     
-    public Dimension getCollisionDistance(ArrayList<GameObject> gObjects, int max_dx, int max_dy);
+    public Dimension getCollisionDistance(List<GameObject> gObjects, int max_dx, int max_dy);
     
-    public ArrayList<GameObject> getCollObjects(ArrayList<GameObject> gObjs, int dx, int dy);
+    public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, int dx, int dy);
     
 }

@@ -31,11 +31,11 @@ public class SCGameModel extends TickedDataModelContainer {
     public static final int LH_WIDTH = 28;
     public static final int LH_HEIGHT = 14;
     
-    public static final int WIDTH_FACTOR = 15;
-    public static final int HEIGHT_FACTOR = 35;
+    public static final int LHPIXEL_WIDTH = 15;
+    public static final int LHPIXEL_HEIGHT = 35;
     
-    public static final int GAME_WIDTH = LH_WIDTH * WIDTH_FACTOR; // = 420
-    public static final int GAME_HEIGHT = LH_HEIGHT * HEIGHT_FACTOR ; // = 490
+    public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
+    public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT ; // = 490
     
     public SCGameModel(/* params ?*/) {
 	//TODO
@@ -69,7 +69,7 @@ public class SCGameModel extends TickedDataModelContainer {
     }
     
     public static Point lhToGameCoord(int x, int y) {
-	return new Point(x*WIDTH_FACTOR, y*HEIGHT_FACTOR);
+	return new Point(x*LHPIXEL_WIDTH, y*LHPIXEL_HEIGHT);
     }
     
 
