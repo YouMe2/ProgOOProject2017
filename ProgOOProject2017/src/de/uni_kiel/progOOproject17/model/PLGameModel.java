@@ -20,7 +20,7 @@ public class PLGameModel extends TickedBaseModel {
 	// scoreboard
 	Scoreboard gSB = new Scoreboard(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 	// bg
-	Background gBG = new Background("background", 0, 0, GAME_WIDTH, GAME_HEIGHT);
+	Background gBG = new Background("gray", 0, 0, GAME_WIDTH, GAME_HEIGHT);
 	// particles?
 
 	// sounds???
@@ -38,13 +38,13 @@ public class PLGameModel extends TickedBaseModel {
 
 	public PLGameModel() {
 
-		new Floor("floor", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT);
+		new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT);
 
 		new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2);
 
 		new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH, GAME_HEIGHT - 2 * LHPIXEL_HEIGHT);
 
-		new Block("block", 50, 50, 50, 50);
+		new Block("yellow", 50, 50, 50, 50);
 
 	}
 
@@ -58,7 +58,7 @@ public class PLGameModel extends TickedBaseModel {
 		ArrayList<Viewable> views = new ArrayList<>();
 
 		views.add(gBG);
-		views.addAll(Arrays.asList(gSB.getViewables()));
+//		views.addAll(Arrays.asList(gSB.getViewables()));
 		views.addAll(GameObject.OBJECTS);
 		views.addAll(Particle.PARTICLES);
 

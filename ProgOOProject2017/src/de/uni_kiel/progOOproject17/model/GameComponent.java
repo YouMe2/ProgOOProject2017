@@ -22,7 +22,7 @@ public abstract class GameComponent implements Ticked {
 	private Rectangle rect;
 
 	public GameComponent(int x, int y, int w, int h) {
-		rect.setBounds(x, y, w, h);
+		rect = new Rectangle(x, y, w, h);
 		COMPONENTS.add(this);
 	}
 

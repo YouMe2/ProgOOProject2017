@@ -1,7 +1,7 @@
 /**
  *
  */
-package de.uni_kiel.progOOproject.launch;
+package de.uni_kiel.progOOproject17.launch;
 
 import de.uni_kiel.progOOproject17.controller.PLController;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -27,7 +27,6 @@ public class Main {
 
 		Resources.getInstance().init();
 
-		// TODO set Title
 		new PLController(new PLDektopView("Project Lighthouze - Yannik Eikemeier und Steffen Trog"),
 				new PLGameModel()).start();
 

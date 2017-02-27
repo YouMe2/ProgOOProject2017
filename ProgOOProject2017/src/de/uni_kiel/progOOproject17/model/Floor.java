@@ -19,6 +19,7 @@ public class Floor extends GameObject {
 
 	public Floor(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
+		setLayer(Viewable.FLOOR_LAYER);
 
 	}
 
