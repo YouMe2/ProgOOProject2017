@@ -17,15 +17,15 @@ import java.util.Arrays;
 public class PLGameModel extends TickedBaseModel {
 
 	// scoreboard
-	// bg?
+	
+	// bg
 	Background gBG = new Background("background", 0, 0, GAME_WIDTH, GAME_HEIGHT);
 	// particles?
+	
 	// sounds???
 
 	// LevelGenerator
 
-	// a Destroyer for the Particles
-	// a Destroyer for the Objects
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -36,7 +36,7 @@ public class PLGameModel extends TickedBaseModel {
 	public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490
 
-	public PLGameModel(/* params ? */) {
+	public PLGameModel() {
 		
 
 		new Floor("floor", 0, GAME_HEIGHT-LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT);
@@ -62,15 +62,11 @@ public class PLGameModel extends TickedBaseModel {
 		
 		ArrayList<Viewable> views = new ArrayList<>();
 		
-		for (GameObject obj : GameObject.OBJECTS) {
-			//TODO add views
-		}
-		
-		
-		
-		return null;
-	}
+		views.add(gBG);
+		views.addAll(GameObject.OBJECTS);
 
+		return views.toArray(new Viewable[views.size()]);
+	}
 
 
 	@Override
