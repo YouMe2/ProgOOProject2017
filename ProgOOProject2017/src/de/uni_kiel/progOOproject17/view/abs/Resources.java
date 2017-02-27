@@ -17,7 +17,7 @@ public class Resources {
 	private final HashMap<String, Image> resources;
 
 	private Resources() {
-		resourcesFolder = "/resources/";
+		resourcesFolder = "/de/uni_kiel/progOOproject17/resources/";
 		resources = new HashMap<>();
 	}
 

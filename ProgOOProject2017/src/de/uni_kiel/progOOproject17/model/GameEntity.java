@@ -5,6 +5,8 @@ package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Dimension;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
 /**
  * @author Yannik Eikmeier
  * @since 24.02.2017
@@ -23,6 +25,7 @@ public abstract class GameEntity extends GameObject
 	public GameEntity(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
 		velocity = new Dimension(0, 0);
+		setLayer(Viewable.ENTITY_LAYER);
 	}
 
 	@Override

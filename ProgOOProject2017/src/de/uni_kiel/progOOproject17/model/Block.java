@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
 public class Block extends GameEntity {
 
 	private boolean deadly = false;

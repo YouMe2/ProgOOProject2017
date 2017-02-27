@@ -11,7 +11,13 @@ import java.awt.Rectangle;
 public interface Viewable {
 
 	public static final int MAXLAYER = 5; // 0 1 2 3 4;
-	public static final int PARTICLE_LAYER = MAXLAYER - 1;
+	
+	public static final int BG_LAYER = 0;
+	public static final int SB_LAYER = 1;
+	public static final int FLOOR_LAYER = 2;
+	public static final int ENTITY_LAYER = 3;
+	public static final int PARTICLE_LAYER = 4;
+
 	
 	public String getResourceKey();
 	public Rectangle getRect();

@@ -22,8 +22,8 @@ public class PLController extends TickedController {
 	 * @param model
 	 */
 	public PLController(PLDektopView view, PLGameModel model) {
-		super(view, view, model);
-		toggelLighthouseView(); // turn on the Light house view
+		super(view, view, model, 400);
+		
 
 		// maybe add a button to toggel the lhView too?
 
