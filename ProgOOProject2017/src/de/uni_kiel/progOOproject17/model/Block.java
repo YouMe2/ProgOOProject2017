@@ -18,27 +18,12 @@ public class Block extends GameEntity {
 	private final Image imgLOW;
 	private final Image imgHI;
 
-	private final Viewable view;
-
 	public Block(int x, int y, int w, int h, Image hi,  Image low) {
 		super(x, y, w, h);
 		this.imgHI = hi;
 		this.imgLOW = low;
 
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(), null);
-
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(), null);
-
-			}
-		};
+		setNewImageView(hi, low);
 	}
 
 	@Override
@@ -84,11 +69,6 @@ public class Block extends GameEntity {
 		}
 
 		
-	}
-
-	@Override
-	public Viewable getViewable() {
-		return view;
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 
+import de.uni_kiel.progOOproject17.view.abs.ImageViewable;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -18,12 +19,8 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  */
 public class Background extends GameComponent {
 
-	private final Image img;
-
 	private final Viewable view;
-	public Background(int x, int y, int w, int h, Image i) {
-		this(x, y, w, h, i, Color.BLACK);
-	}
+	
 
 	/**
 	 * @param x
@@ -32,27 +29,10 @@ public class Background extends GameComponent {
 	 * @param h
 	 * @param i
 	 */
-	public Background(int x, int y, int w, int h, Image i, Color c) {
+	public Background(int x, int y, int w, int h, Image hi, Image low) {
 		super(x, y, w, h);
-		img = i;
-
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.setColor(c);
-				gr.fillRect(getX(), getY(), getWidth(), getHeight());
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				if (img == null) {
-					renderLOW(gr);
-					return;
-				}
-				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(), null);
-			}
-		};
+		
+		view = new ImageViewable(hi, low, getBoundingRect());
 
 	}
 

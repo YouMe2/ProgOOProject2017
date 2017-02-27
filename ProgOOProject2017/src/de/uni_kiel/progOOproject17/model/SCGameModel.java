@@ -19,14 +19,12 @@ public class SCGameModel extends TickedDataModelContainer {
     //scoreboard
     //bg?
     //floors?
-    //entities?
+    //objects
     //particles?
     //sounds???
 
     //LevelGenerator
-	
-	//a Destroyer for the Particles
-	//a Destroyer for the Objects
+
     
     public static final int LH_WIDTH = 28;
     public static final int LH_HEIGHT = 14;
@@ -69,7 +67,7 @@ public class SCGameModel extends TickedDataModelContainer {
     }
     
     public static Point lhToGameCoord(int x, int y) {
-	return new Point(x*LHPIXEL_WIDTH, y*LHPIXEL_HEIGHT);
+    	return new Point(x*LHPIXEL_WIDTH, y*LHPIXEL_HEIGHT);
     }
     
 

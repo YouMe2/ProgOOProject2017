@@ -3,7 +3,7 @@ package de.uni_kiel.progOOproject17.model.abs;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public abstract class TickedDataModelContainer<T extends TickedDataModel> extends TickedDataModel{
+public abstract class TickedDataModelContainer<T extends Ticked> extends TickedDataModel{
     
     protected final ArrayList<T> subData = new ArrayList<T>();
     

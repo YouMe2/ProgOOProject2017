@@ -41,7 +41,7 @@ public class SCLighthouseView extends FramedIOView {
 	img = new BufferedImage(SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 	
 	//host? port?
-	lhNetwork = new LighthouseNetwork("host??", 000000);
+	lhNetwork = new LighthouseNetwork();
 	
 	//build frame here..
 	

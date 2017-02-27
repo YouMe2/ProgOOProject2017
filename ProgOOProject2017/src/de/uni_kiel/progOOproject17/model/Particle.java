@@ -84,4 +84,11 @@ public class Particle extends GameComponent implements Destroyable{
 		return alive;
 	}
 
+	@Override
+	public void destroy() {
+		alive = false;
+		PARTICLES.remove(this);
+		
+	}
+
 }
