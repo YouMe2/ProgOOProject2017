@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,21 +17,24 @@ public class Player extends GameEntity {
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
-	public final AbstractAction moveJUMP = new AbstractAction() {
+//	public final AbstractAction moveJUMP = new AbstractAction("playerJUMP") {
+	public final ModelAction moveJUMP = new ModelAction("playerJUMP") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.JUMP;
 		}
 	};
-	public final AbstractAction moveSTARTCROUCH = new AbstractAction() {
+//	public final AbstractAction moveSTARTCROUCH = new AbstractAction("playerSTRATCROUCH") {
+	public final ModelAction moveSTARTCROUCH = new ModelAction("playerSTRATCROUCH") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.START_CROUCH;
 		}
 	};
-	public final AbstractAction moveENDCROUCH = new AbstractAction() {
+//	public final AbstractAction moveENDCROUCH = new AbstractAction("playerENDCROUCH") {
+	public final ModelAction moveENDCROUCH = new ModelAction("playerENDCROUCH") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
