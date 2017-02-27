@@ -14,42 +14,13 @@ import java.awt.Image;
  */
 public class Floor extends GameObject {
 
-	private Color color;
-	private Image img;
-	private final Viewable view;
-
 	private boolean deadly = false;
 	private int killcounter;
 
-	public Floor(int x, int y, int w, int h, Color c) {
-		this(x, y, w, h, c, null);
-	}
-
-	public Floor(int x, int y, int w, int h, Color c, Image i) {
+	public Floor(int x, int y, int w, int h, Image hi, Image low) {
 		super(x, y, w, h);
-		color = c;
-		img = i;
 
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.setColor(color);
-				gr.fillRect(getX(), getY(), getWidth(), getHeight());
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				if (img == null) {
-					renderLOW(gr);
-					return;
-
-				}
-				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-		};
+		setNewImageView(hi, low);
 
 	}
 
@@ -57,16 +28,6 @@ public class Floor extends GameObject {
 	public void tick(long timestamp) {
 		// TODO animated?
 
-	}
-
-	@Override
-	public Viewable getViewable() {
-		return view;
-	}
-
-	@Override
-	public boolean isAlive() {
-		return true;
 	}
 
 	@Override

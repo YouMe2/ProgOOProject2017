@@ -13,12 +13,6 @@ public class Player extends GameEntity {
 	private int points = 0;
 	private int steps;
 	private int lifes = 1;
-	private boolean alive = true;
-
-	private final Image imgLOW;
-	private final Image imgHI;
-
-	private final Viewable view;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
@@ -52,44 +46,24 @@ public class Player extends GameEntity {
 
 	public Player(int x, int y, Image hi, Image low) {
 		super(x, y, PLAYER_W, PLAYER_H_NORMAL);
+		setNewImageView(hi, low);
 
-		imgHI = hi;
-		imgLOW = low;
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-		};
-
-	}
-
-	@Override
-	public boolean isAlive() {
-		return alive;
 	}
 
 	@Override
 	public void tick(long timestamp) {
 		// nur wenn der player noch "lebt"
-		if (!isAlive())
+		if (!isAlive()){
+			System.out.println("sollte nicht passieren");
 			return;
+		}
 
 		// movement die erste
 		switch (currMoveCommand) {
 			case START_CROUCH:
 
 				setSize(PLAYER_W, PLAYER_H_CROUCH);
+
 				currMoveCommand = MoveCommand.NONE;
 
 				break;
@@ -155,23 +129,13 @@ public class Player extends GameEntity {
 		lifes -= dmg;
 
 		if (lifes <= 0) {
-			alive = false;
+			destroy();
 			return true;
 		}
 
 		return false;
-
-		// damages this Player
-		// will be called by an enemy when it will collide with this or when
-		// this will collide with an enemy!
-
 	}
 
-	@Override
-	public Viewable getViewable() {
-		// even if !isAlive()??
-		return view;
-	}
 
 	@Override
 	public boolean isDeadly() {

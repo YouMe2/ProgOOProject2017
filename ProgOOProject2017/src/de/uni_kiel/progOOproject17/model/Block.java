@@ -12,40 +12,12 @@ public class Block extends GameEntity {
 	private boolean deadly = false;
 	private int killcounter = 0;
 
-	private boolean alive = true;
-
-	private final Image imgLOW;
-	private final Image imgHI;
-
-	private final Viewable view;
-
 	public Block(int x, int y, int w, int h, Image hi, Image low) {
 		super(x, y, w, h);
-		imgHI = hi;
-		imgLOW = low;
 
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-		};
+		setNewImageView(hi, low);
 	}
 
-	@Override
-	public boolean isAlive() {
-		return alive;
-	}
 
 	@Override
 	public void tick(long timestamp) {
@@ -79,16 +51,14 @@ public class Block extends GameEntity {
 		this.translate(dis);
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0,
-				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
-			// out of game area!!
-			alive = false;
+				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT))) {
+			destroy();
+		}
+			
 
 	}
 
-	@Override
-	public Viewable getViewable() {
-		return view;
-	}
+	
 
 	@Override
 	public boolean isDeadly() {

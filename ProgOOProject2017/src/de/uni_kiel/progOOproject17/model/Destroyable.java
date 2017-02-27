@@ -4,4 +4,5 @@ public interface Destroyable {
 
 	public boolean isAlive();
 
+	public void destroy();
 }

@@ -4,10 +4,14 @@
 package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import de.uni_kiel.progOOproject17.view.abs.ImageViewable;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
@@ -16,12 +20,20 @@ import java.util.List;
 public abstract class GameObject extends GameComponent
 		implements Collidable, Destroyable, Deadly {
 
-	// maybe a LinkedList? cuz removing in easy?
 	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
 
+	private boolean alive = true;
+	
+	private Viewable view;
+	
 	public GameObject(int x, int y, int w, int h) {
 		super(x, y, w, h);
 		OBJECTS.add(this);
+	}
+	
+	public void setNewImageView(Image hi, Image low){
+		view = new ImageViewable(hi, low, this.getBoundingRect());
+		
 	}
 
 	@Override
@@ -175,6 +187,23 @@ public abstract class GameObject extends GameComponent
 
 		return collObjts;
 
+	}
+	
+	@Override
+	public void destroy() {
+		alive = false;
+		OBJECTS.remove(this);
+		
+	}
+	
+	@Override
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	@Override
+	public Viewable getViewable() {
+		return view;
 	}
 
 }

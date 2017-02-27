@@ -44,18 +44,12 @@ public class Sound {
 
 	private Sound(String name) {
 		try {
-			clip = Applet.newAudioClip(Sound.class.getResource(name)); // tries
-																		 // to
-																		 // load
-																		 // the
-																		 // audio
-																		 // clip
-																		 // from
-																		 // the
-																		 // name
-																		 // you
-																		 // gave
-																		 // above.
+
+			//tries to load the audio clip from the name you gave above.
+			clip = Applet.newAudioClip(Sound.class.getResource(name));
+			
+		
+
 		} catch (Throwable e) {
 			e.printStackTrace(); // else it will throw an error
 		}
