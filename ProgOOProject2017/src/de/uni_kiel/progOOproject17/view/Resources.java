@@ -5,17 +5,25 @@ import java.util.HashMap;
 
 public class Resources {
 
-	public final HashMap<String, Image> IMAGES = new HashMap<>();
+	private static Resources instance;
 
-	public Resources() {
-		
-		//TODO
-		
-	}
+	private HashMap<String, Image> resources = null;
+
+	private Resources() {}
 
 	public static Resources getInstance() {
-		//TODO
-		return null;
+		if (instance == null)
+			instance = new Resources();
+		return instance;
 	}
-	
+
+	public void init() {
+		resources = new HashMap<>();
+		
+	}
+
+	public Image get(String identifier) {
+		return resources.get(identifier);
+	}
+
 }
