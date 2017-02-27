@@ -13,9 +13,15 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
  */
 public class SidecrawlerMain {
 
-	/**
-	 * @param args
-	 */
+	//TODO class Velocity statt Dimension
+	//TODO PLGameModel aufbauen
+	//TODO LevelGenerator
+	//TODO Scoreboard
+	//TODO Lighthouse util
+	//TODO Resources
+	
+
+	
 	public static void main(String[] args) {
 
 		// TODO set Title

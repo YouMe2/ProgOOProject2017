@@ -7,6 +7,16 @@ public class Resources {
 
 	public final HashMap<String, Image> IMAGES = new HashMap<>();
 
+	/*
+	 * test.png 		-> test
+	 * test_0-low.png	-> test_0-low
+	 * 
+	 * 
+	 * 
+	 * 
+	*/
+	
+	
 	public Resources() {
 		
 		//TODO
@@ -16,6 +26,10 @@ public class Resources {
 	public static Resources getInstance() {
 		//TODO
 		return null;
+	}
+	
+	public Image get(String key){
+		return IMAGES.get(key);
 	}
 	
 }

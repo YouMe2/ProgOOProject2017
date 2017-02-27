@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.uni_kiel.progOOproject17.view.abs.ImageViewable;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -18,22 +17,44 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * @since 23.02.2017
  */
 public abstract class GameObject extends GameComponent
-		implements Collidable, Destroyable, Deadly {
+		implements Collidable, Destroyable, Deadly, Viewable{
 
 	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
 
 	private boolean alive = true;
 	
-	private Viewable view;
+	private String resKey;
+	private int layer;
 	
-	public GameObject(int x, int y, int w, int h) {
+	public GameObject(String resKey, int x, int y, int w, int h) {
 		super(x, y, w, h);
 		OBJECTS.add(this);
+		setResKey(resKey);
+		setLayer(0);
+		
 	}
 	
-	public void setNewImageView(Image hi, Image low){
-		view = new ImageViewable(hi, low, this.getBoundingRect());
-		
+	@Override
+	public String getResourceKey() {
+		return GameObject.this.resKey;
+	}
+	
+	@Override
+	public Rectangle getRect() {
+		return GameObject.this.getBoundingRect();
+	}
+	
+	@Override
+	public int getLayer() {
+		return GameObject.this.layer;
+	}
+	
+	public void setResKey(String resKey) {
+		this.resKey = resKey;
+	}
+	
+	public void setLayer(int layer) {
+		this.layer = layer;
 	}
 
 	@Override
@@ -201,9 +222,5 @@ public abstract class GameObject extends GameComponent
 		return alive;
 	}
 	
-	@Override
-	public Viewable getViewable() {
-		return view;
-	}
 
 }

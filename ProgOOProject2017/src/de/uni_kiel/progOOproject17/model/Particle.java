@@ -3,53 +3,46 @@ package de.uni_kiel.progOOproject17.model;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public class Particle extends GameComponent implements Destroyable {
+public class Particle extends GameComponent implements Destroyable, Viewable{
 
 	public static final ArrayList<Particle> PARTICLES = new ArrayList<>();
-
-	private final Viewable view;
-
-	private final Image[] imgsHI;
-	private final Image[] imgsLOW;
 
 	private int counter = 0;
 	private final int dtime;
 	private long lasttime = 0;
+	private final int max;
 
 	private boolean alive = true;
 
-	public Particle(int x, int y, int w, int h, Image[] his, Image[] lows,
-			int dtime) {
+	private String resKey;
+
+	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
 		super(x, y, w, h);
 		PARTICLES.add(this);
-
-		imgsHI = his;
-		imgsLOW = lows;
+		this.max = max;
+		this.resKey = resKey;
 
 		this.dtime = dtime;
-
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-
-				gr.drawImage(imgsLOW[counter], getX(), getY(), getWidth(),
-						getHeight(), null);
-			}
-
-			@Override
-			public void render(Graphics gr) {
-
-				gr.drawImage(imgsHI[counter], getX(), getY(), getWidth(),
-						getHeight(), null);
-
-			}
-		};
-
 	}
 
+	@Override
+	public String getResourceKey() {
+		return Particle.this.resKey + "_" + counter;
+	}
+
+	@Override
+	public Rectangle getRect() {
+		return Particle.this.getBoundingRect();
+	}
+
+	@Override
+	public int getLayer() {
+		return Viewable.PARTICLE_LAYER;
+	}
+	
 	@Override
 	public void tick(long timestamp) {
 		// init
@@ -57,23 +50,17 @@ public class Particle extends GameComponent implements Destroyable {
 			lasttime = timestamp;
 
 		// next
-		if (timestamp - lasttime > dtime && counter < imgsHI.length - 1) {
+		if (timestamp - lasttime > dtime && counter < max - 1) {
 			lasttime = timestamp;
 			counter++;
 
 		}
 		// end
-		else if (counter == imgsHI.length - 1)
+		else if (counter == max - 1)
 			alive = false;
 
 	}
 
-	@Override
-	public Viewable getViewable() {
-		if (isAlive())
-			return view;
-		return null;
-	}
 
 	@Override
 	public boolean isAlive() {
@@ -84,7 +71,7 @@ public class Particle extends GameComponent implements Destroyable {
 	public void destroy() {
 		alive = false;
 		PARTICLES.remove(this);
-		
+
 	}
 
 }

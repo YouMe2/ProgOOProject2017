@@ -38,15 +38,14 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public static final int JUMPVELOCITY = 12; // TODO erst mal einfach so
+	public static final int JUMPVELOCITY = 12;
 
 	private static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
 	private static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	private static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
-	public Player(int x, int y, Image hi, Image low) {
-		super(x, y, PLAYER_W, PLAYER_H_NORMAL);
-		setNewImageView(hi, low);
+	public Player(String resKey, int x, int y) {
+		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 
 	}
 
@@ -77,7 +76,7 @@ public class Player extends GameEntity {
 
 			case JUMP:
 
-				// TODO
+				// TODO PLAYER JUMP
 
 				if (willCollide(OBJECTS, 0, 1)) { // wenn was drunter ist dann
 													 // jump
