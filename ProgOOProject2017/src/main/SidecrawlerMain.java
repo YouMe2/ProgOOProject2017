@@ -14,21 +14,20 @@ import de.uni_kiel.progOOproject17.view.abs.Resources;
  */
 public class SidecrawlerMain {
 
-	//TODO class Velocity statt Dimension
-	//TODO PLGameModel aufbauen
-	//TODO LevelGenerator
-	//TODO Scoreboard
-	//TODO Lighthouse util
-	//TODO Resources
-	
+	// TODO class Velocity statt Dimension
+	// TODO PLGameModel aufbauen
+	// TODO LevelGenerator
+	// TODO Scoreboard
+	// TODO Lighthouse util
+	// TODO Resources
 
-	
 	public static void main(String[] args) {
 
 		Resources.getInstance().init();
 
-		// TODO set Title
-		new PLController(new PLDektopView("Sidecrawler Test Title"),
+		new PLController(
+				new PLDektopView(
+						"Project Lighthouze - Yannik Eikemeier und Steffen Trog"),
 				new PLGameModel()).start();
 
 	}
