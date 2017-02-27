@@ -12,7 +12,7 @@ public class Sound {
 	// public static final Sound BOSS_DEATH = new Sound("bossdeath");
 	// public static final Sound CRAFT = new Sound("craft");
 
-	private Clip sound; // Creates a audio clip to be played
+	private Clip sound; // Creates an audio clip to be played
 
 	Sound(Clip sound) {
 		this.sound = sound;

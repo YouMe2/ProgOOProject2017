@@ -7,12 +7,6 @@ import de.uni_kiel.progOOproject17.controller.PLController;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
-import java.io.File;
-import java.io.IOException;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * @author Yannik Eikmeier
@@ -24,6 +18,13 @@ public class Main {
 	// TODO LevelGenerator
 	// TODO Scoreboard
 	// TODO Lighthouse util
+
+	// TODO bei applyGravity einen check auf Kollision einbeziehen.
+	// Dazu: Die GameEntities werden zwar von der Schwerkraft beeinflusst,
+	// allerdings prüft nur der Player auf Kollision (und auch der bekommt nur
+	// Damage, wird aber nicht angehalten). Außerdem muss noch mal die Grenze
+	// zwischen Dimensions und Velocities besser gezogen werden, siehe anderes
+	// todo.
 
 	public static void main(String[] args) {
 

@@ -1,13 +1,9 @@
 package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import javax.swing.AbstractAction;
 
 public class Player extends GameEntity {
 
@@ -17,7 +13,7 @@ public class Player extends GameEntity {
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
-//	public final AbstractAction moveJUMP = new AbstractAction("playerJUMP") {
+	// public final AbstractAction moveJUMP = new AbstractAction("playerJUMP") {
 	public final ModelAction moveJUMP = new ModelAction("playerJUMP") {
 
 		@Override
@@ -25,16 +21,20 @@ public class Player extends GameEntity {
 			currMoveCommand = MoveCommand.JUMP;
 		}
 	};
-//	public final AbstractAction moveSTARTCROUCH = new AbstractAction("playerSTRATCROUCH") {
-	public final ModelAction moveSTARTCROUCH = new ModelAction("playerSTRATCROUCH") {
+	// public final AbstractAction moveSTARTCROUCH = new
+	// AbstractAction("playerSTRATCROUCH") {
+	public final ModelAction moveSTARTCROUCH = new ModelAction(
+			"playerSTARTCROUCH") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.START_CROUCH;
 		}
 	};
-//	public final AbstractAction moveENDCROUCH = new AbstractAction("playerENDCROUCH") {
-	public final ModelAction moveENDCROUCH = new ModelAction("playerENDCROUCH") {
+	// public final AbstractAction moveENDCROUCH = new
+	// AbstractAction("playerENDCROUCH") {
+	public final ModelAction moveENDCROUCH = new ModelAction(
+			"playerENDCROUCH") {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -56,7 +56,7 @@ public class Player extends GameEntity {
 	@Override
 	public void tick(long timestamp) {
 		// nur wenn der player noch "lebt"
-		if (!isAlive()){
+		if (!isAlive()) {
 			System.out.println("sollte nicht passieren");
 			return;
 		}
@@ -104,6 +104,7 @@ public class Player extends GameEntity {
 				getVelocity().speedY);
 
 		// collision
+		// TODO Schwachsinn. Dimension eq. Velocity? Abgrenzen!
 		if (!dis.equals(getVelocity())) {
 			// es gabe ne collision
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
@@ -138,7 +139,6 @@ public class Player extends GameEntity {
 
 		return false;
 	}
-
 
 	@Override
 	public boolean isDeadly() {

@@ -31,7 +31,6 @@ public abstract class GameComponent implements Ticked {
 	}
 
 	public void translate(int dx, int dy) {
-
 		rect.translate(dx, dy);
 	}
 
