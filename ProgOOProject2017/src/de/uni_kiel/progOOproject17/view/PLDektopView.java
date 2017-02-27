@@ -4,8 +4,8 @@
 package de.uni_kiel.progOOproject17.view;
 
 import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Resources;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 public class PLDektopView extends FramedIOView {
 
 	private BufferedImage img;
-	private Resources res = Resources.getInstance();
+	private ResourceManager res = ResourceManager.getInstance();
 	
 	/**
 	 * @param title
@@ -29,7 +29,7 @@ public class PLDektopView extends FramedIOView {
 	public PLDektopView(String title) {
 		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, true);
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
-		res = Resources.getInstance();
+		res = ResourceManager.getInstance();
 		// maybe add a button to toggel the lhView too?
 
 	}
@@ -44,7 +44,7 @@ public class PLDektopView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 				
 				Rectangle rect = v.getRect();
-				gr.drawImage(res.get(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
+				gr.drawImage(res.getImage(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
 				
 			});
 			

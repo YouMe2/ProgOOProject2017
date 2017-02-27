@@ -5,8 +5,8 @@ package de.uni_kiel.progOOproject17.view;
 
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Resources;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -24,7 +24,7 @@ public class PLLighthouseView extends FramedIOView {
 	private BufferedImage img;
 
 	private LighthouseNetwork lhNetwork;
-	private Resources res = Resources.getInstance();
+	private ResourceManager res = ResourceManager.getInstance();
 
 	/**
 	 * @param title
@@ -69,7 +69,7 @@ public class PLLighthouseView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 				
 				Rectangle rect = v.getRect();
-				gr.drawImage(res.get(v.getResourceKey() + "-low"), rect.x, rect.y, rect.width, rect.height, null);
+				gr.drawImage(res.getImage(v.getResourceKey() + "-low"), rect.x, rect.y, rect.width, rect.height, null);
 				
 			});
 			
