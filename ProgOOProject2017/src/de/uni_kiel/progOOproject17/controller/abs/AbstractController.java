@@ -1,6 +1,6 @@
 package de.uni_kiel.progOOproject17.controller.abs;
 
-import de.uni_kiel.progOOproject17.model.abs.AbstractDataModel;
+import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.InputView;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import java.util.Vector;
@@ -14,10 +14,10 @@ public abstract class AbstractController {
 	private Vector<InputView> ins = new Vector<>(); // nicht unbedingt
 	// notwending
 
-	protected final AbstractDataModel model;
+	protected final AbstractBaseModel model;
 
 	public AbstractController(OutputView out, InputView in,
-			AbstractDataModel model) {
+			AbstractBaseModel model) {
 		standardOut = out;
 		standardIn = in;
 		this.model = model;
@@ -62,7 +62,7 @@ public abstract class AbstractController {
 
 	// GETTERS & SETTERS
 
-	public abstract AbstractDataModel getModel();
+	public abstract AbstractBaseModel getModel();
 
 	public OutputView getOutputView(int i) {
 		return outs.get(i);

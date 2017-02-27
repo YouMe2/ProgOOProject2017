@@ -14,9 +14,15 @@ import de.uni_kiel.progOOproject17.view.abs.Resources;
  */
 public class SidecrawlerMain {
 
-	/**
-	 * @param args
-	 */
+	//TODO class Velocity statt Dimension
+	//TODO PLGameModel aufbauen
+	//TODO LevelGenerator
+	//TODO Scoreboard
+	//TODO Lighthouse util
+	//TODO Resources
+	
+
+	
 	public static void main(String[] args) {
 
 		Resources.getInstance().init();

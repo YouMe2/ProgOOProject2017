@@ -17,17 +17,14 @@ public class Floor extends GameObject {
 	private boolean deadly = false;
 	private int killcounter;
 
-	public Floor(int x, int y, int w, int h, Image hi, Image low) {
-		super(x, y, w, h);
-
-		setNewImageView(hi, low);
+	public Floor(String resKey, int x, int y, int w, int h) {
+		super(resKey, x, y, w, h);
 
 	}
 
 	@Override
 	public void tick(long timestamp) {
-		// TODO animated?
-		// move??
+		//nothing here so far
 	}
 
 	@Override

@@ -20,8 +20,8 @@ public abstract class GameEntity extends GameObject
 	 * @param w
 	 * @param h
 	 */
-	public GameEntity(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	public GameEntity(String resKey, int x, int y, int w, int h) {
+		super(resKey, x, y, w, h);
 		velocity = new Dimension(0, 0);
 	}
 

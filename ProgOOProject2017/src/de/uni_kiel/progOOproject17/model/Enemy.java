@@ -14,34 +14,11 @@ public class Enemy extends GameEntity {
 
 	private boolean alive = true;
 
-	private final Image imgLOW;
-	private final Image imgHI;
 
-	private final Viewable view;
+	public Enemy(String resKey, int x, int y) {
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT);
 
-	public Enemy(int x, int y, Image hi, Image low) {
-		super(x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT);
-
-		imgHI = hi;
-		imgLOW = low;
-
-		view = new Viewable() {
-
-			@Override
-			public void renderLOW(Graphics gr) {
-				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-
-			@Override
-			public void render(Graphics gr) {
-				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(),
-						null);
-
-			}
-		};
-
+		//TODO ENEMY VELOCITY
 		setVelocity(-5, 0); // gehen immer nach rechts
 
 	}
@@ -87,11 +64,6 @@ public class Enemy extends GameEntity {
 			// out of game area!!
 			alive = false;
 
-	}
-
-	@Override
-	public Viewable getViewable() {
-		return view;
 	}
 
 	@Override

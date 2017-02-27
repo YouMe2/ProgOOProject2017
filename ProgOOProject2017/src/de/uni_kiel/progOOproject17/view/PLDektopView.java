@@ -5,14 +5,12 @@ package de.uni_kiel.progOOproject17.view;
 
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
+import de.uni_kiel.progOOproject17.view.abs.Resources;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
-import java.util.function.Predicate;
-
-import javax.swing.text.View;
 
 /**
  * @author Yannik Eikmeier
@@ -21,7 +19,7 @@ import javax.swing.text.View;
 public class PLDektopView extends FramedIOView {
 
 	private BufferedImage img;
-	private Resources res;
+	private Resources res = Resources.getInstance();
 	
 	/**
 	 * @param title
@@ -46,7 +44,7 @@ public class PLDektopView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 				
 				Rectangle rect = v.getRect();
-				gr.drawImage(res.IMAGES.get(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
+				gr.drawImage(res.get(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
 				
 			});
 			

@@ -1,8 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -11,13 +9,16 @@ public class Block extends GameEntity {
 
 	private boolean deadly = false;
 	private int killcounter = 0;
+	private boolean gravity = true;
+	
+	public Block(String resKey, int x, int y, int w, int h) {
+		super(resKey, x, y, w, h);
 
-	public Block(int x, int y, int w, int h, Image hi, Image low) {
-		super(x, y, w, h);
-
-		setNewImageView(hi, low);
 	}
-
+	
+	public void setGravityActive(boolean gravity) {
+		this.gravity = gravity;
+	}
 
 	@Override
 	public void tick(long timestamp) {
@@ -25,8 +26,9 @@ public class Block extends GameEntity {
 		if (!isAlive())
 			return;
 
-		// gravity ??
-		applyGravity();
+		//TODO BLOCK gravity ??
+		if(gravity)
+			applyGravity();
 
 		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width,
 				getVelocity().height);
