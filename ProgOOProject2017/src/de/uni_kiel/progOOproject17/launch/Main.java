@@ -20,7 +20,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class Main {
 
-	// TODO class Velocity statt Dimension
 	// TODO PLGameModel aufbauen
 	// TODO LevelGenerator
 	// TODO Scoreboard
