@@ -28,7 +28,7 @@ public class Main {
 		Resources.getInstance().init();
 
 		// TODO set Title
-		new PLController(new PLDektopView("Sidecrawler Test Title"),
+		new PLController(new PLDektopView("Project Lighthouze - Yannik Eikemeier und Steffen Trog"),
 				new PLGameModel()).start();
 
 	}
