@@ -84,7 +84,7 @@ public class Player extends GameEntity {
 
 				if (willCollide(OBJECTS, 0, 1)) { // wenn was drunter ist dann
 													 // jump
-					getVelocity().height += JUMPVELOCITY;
+					getVelocity().speedY += JUMPVELOCITY;
 					currMoveCommand = MoveCommand.NONE;
 
 				}
@@ -100,14 +100,14 @@ public class Player extends GameEntity {
 		// gravity
 		applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width,
-				getVelocity().height);
+		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
+				getVelocity().speedY);
 
 		// collision
 		if (!dis.equals(getVelocity())) {
 			// es gabe ne collision
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().width, getVelocity().height);
+					getVelocity().speedX, getVelocity().speedY);
 
 			for (GameObject obj : colls)
 				if (obj.isDeadly())

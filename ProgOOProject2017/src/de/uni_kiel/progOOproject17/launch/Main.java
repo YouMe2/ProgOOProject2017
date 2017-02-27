@@ -25,20 +25,8 @@ public class Main {
 	// TODO LevelGenerator
 	// TODO Scoreboard
 	// TODO Lighthouse util
-	// TODO Resources
 
-	public static void main(String[] args) throws LineUnavailableException,
-			IOException, UnsupportedAudioFileException, InterruptedException {
-
-		Clip clip = AudioSystem.getClip();
-		clip.open(AudioSystem.getAudioInputStream(new File(
-				"C:/Users/Steffen/Google Drive/Informatik/workspace/123Blupp/src/alarmsound.wav")));
-		clip.setFramePosition(0);
-		clip.start();
-		Thread.sleep(8000);
-		System.out.println("asdf");
-		clip.setFramePosition(0);
-		clip.start();
+	public static void main(String[] args) {
 
 		ResourceManager.getInstance().init();
 

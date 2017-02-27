@@ -3,8 +3,6 @@
  */
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Dimension;
-
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -14,7 +12,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 public abstract class GameEntity extends GameObject
 		implements Gravitational, Destroyable {
 
-	private Dimension velocity;
+	private Velocity velocity;
 
 	/**
 	 * @param x
@@ -24,7 +22,7 @@ public abstract class GameEntity extends GameObject
 	 */
 	public GameEntity(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
-		velocity = new Dimension(0, 0);
+		velocity = new Velocity(0, 0);
 		setLayer(Viewable.ENTITY_LAYER);
 	}
 
@@ -34,20 +32,20 @@ public abstract class GameEntity extends GameObject
 		// GRAVITY_ACCELERATION + velocity.height);
 		// translate(dis.width, dis.height);
 
-		velocity.height += GRAVITY_ACCELERATION;
+		velocity.speedY += GRAVITY_ACCELERATION;
 
 	}
 
-	public Dimension getVelocity() {
+	public Velocity getVelocity() {
 		return velocity;
 	}
 
-	public void setVelocity(Dimension velocity) {
+	public void setVelocity(Velocity velocity) {
 		this.velocity = velocity;
 	}
 
 	public void setVelocity(int dx, int dy) {
-		setVelocity(new Dimension(dx, dy));
+		setVelocity(new Velocity(dx, dy));
 	}
 
 }

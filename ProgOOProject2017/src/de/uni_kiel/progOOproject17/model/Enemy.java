@@ -1,9 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -14,11 +11,11 @@ public class Enemy extends GameEntity {
 
 	private boolean alive = true;
 
-
 	public Enemy(String resKey, int x, int y) {
-		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT);
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2,
+				PLGameModel.LHPIXEL_HEIGHT);
 
-		//TODO ENEMY VELOCITY
+		// TODO ENEMY VELOCITY
 		setVelocity(-5, 0); // gehen immer nach rechts
 
 	}
@@ -37,14 +34,14 @@ public class Enemy extends GameEntity {
 		// gravity ??
 		applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width,
-				getVelocity().height);
+		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
+				getVelocity().speedY);
 
 		// collision
 		if (!dis.equals(getVelocity()) && isDeadly()) {
 			// es gabe ne collision
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().width, getVelocity().height);
+					getVelocity().speedX, getVelocity().speedY);
 
 			for (GameObject obj : colls)
 				if (obj instanceof Player) {

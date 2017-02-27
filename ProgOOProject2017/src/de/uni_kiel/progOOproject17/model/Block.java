@@ -1,23 +1,20 @@
 package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class Block extends GameEntity {
 
 	private boolean deadly = false;
 	private int killcounter = 0;
 	private boolean gravity = true;
-	
+
 	public Block(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
 
 	}
-	
+
 	public void setGravityActive(boolean gravity) {
 		this.gravity = gravity;
 	}
@@ -28,18 +25,18 @@ public class Block extends GameEntity {
 		if (!isAlive())
 			return;
 
-		//TODO BLOCK gravity ??
-		if(gravity)
+		// TODO BLOCK gravity ??
+		if (gravity)
 			applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width,
-				getVelocity().height);
+		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
+				getVelocity().speedY);
 
 		// collision
 		if (!dis.equals(getVelocity()) && isDeadly()) {
 			// es gabe ne collision
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().width, getVelocity().height);
+					getVelocity().speedX, getVelocity().speedY);
 
 			for (GameObject obj : colls)
 				if (obj instanceof Player) {
@@ -55,14 +52,10 @@ public class Block extends GameEntity {
 		this.translate(dis);
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0,
-				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT))) {
+				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
 			destroy();
-		}
-			
 
 	}
-
-	
 
 	@Override
 	public boolean isDeadly() {
