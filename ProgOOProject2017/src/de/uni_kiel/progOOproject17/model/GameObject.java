@@ -36,17 +36,17 @@ public abstract class GameObject extends GameComponent
 	
 	@Override
 	public String getResourceKey() {
-		return GameObject.this.resKey;
+		return resKey;
 	}
 	
 	@Override
 	public Rectangle getRect() {
-		return GameObject.this.getBoundingRect();
+		return getBoundingRect();
 	}
 	
 	@Override
 	public int getLayer() {
-		return GameObject.this.layer;
+		return layer;
 	}
 	
 	public void setResKey(String resKey) {
@@ -214,6 +214,7 @@ public abstract class GameObject extends GameComponent
 	public void destroy() {
 		alive = false;
 		OBJECTS.remove(this);
+		COMPONENTS.remove(this);
 		
 	}
 	

@@ -71,7 +71,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 	public void destroy() {
 		alive = false;
 		PARTICLES.remove(this);
-
+		COMPONENTS.remove(this);
 	}
 
 }
