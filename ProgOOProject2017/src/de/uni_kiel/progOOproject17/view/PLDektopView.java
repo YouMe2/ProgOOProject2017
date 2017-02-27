@@ -7,7 +7,12 @@ import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.function.Predicate;
+
+import javax.swing.text.View;
 
 /**
  * @author Yannik Eikmeier
@@ -16,7 +21,8 @@ import java.awt.image.BufferedImage;
 public class PLDektopView extends FramedIOView {
 
 	private BufferedImage img;
-
+	private Resources res;
+	
 	/**
 	 * @param title
 	 * @param w
@@ -24,23 +30,32 @@ public class PLDektopView extends FramedIOView {
 	 */
 	public PLDektopView(String title) {
 		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, true);
-		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT,
-				BufferedImage.TYPE_3BYTE_BGR);
-
+		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+		res = Resources.getInstance();
 		// maybe add a button to toggel the lhView too?
 
 	}
 
 	@Override
-	public void render(Viewable viewable) {
+	public void render(Viewable[] viewables) {
 
-		Graphics gr = img.getGraphics();
-		viewable.render(gr);
+		final Graphics gr = img.getGraphics();
+		
+		for (int i = 0; i < Viewable.MAXLAYER; i++) {
+			final int layer = i;
+			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
+				
+				Rectangle rect = v.getRect();
+				gr.drawImage(res.IMAGES.get(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
+				
+			});
+			
+		}
+
 		gr.dispose();
-		gr = centerPane.getGraphics();
-		gr.drawImage(img, 0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT,
-				null);
-		gr.dispose();
+		Graphics gr2 = centerPane.getGraphics();
+		gr2.drawImage(img, 0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, null);
+		gr2.dispose();
 
 	}
 

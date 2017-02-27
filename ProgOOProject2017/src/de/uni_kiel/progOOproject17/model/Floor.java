@@ -27,7 +27,7 @@ public class Floor extends GameObject {
 	@Override
 	public void tick(long timestamp) {
 		// TODO animated?
-
+		// move??
 	}
 
 	@Override

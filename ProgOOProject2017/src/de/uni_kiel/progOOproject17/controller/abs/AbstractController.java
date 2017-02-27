@@ -55,7 +55,7 @@ public abstract class AbstractController {
 		synchronized (outs) {
 
 			for (OutputView out : outs)
-				out.render(model.getViewable());
+				out.render(model.getViewables());
 		}
 
 	}

@@ -2,6 +2,7 @@
 package de.uni_kiel.progOOproject17.view.abs;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 /**
  * @author Yannik Eikmeier
@@ -9,8 +10,11 @@ import java.awt.Graphics;
  */
 public interface Viewable {
 
-	public void render(Graphics gr);
-
-	public void renderLOW(Graphics gr);
+	public static final int MAXLAYER = 5; // 0 1 2 3 4;
+	
+	
+	public String getResourceKey();
+	public Rectangle getRect();
+	public int getLayer();
 
 }
