@@ -3,7 +3,7 @@
  */
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import de.uni_kiel.progOOproject17.view.abs.ViewableData;
 import java.awt.Point;
@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @author Yannik Eikmeier
  * @since 23.02.2017
  */
-public class PLGameModel extends TickedDataModel {
+public class PLGameModel extends TickedBaseModel {
 
 	// scoreboard
 	// bg?

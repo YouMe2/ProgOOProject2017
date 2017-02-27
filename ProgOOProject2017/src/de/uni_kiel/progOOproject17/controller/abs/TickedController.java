@@ -1,7 +1,7 @@
 package de.uni_kiel.progOOproject17.controller.abs;
 
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
-import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.InputView;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 
@@ -20,12 +20,12 @@ public abstract class TickedController extends AbstractController implements Run
 	private boolean printTpsFps = false;
 
 
-	public TickedController(OutputView out, InputView in, TickedDataModel model, int ticklength) {
+	public TickedController(OutputView out, InputView in, TickedBaseModel model, int ticklength) {
 		super(out, in, model);
 		this.ticklength = ticklength;
 	}
 
-	public TickedController(OutputView out, InputView in, TickedDataModel model) {
+	public TickedController(OutputView out, InputView in, TickedBaseModel model) {
 		super(out, in, model);
 	}
 
@@ -119,6 +119,6 @@ public abstract class TickedController extends AbstractController implements Run
 	}
 
 	@Override
-	public abstract TickedDataModel getModel();
+	public abstract TickedBaseModel getModel();
 
 }

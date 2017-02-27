@@ -1,6 +1,6 @@
 package de.uni_kiel.progOOproject17.view.abs;
 
-import de.uni_kiel.progOOproject17.model.abs.AbstractDataModel;
+import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public abstract class FramedIOView extends JFrame
 
 	protected JPanel centerPane;
 
-	private AbstractDataModel model;
+	private AbstractBaseModel model;
 
 	private HashMap<String, JButton> buttons = new HashMap<>();
 

@@ -1,10 +1,8 @@
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Rectangle;
-
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-public class Scoreboard extends GameComponent {
+public class Scoreboard extends GameCompound {
 
 	//TODO Scoreboard
 	public Scoreboard(int x, int y, int w, int h) {
@@ -14,6 +12,12 @@ public class Scoreboard extends GameComponent {
 	@Override
 	public void tick(long timestamp) {
 
+	}
+
+	@Override
+	public Viewable[] getViewables() {
+		
+		return null;
 	}
 
 
