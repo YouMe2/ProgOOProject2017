@@ -1,7 +1,7 @@
 /**
  *
  */
-package main;
+package de.uni_kiel.progOOproject.launch;
 
 import de.uni_kiel.progOOproject17.controller.PLController;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -12,7 +12,7 @@ import de.uni_kiel.progOOproject17.view.abs.Resources;
  * @author Yannik Eikmeier
  * @since 23.02.2017
  */
-public class SidecrawlerMain {
+public class Main {
 
 	//TODO class Velocity statt Dimension
 	//TODO PLGameModel aufbauen
