@@ -1,12 +1,11 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class Enemy extends GameEntity {
 
@@ -21,28 +20,30 @@ public class Enemy extends GameEntity {
 	private final Viewable view;
 
 	public Enemy(int x, int y, Image hi, Image low) {
-		super(x, y, SCGameModel.LHPIXEL_WIDTH * 2, SCGameModel.LHPIXEL_HEIGHT);
+		super(x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT);
 
-		this.imgHI = hi;
-		this.imgLOW = low;
+		imgHI = hi;
+		imgLOW = low;
 
 		view = new Viewable() {
 
 			@Override
 			public void renderLOW(Graphics gr) {
-				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(), null);
+				gr.drawImage(imgLOW, getX(), getY(), getWidth(), getHeight(),
+						null);
 
 			}
 
 			@Override
 			public void render(Graphics gr) {
-				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(), null);
+				gr.drawImage(imgHI, getX(), getY(), getWidth(), getHeight(),
+						null);
 
 			}
 		};
 
-		setVelocity(-5, 0); //gehen immer nach rechts
-		
+		setVelocity(-5, 0); // gehen immer nach rechts
+
 	}
 
 	@Override
@@ -59,33 +60,32 @@ public class Enemy extends GameEntity {
 		// gravity ??
 		applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width, getVelocity().height);
+		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().width,
+				getVelocity().height);
 
 		// collision
-		if (!dis.equals(getVelocity())  && isDeadly()) {
+		if (!dis.equals(getVelocity()) && isDeadly()) {
 			// es gabe ne collision
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS, getVelocity().width, getVelocity().height);
+			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
+					getVelocity().width, getVelocity().height);
 
-			for (GameObject obj : colls) {
+			for (GameObject obj : colls)
 				if (obj instanceof Player) {
 					Player player = (Player) obj;
-					if (player.damage(1)) {
+					if (player.damage(1))
 						addKill();
-					}
 
 				}
-
-			}
 
 		}
 
 		// movement
 		this.translate(dis);
-		
-		if ( !getBoundingRect().intersects(new Rectangle(0, 0, SCGameModel.GAME_WIDTH, SCGameModel.GAME_HEIGHT))) {
-			//out of game area!!
+
+		if (!getBoundingRect().intersects(new Rectangle(0, 0,
+				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
+			// out of game area!!
 			alive = false;
-		}
 
 	}
 

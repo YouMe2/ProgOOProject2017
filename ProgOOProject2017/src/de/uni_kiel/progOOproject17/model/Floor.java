@@ -1,29 +1,23 @@
 /**
- * 
+ *
  */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
- *
  */
-public class Floor extends GameObject{
+public class Floor extends GameObject {
 
 	private Color color;
 	private Image img;
 	private final Viewable view;
-	
+
 	private boolean deadly = false;
 	private int killcounter;
 
@@ -51,7 +45,8 @@ public class Floor extends GameObject{
 					return;
 
 				}
-				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(), null);
+				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(),
+						null);
 
 			}
 		};
@@ -83,10 +78,9 @@ public class Floor extends GameObject{
 	public void addKill() {
 		killcounter++;
 	}
-	
+
 	public void setDeadly(boolean deadly) {
 		this.deadly = deadly;
 	}
-
 
 }

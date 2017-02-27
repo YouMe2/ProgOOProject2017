@@ -1,26 +1,23 @@
 /**
- * 
+ *
  */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
- *
  */
 public class Background extends GameComponent {
 
 	private final Image img;
 
 	private final Viewable view;
+
 	public Background(int x, int y, int w, int h, Image i) {
 		this(x, y, w, h, i, Color.BLACK);
 	}
@@ -50,7 +47,8 @@ public class Background extends GameComponent {
 					renderLOW(gr);
 					return;
 				}
-				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(), null);
+				gr.drawImage(img, getX(), getY(), getWidth(), getHeight(),
+						null);
 			}
 		};
 

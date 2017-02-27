@@ -1,18 +1,16 @@
 /**
- * 
+ *
  */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import de.uni_kiel.progOOproject17.model.abs.TickedDataModel;
-
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
- *
  */
 public abstract class GameComponent extends TickedDataModel {
 
@@ -35,10 +33,10 @@ public abstract class GameComponent extends TickedDataModel {
 	}
 
 	public void translate(int dx, int dy) {
-		this.x = this.x + dx;
-		this.y = this.y + dy;
+		x = x + dx;
+		y = y + dy;
 	}
-	
+
 	public void translate(Dimension dis) {
 		translate(dis.width, dis.height);
 	}
