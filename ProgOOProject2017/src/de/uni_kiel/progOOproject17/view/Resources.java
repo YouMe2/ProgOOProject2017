@@ -19,7 +19,7 @@ public class Resources {
 
 	public void init() {
 		resources = new HashMap<>();
-		
+		// TODO alle hinzufügen
 	}
 
 	public Image get(String identifier) {
