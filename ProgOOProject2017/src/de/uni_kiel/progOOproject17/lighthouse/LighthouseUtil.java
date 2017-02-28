@@ -14,8 +14,8 @@ public class LighthouseUtil {
 		int h = img.getHeight();
 		if (w != 28 || h != 14)
 			throw new IllegalArgumentException("Invalid image dimension");
-		Raster data = img.getData();
-		DataBuffer dataBuffer = data.getDataBuffer();
+		Raster raster = img.getData();
+		DataBuffer dataBuffer = raster.getDataBuffer();
 		// TYPE_3BYTE_BGR images should be backed by a byte buffer
 		assert dataBuffer.getDataType() == DataBuffer.TYPE_BYTE;
 		DataBufferByte buf = (DataBufferByte) dataBuffer;
