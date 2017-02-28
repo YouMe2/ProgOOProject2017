@@ -17,7 +17,8 @@ public class LighthouseUtil {
 		Raster raster = img.getData();
 		DataBuffer dataBuffer = raster.getDataBuffer();
 		// TYPE_3BYTE_BGR images should be backed by a byte buffer
-		assert dataBuffer.getDataType() == DataBuffer.TYPE_BYTE;
+		if (!(dataBuffer instanceof DataBufferByte))
+			throw new IllegalArgumentException("Invalid buffer type");
 		DataBufferByte buf = (DataBufferByte) dataBuffer;
 		byte[] res = buf.getData();
 		assert res.length == 28 * 14 * 3;
