@@ -17,7 +17,6 @@ public class Main {
 	// TODO PLGameModel aufbauen
 	// TODO LevelGenerator
 	// TODO Scoreboard
-	// TODO Lighthouse util
 
 	// TODO bei applyGravity einen check auf Kollision einbeziehen.
 	// Dazu: Die GameEntities werden zwar von der Schwerkraft beeinflusst,
