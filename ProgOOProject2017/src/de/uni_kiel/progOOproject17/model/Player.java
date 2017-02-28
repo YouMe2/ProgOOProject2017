@@ -82,8 +82,8 @@ public class Player extends GameEntity {
 
 				// TODO PLAYER JUMP
 
-				if (willCollide(OBJECTS, 0, 1)) { // wenn was drunter ist dann
-													 // jump
+				// wenn was drunter ist dann jump
+				if (willCollide(OBJECTS, new Dimension(0, 1))) {
 					getVelocity().speedY += JUMPVELOCITY;
 					currMoveCommand = MoveCommand.NONE;
 
@@ -100,15 +100,14 @@ public class Player extends GameEntity {
 		// gravity
 		applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
-				getVelocity().speedY);
+		Dimension distPerTick = getVelocity().getDistancePerTick();
+		Dimension collDist = getCollisionDistance(OBJECTS, distPerTick);
 
 		// collision
-		// TODO Schwachsinn. Dimension eq. Velocity? Abgrenzen!
-		if (!dis.equals(getVelocity())) {
+		// TODO nicht andersherum? Die müssen doch gleich sein
+		if (!collDist.equals(distPerTick)) {
 			// es gabe ne collision
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().speedX, getVelocity().speedY);
+			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
 
 			for (GameObject obj : colls)
 				if (obj.isDeadly())
@@ -118,7 +117,7 @@ public class Player extends GameEntity {
 		}
 
 		// movement
-		this.translate(dis);
+		this.translate(collDist);
 
 		// points
 		// points++;

@@ -40,12 +40,12 @@ public abstract class GameEntity extends GameObject
 		return velocity;
 	}
 
-	public void setVelocity(Velocity velocity) {
-		this.velocity = velocity;
+	public void setVelocity(Velocity v) {
+		setVelocity(v.speedX, v.speedY);
 	}
 
 	public void setVelocity(int dx, int dy) {
-		setVelocity(new Velocity(dx, dy));
+		velocity = new Velocity(dx, dy);
 	}
 
 }

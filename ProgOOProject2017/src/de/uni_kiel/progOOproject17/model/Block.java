@@ -29,14 +29,14 @@ public class Block extends GameEntity {
 		if (gravity)
 			applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
-				getVelocity().speedY);
+		Dimension distPerTick = getVelocity().getDistancePerTick();
+		Dimension collDist = getCollisionDistance(OBJECTS, distPerTick);
 
 		// collision
-		if (!dis.equals(getVelocity()) && isDeadly()) {
+		// TODO nicht andersherum? Die müssen doch gleich sein
+		if (!collDist.equals(distPerTick) && isDeadly()) {
 			// es gabe ne collision
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().speedX, getVelocity().speedY);
+			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
 
 			for (GameObject obj : colls)
 				if (obj instanceof Player) {
@@ -49,7 +49,7 @@ public class Block extends GameEntity {
 		}
 
 		// movement
-		this.translate(dis);
+		this.translate(collDist);
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0,
 				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))

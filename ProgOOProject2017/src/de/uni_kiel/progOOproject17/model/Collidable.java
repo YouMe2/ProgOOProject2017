@@ -15,17 +15,16 @@ public interface Collidable {
 
 	public boolean collides(GameObject obj);
 
-	public boolean willCollide(GameObject obj, int dx, int dy);
+	public boolean willCollide(GameObject obj, Dimension dist);
 
-	public boolean willCollide(List<GameObject> gObjts, int dx, int dy);
+	public boolean willCollide(List<GameObject> gObjts, Dimension dist);
 
-	public Dimension getCollisionDistance(GameObject obj, int max_dx,
-			int max_dy);
+	public Dimension getCollisionDistance(GameObject obj, Dimension maxDist);
 
-	public Dimension getCollisionDistance(List<GameObject> gObjects, int max_dx,
-			int max_dy);
+	public Dimension getCollisionDistance(List<GameObject> gObjects,
+			Dimension maxDist);
 
-	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, int dx,
-			int dy);
+	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs,
+			Dimension dist);
 
 }

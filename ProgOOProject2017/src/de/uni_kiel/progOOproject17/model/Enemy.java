@@ -16,7 +16,7 @@ public class Enemy extends GameEntity {
 				PLGameModel.LHPIXEL_HEIGHT);
 
 		// TODO ENEMY VELOCITY
-		setVelocity(-5, 0); // gehen immer nach rechts
+		setVelocity(-5, 0); // gehen immer nach links
 
 	}
 
@@ -34,14 +34,14 @@ public class Enemy extends GameEntity {
 		// gravity ??
 		applyGravity();
 
-		Dimension dis = getCollisionDistance(OBJECTS, getVelocity().speedX,
-				getVelocity().speedY);
+		Dimension distPerTick = getVelocity().getDistancePerTick();
+		Dimension collDist = getCollisionDistance(OBJECTS, distPerTick);
 
 		// collision
-		if (!dis.equals(getVelocity()) && isDeadly()) {
+		// TODO nicht andersherum? Die müssen doch gleich sein
+		if (!collDist.equals(distPerTick) && isDeadly()) {
 			// es gabe ne collision
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS,
-					getVelocity().speedX, getVelocity().speedY);
+			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
 
 			for (GameObject obj : colls)
 				if (obj instanceof Player) {
@@ -54,7 +54,7 @@ public class Enemy extends GameEntity {
 		}
 
 		// movement
-		this.translate(dis);
+		this.translate(collDist);
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0,
 				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))

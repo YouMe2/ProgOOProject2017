@@ -3,56 +3,54 @@
  */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
  */
 public abstract class GameObject extends GameComponent
-		implements Collidable, Destroyable, Deadly, Viewable{
+		implements Collidable, Destroyable, Deadly, Viewable {
 
 	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
 
 	private boolean alive = true;
-	
+
 	private String resKey;
 	private int layer;
-	
+
 	public GameObject(String resKey, int x, int y, int w, int h) {
 		super(x, y, w, h);
 		OBJECTS.add(this);
 		setResKey(resKey);
 		setLayer(0);
-		
+
 	}
-	
+
 	@Override
 	public String getResourceKey() {
 		return resKey;
 	}
-	
+
 	@Override
 	public Rectangle getRect() {
 		return getBoundingRect();
 	}
-	
+
 	@Override
 	public int getLayer() {
 		return layer;
 	}
-	
+
 	public void setResKey(String resKey) {
 		this.resKey = resKey;
 	}
-	
+
 	public void setLayer(int layer) {
 		this.layer = layer;
 	}
@@ -65,21 +63,20 @@ public abstract class GameObject extends GameComponent
 	}
 
 	@Override
-	public boolean willCollide(GameObject obj, int dx, int dy) {
+	public boolean willCollide(GameObject obj, Dimension dist) {
 		if (obj == this)
 			return false;
 		Rectangle rect = getBoundingRect();
-		rect.translate(dx, dy);
+		rect.translate(dist.width, dist.height);
 		return rect.intersects(obj.getBoundingRect());
-
 	}
 
 	@Override
-	public boolean willCollide(List<GameObject> gObjts, int dx, int dy) {
+	public boolean willCollide(List<GameObject> gObjts, Dimension dist) {
 
 		synchronized (gObjts) {
 			for (GameObject gameObject : gObjts)
-				if (willCollide(gameObject, dx, dy))
+				if (willCollide(gameObject, dist))
 					return true;
 		}
 
@@ -87,51 +84,54 @@ public abstract class GameObject extends GameComponent
 	}
 
 	@Override
-	public Dimension getCollisionDistance(GameObject obj, int max_dx,
-			int max_dy) {
+	public Dimension getCollisionDistance(GameObject obj, Dimension maxDist) {
 
-		if (max_dx == 0 && max_dy == 0)
+		if (maxDist.width == 0 && maxDist.height == 0)
 			return new Dimension(0, 0);
 
 		if (collides(obj))
 			return new Dimension(0, 0);
 
-		if (!willCollide(obj, max_dx, max_dy)) // deckt den fall das obj == this
-												 // gilt ab
-			return new Dimension(max_dx, max_dy);
+		// deckt den fall das obj == this gilt ab
+		if (!willCollide(obj, maxDist))
+			return new Dimension(maxDist);
 
-		int xSign = (int) Math.signum(max_dx);
-		int ySign = (int) Math.signum(max_dy);
+		int xSign = (int) Math.signum(maxDist.width);
+		int ySign = (int) Math.signum(maxDist.height);
 
-		double bestProp = (double) Math.abs(max_dx) / Math.abs(max_dy);
+		int absWidth = Math.abs(maxDist.width);
+		int absHeight = Math.abs(maxDist.height);
+
+		double bestProp = (double) absWidth / absHeight;
 
 		// sonst:
 
-		Dimension currbestDist = new Dimension(0, 0);
+		Dimension currBestDist = new Dimension(0, 0);
 		double currProp = 1;
 
-		for (int dx = Math.abs(max_dx); dx >= 0; dx--)
-			for (int dy = Math.abs(max_dy); dy >= 0; dy--)
-				if (!willCollide(obj, dx * xSign, dy * ySign))
-					if (dx + dy > currbestDist.width + currbestDist.height || dx
-							+ dy == currbestDist.width + currbestDist.height
+		for (int dx = absWidth; dx >= 0; dx--)
+			for (int dy = absHeight; dy >= 0; dy--) {
+				Dimension dist = new Dimension(dx * xSign, dy * ySign);
+				if (!willCollide(obj, dist))
+					if (dx + dy > currBestDist.width + currBestDist.height || dx
+							+ dy == currBestDist.width + currBestDist.height
 							&& Math.abs(bestProp - (double) dx / dy) < Math
 									.abs(bestProp - currProp)) {
 						// and it is better than the all the last ones
-
-						currbestDist.setSize(dx, dy);
+						currBestDist.setSize(dx, dy);
 						currProp = (double) dx / dy;
 					}
+			}
 
-		return new Dimension(currbestDist.width * xSign,
-				currbestDist.height * ySign);
+		return new Dimension(currBestDist.width * xSign,
+				currBestDist.height * ySign);
 	}
 
 	@Override
-	public Dimension getCollisionDistance(List<GameObject> gObjects, int max_dx,
-			int max_dy) {
+	public Dimension getCollisionDistance(List<GameObject> gObjects,
+			Dimension maxDist) {
 
-		if (max_dx == 0 && max_dy == 0)
+		if (maxDist.width == 0 && maxDist.height == 0)
 			return new Dimension(0, 0);
 
 		ArrayList<GameObject> collObjts = new ArrayList<>();
@@ -142,56 +142,65 @@ public abstract class GameObject extends GameComponent
 				if (collides(comp))
 					return new Dimension(0, 0);
 
-				if (willCollide(comp, max_dx, max_dy))
+				if (willCollide(comp, maxDist))
 					collObjts.add(comp);
 			}
 		}
 
 		if (collObjts.isEmpty())
-			return new Dimension(max_dx, max_dy);
+			return new Dimension(maxDist);
 
 		// sonst:
 
-		int xSign = (int) Math.signum(max_dx);
-		int ySign = (int) Math.signum(max_dy);
+		int xSign = (int) Math.signum(maxDist.width);
+		int ySign = (int) Math.signum(maxDist.height);
 
-		double bestProp = (double) Math.abs(max_dx) / Math.abs(max_dy);
+		int absWidth = Math.abs(maxDist.width);
+		int absHeight = Math.abs(maxDist.height);
 
-		Dimension currbestDist = new Dimension(0, 0);
+		double bestProp = (double) absWidth / absHeight;
+
+		Dimension currBestDist = new Dimension(0, 0);
 		double currProp = 1;
 
-		for (int dx = Math.abs(max_dx); dx >= 0; dx--)
-			nextPos: for (int dy = Math.abs(max_dy); dy >= 0; dy--) {
+		for (int dx = absWidth; dx >= 0; dx--)
+			nextPos: for (int dy = absHeight; dy >= 0; dy--) {
 
 				// für jede mögliche position:
 
-				for (GameObject comp : collObjts)
-					if (willCollide(comp, dx * xSign, dy * ySign))
-						continue nextPos; // wenn collision mit nur einem
-				// anderen object -> nächtse pos
+				for (GameObject comp : collObjts) {
+					// wenn collision mit nur einem anderen object -> nächtse pos
+					Dimension dist = new Dimension(dx * xSign, dy * ySign);
+					if (willCollide(comp, dist))
+						continue nextPos;
+				}
 
 				// sonst eine mögliche position gefunden!
 
-				if (dx + dy > currbestDist.width + currbestDist.height
-						|| dx + dy == currbestDist.width + currbestDist.height
-								&& Math.abs(bestProp - (double) dx / dy) < Math
-										.abs(bestProp - currProp)) {
+				int length = dx + dy;
+				double prop = (double) dx / dy;
+				int currBestDistLength = currBestDist.width
+						+ currBestDist.height;
+
+				if (length > currBestDistLength || length == currBestDistLength
+						&& Math.abs(bestProp - prop) < Math
+								.abs(bestProp - currProp)) {
 					// and it is better than the all the last ones
 
-					currbestDist.setSize(dx, dy);
-					currProp = (double) dx / dy;
+					currBestDist.setSize(dx, dy);
+					currProp = prop;
 				}
 
 			}
 
-		return new Dimension(currbestDist.width * xSign,
-				currbestDist.height * ySign);
+		return new Dimension(currBestDist.width * xSign,
+				currBestDist.height * ySign);
 
 	}
 
 	@Override
-	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, int dx,
-			int dy) {
+	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs,
+			Dimension dist) {
 
 		ArrayList<GameObject> collObjts = new ArrayList<>();
 
@@ -201,7 +210,7 @@ public abstract class GameObject extends GameComponent
 				if (collides(obj))
 					collObjts.add(obj);
 
-				if (willCollide(obj, dx, dy))
+				if (willCollide(obj, dist))
 					collObjts.add(obj);
 			}
 		}
@@ -209,19 +218,18 @@ public abstract class GameObject extends GameComponent
 		return collObjts;
 
 	}
-	
+
 	@Override
 	public void destroy() {
 		alive = false;
 		OBJECTS.remove(this);
 		COMPONENTS.remove(this);
-		
+
 	}
-	
+
 	@Override
 	public boolean isAlive() {
 		return alive;
 	}
-	
 
 }
