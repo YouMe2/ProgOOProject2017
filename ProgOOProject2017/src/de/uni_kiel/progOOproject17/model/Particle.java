@@ -34,7 +34,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 	}
 
 	@Override
-	public Rectangle getRect() {
+	public Rectangle getViewRect() {
 		return Particle.this.getBoundingRect();
 	}
 

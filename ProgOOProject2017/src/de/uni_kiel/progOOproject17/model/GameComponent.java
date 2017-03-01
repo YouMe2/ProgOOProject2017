@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier

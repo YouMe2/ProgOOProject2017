@@ -20,7 +20,7 @@ public interface Viewable {
 
 	
 	public String getResourceKey();
-	public Rectangle getRect();
+	public Rectangle getViewRect();
 	public int getLayer();
 
 }
