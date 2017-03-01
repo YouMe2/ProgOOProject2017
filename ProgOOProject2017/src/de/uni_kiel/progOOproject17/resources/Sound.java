@@ -5,7 +5,7 @@ import javax.sound.sampled.Clip;
 public class Sound {
 
 	// public static final Sound PING = new Sound("pickup");
-	// public static final Sound PLAYER_HURT = new Sound("playerhurt");
+	 public static final Sound PLAYER_HURT = new Sound("playerhurt");
 	// public static final Sound PLAYER_DEATH = new Sound("death");
 	// public static final Sound MONSTER_HURT = new Sound("monsterhurt");
 	// public static final Sound TEST = new Sound("test");

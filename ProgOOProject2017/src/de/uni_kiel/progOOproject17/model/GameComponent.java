@@ -25,7 +25,7 @@ public abstract class GameComponent implements Ticked {
 		COMPONENTS.add(this);
 	}
 
-	public void move(int x, int y) {
+	public void setLocation(int x, int y) {
 		rect.setLocation(x, y);
 	}
 
@@ -37,8 +37,8 @@ public abstract class GameComponent implements Ticked {
 		translate(dis.x, dis.y);
 	}
 
-	public void move(Point p) {
-		move(p.x, p.y);
+	public void setLocation(Point p) {
+		setLocation(p.x, p.y);
 	}
 
 	public void setSize(int w, int h) {

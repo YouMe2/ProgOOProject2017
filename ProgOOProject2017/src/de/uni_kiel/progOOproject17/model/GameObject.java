@@ -38,7 +38,7 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 
     @Override
     public Rectangle getViewRect() {
-	return getBoundingRect();
+	return new Rectangle(getBoundingRect());
     }
 
     @Override
@@ -221,6 +221,9 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 
     @Override
     public void destroy() {
+	
+	System.out.println("DESTROYED: " + this.resKey);
+	
 	alive = false;
 	OBJECTS.remove(this);
 	COMPONENTS.remove(this);

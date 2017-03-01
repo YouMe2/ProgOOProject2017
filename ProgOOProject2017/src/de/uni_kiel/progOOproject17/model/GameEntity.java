@@ -10,7 +10,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * @since 24.02.2017
  */
 public abstract class GameEntity extends GameObject
-		implements Gravitational, Destroyable {
+		implements Gravitational {
 
 	private Distance velocity;
 
@@ -35,6 +35,10 @@ public abstract class GameEntity extends GameObject
 	public Distance getVelocity() {
 		return velocity;
 	}
+	
+	public void addVelocity(Distance vel) {
+	    velocity.add(vel);
+	}
 
 	public void setVelocity(Distance v) {
 		setVelocity(v.x, v.y);
@@ -43,5 +47,16 @@ public abstract class GameEntity extends GameObject
 	public void setVelocity(int dx, int dy) {
 		velocity = new Distance(dx, dy);
 	}
+	
+	public void doMovement(Distance dis) {
+	    translate(dis);
+	    setVelocity(dis);
+	}
+	
+	
+	public boolean isOnGround(){
+	    return willCollide(OBJECTS, new Distance(0,1));
+	}
+	
 
 }

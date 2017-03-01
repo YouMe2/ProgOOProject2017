@@ -48,7 +48,8 @@ public class Block extends GameEntity {
 	}
 
 	// movement
-	this.translate(collDist);
+
+	this.doMovement(collDist);
 
 	if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
 	    destroy();
