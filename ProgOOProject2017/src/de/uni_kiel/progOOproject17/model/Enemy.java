@@ -1,6 +1,5 @@
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -34,11 +33,10 @@ public class Enemy extends GameEntity {
 		// gravity ??
 		applyGravity();
 
-		Dimension distPerTick = getVelocity().getDistancePerTick();
-		Dimension collDist = getCollisionDistance(OBJECTS, distPerTick);
+		Distance distPerTick = getVelocity();
+		Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
 
 		// collision
-		// TODO nicht andersherum? Die müssen doch gleich sein
 		if (!collDist.equals(distPerTick) && isDeadly()) {
 			// es gabe ne collision
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);

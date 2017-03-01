@@ -33,8 +33,8 @@ public abstract class GameComponent implements Ticked {
 		rect.translate(dx, dy);
 	}
 
-	public void translate(Dimension dis) {
-		translate(dis.width, dis.height);
+	public void translate(Distance dis) {
+		translate(dis.x, dis.y);
 	}
 
 	public void move(Point p) {

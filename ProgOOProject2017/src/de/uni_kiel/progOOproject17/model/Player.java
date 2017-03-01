@@ -1,9 +1,9 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.ModelAction;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+
+import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 
 public class Player extends GameEntity {
 
@@ -42,7 +42,7 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public static final int JUMPVELOCITY = 12;
+	public static final Distance JUMPVELOCITY = new Distance(0, 12);
 
 	private static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
 	private static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
@@ -83,8 +83,8 @@ public class Player extends GameEntity {
 				// TODO PLAYER JUMP
 
 				// wenn was drunter ist dann jump
-				if (willCollide(OBJECTS, new Dimension(0, 1))) {
-					getVelocity().speedY += JUMPVELOCITY;
+				if (willCollide(OBJECTS, new Distance(0, 1))) {
+				    	getVelocity().add(JUMPVELOCITY);
 					currMoveCommand = MoveCommand.NONE;
 
 				}
@@ -100,19 +100,23 @@ public class Player extends GameEntity {
 		// gravity
 		applyGravity();
 
-		Dimension distPerTick = getVelocity().getDistancePerTick();
-		Dimension collDist = getCollisionDistance(OBJECTS, distPerTick);
+		Distance distPerTick = getVelocity();
+		Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
 
 		// collision
-		// TODO nicht andersherum? Die müssen doch gleich sein
+		// TODO nicht andersherum? Die müssen doch gleich sein --nope wenn sie gleich sind gabe es keine collisionen
 		if (!collDist.equals(distPerTick)) {
-			// es gabe ne collision
+			// es gabe ne collision, also:
 			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
 
-			for (GameObject obj : colls)
-				if (obj.isDeadly())
-					if (damage(1))
-						obj.addKill();
+			for (GameObject obj : colls) {
+			    if (obj == this && obj.isDeadly()) {
+				if (this.damage(1)) //DAMAGE MODEIFICLATOIN?
+				    obj.addKill();
+				
+			    }
+			    
+			}
 
 		}
 

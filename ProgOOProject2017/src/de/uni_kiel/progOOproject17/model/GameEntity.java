@@ -28,8 +28,8 @@ public abstract class GameEntity extends GameObject
 
 	@Override
 	public void applyGravity() {
-		velocity.y += GRAVITY_ACCELERATION;
-
+		velocity.add(GRAVITY_ACCELERATION);
+		
 	}
 
 	public Distance getVelocity() {
