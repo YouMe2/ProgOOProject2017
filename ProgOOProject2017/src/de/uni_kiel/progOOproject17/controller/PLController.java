@@ -41,9 +41,9 @@ public class PLController extends TickedController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-		getModel().JUMP.actionPerformed(e);
+//		getModel().JUMP.actionPerformed(e);
 		
-//		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_JUMP, e);
+		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_JUMP, e);
 		
 	    }
 	});
@@ -53,11 +53,11 @@ public class PLController extends TickedController {
 	    public void actionPerformed(ActionEvent e) {
 		
 		
-		getModel().START_CROUCH.actionPerformed(e);
+//		getModel().START_CROUCH.actionPerformed(e);
 //		getModel().START_CROUCH.setEnabled(false);
 		
-//		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH, e);
-//		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(false);
+		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH, e);
+		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(false);
 	    }
 
 	});
@@ -67,11 +67,11 @@ public class PLController extends TickedController {
 	    public void actionPerformed(ActionEvent e) {
 		
 
-		getModel().STOP_CHROUCH.actionPerformed(e);
+//		getModel().STOP_CHROUCH.actionPerformed(e);
 //		getModel().START_CROUCH.setEnabled(true);
 		
-//		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH, e);
-//		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(true);
+		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH, e);
+		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(true);
 	    }
 
 	});

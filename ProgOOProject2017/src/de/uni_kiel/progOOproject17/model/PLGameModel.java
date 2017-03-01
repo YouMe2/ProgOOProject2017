@@ -42,25 +42,25 @@ public class PLGameModel extends TickedBaseModel {
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
 	
-	public final AbstractAction JUMP;
-	public final AbstractAction START_CROUCH;
-	public final AbstractAction STOP_CHROUCH;
+//	public final AbstractAction JUMP;
+//	public final AbstractAction START_CROUCH;
+//	public final AbstractAction STOP_CHROUCH;
 	
 	
 	public PLGameModel() {
 
 		new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT);
 
-		Player player = new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2);
+		new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2);
 
 		new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH, GAME_HEIGHT - 2 * LHPIXEL_HEIGHT);
 
 		new Block("yellow", 50, 50, 50, 50);
 		
-		
-		JUMP = player.moveJUMP;
-		START_CROUCH = player.moveSTARTCROUCH;
-		STOP_CHROUCH = player.moveENDCROUCH;
+//		
+//		JUMP = player.moveJUMP;
+//		START_CROUCH = player.moveSTARTCROUCH;
+//		STOP_CHROUCH = player.moveENDCROUCH;
 		
 
 	}
