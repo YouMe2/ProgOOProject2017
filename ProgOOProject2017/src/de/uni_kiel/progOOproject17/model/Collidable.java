@@ -5,6 +5,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Yannik Eikmeier
@@ -24,5 +25,9 @@ public interface Collidable {
     
     public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, Distance dist);
 
-
+    public boolean contacts(GameObject obj);
+    
+    public void forEachCollision(List<GameObject> gObjs, Distance dist, Consumer<GameObject> cons);
+    
+    public void forEachContact(List<GameObject> gObjs, Consumer<GameObject> cons);
 }

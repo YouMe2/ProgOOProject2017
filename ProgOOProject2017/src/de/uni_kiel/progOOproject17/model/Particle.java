@@ -70,4 +70,10 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 		DESTROYED_PARTICLES.add(this);
 	}
 
+	@Override
+	public void activate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

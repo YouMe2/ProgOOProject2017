@@ -40,8 +40,12 @@ public class PLGameModel extends TickedBaseModel
 
 	public static final String ACTIONKEY_PLAYER_STARTCROUCH = "start crouching";
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
+<<<<<<< HEAD
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
 
+=======
+	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
+>>>>>>> refs/heads/master
 	public PLGameModel() {
 		gameObjects = new LinkedList<>();
 		destroyedGameObjects = new LinkedList<>();
@@ -55,10 +59,16 @@ public class PLGameModel extends TickedBaseModel
 				GAME_HEIGHT - 2 * LHPIXEL_HEIGHT);
 		Block block = new Block("yellow", 50, 50, 50, 50);
 
+<<<<<<< HEAD
 		create(floor);
 		create(player);
 		create(enemy);
 		create(block);
+=======
+		new Block("yellow", 50, 50, 50, 50);
+		
+
+>>>>>>> refs/heads/master
 	}
 
 	public static Point lhToGameCoord(int x, int y) {

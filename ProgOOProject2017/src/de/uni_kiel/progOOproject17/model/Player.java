@@ -7,6 +7,7 @@ import static de.uni_kiel.progOOproject17.model.MoveState.NONE;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends GameEntity {
 
@@ -17,29 +18,21 @@ public class Player extends GameEntity {
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 	private MoveState currMoveState = MoveState.NONE;
 
-	// public final AbstractAction moveJUMP = new AbstractAction("playerJUMP") {
-	public final ModelAction moveJUMP = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_JUMP) {
-
+	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.JUMP;
 		}
 	};
-	// public final AbstractAction moveSTARTCROUCH = new
-	// AbstractAction("playerSTRATCROUCH") {
-	public final ModelAction moveSTARTCROUCH = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH) {
+
+	public final ModelAction moveSTARTCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.START_CROUCH;
 		}
 	};
-	// public final AbstractAction moveENDCROUCH = new
-	// AbstractAction("playerENDCROUCH") {
-	public final ModelAction moveENDCROUCH = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH) {
+	public final ModelAction moveENDCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -68,73 +61,57 @@ public class Player extends GameEntity {
 
 		// movement die erste
 		switch (currMoveCommand) {
-			case NONE:
-				break;
-			case START_CROUCH:
 
-				System.out.println("started chrouching!");
-				if (currMoveState != CROUCHING) {
-					currMoveState = CROUCHING;
-					// CHROUCH
-					setSize(PLAYER_W, PLAYER_H_CROUCH);
+		case NONE:
+			break;
+		case START_CROUCH:
+			System.out.println("started chrouching!");
+			if (currMoveState != CROUCHING) {
+				currMoveState = CROUCHING;
+				// CHROUCH
+				setSize(PLAYER_W, PLAYER_H_CROUCH);
+			}
 
+			break;
+		case END_CROUCH:
+
+			System.out.println("stopped crouching");
+
+			if (currMoveState == CROUCHING) {
+				currMoveState = NONE;
+				if (willCollide(OBJECTS, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL))) {
+					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
 				}
+				setSize(PLAYER_W, PLAYER_H_NORMAL);
+			}
 
-				break;
-			case END_CROUCH:
+			break;
 
-				System.out.println("stopped crouching");
+		case JUMP:
 
-				if (currMoveState == CROUCHING) {
-					currMoveState = NONE;
-					if (willCollide(OBJECTS, new Distance(0,
-							-PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
-						translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
-					setSize(PLAYER_W, PLAYER_H_NORMAL);
-				}
+			// TODO PLAYER JUMP
 
-				break;
+			System.out.println("jumping");
 
-			case JUMP:
-
-				// TODO PLAYER JUMP
-
-				System.out.println("jumping");
-
-				if (currMoveState != MoveState.JUMPING) {
-					currMoveState = MoveState.JUMPING;
-					// if (isOnGround()) {
+			if (currMoveState != MoveState.JUMPING) {
+				currMoveState = MoveState.JUMPING;
+				if (isOnGround()) {
 
 					addVelocity(JUMPVELOCITY);
 
-					// }
 				}
+			}
 
-				break;
+			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
 
 		// gravity
 		applyGravity();
-
-		Distance distPerTick = getVelocity();
-		Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
-
-		// collision
-		if (!collDist.equals(distPerTick)) {
-			// es gabe ne collision, also:
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
-
-			for (GameObject obj : colls)
-				if (obj == this && obj.isDeadly())
-					if (damage(1)) // DAMAGE MODEIFICLATOIN?
-						obj.addKill();
-
-		}
+		Distance collDist = getCollisionDistance(OBJECTS, getVelocity());
 
 		// movement
-
-		doMovement(collDist);
+		this.doMovement(collDist);
 
 		if (currMoveState == JUMPING && getVelocity().y > 0)
 			currMoveState = NONE;
@@ -142,6 +119,14 @@ public class Player extends GameEntity {
 		// points
 		// points++;
 		steps++;
+	}
+
+	@Override
+	public void onContactWith(GameObject obj) {
+
+		if (obj.isDeadly() && damage(1))
+			obj.addKill();
+
 	}
 
 	public boolean damage(int dmg) {

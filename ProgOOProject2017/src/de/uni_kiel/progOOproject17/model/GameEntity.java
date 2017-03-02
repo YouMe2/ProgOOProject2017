@@ -3,6 +3,8 @@
  */
 package de.uni_kiel.progOOproject17.model;
 
+import java.util.function.Consumer;
+
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -51,8 +53,17 @@ public abstract class GameEntity extends GameObject
 	public void doMovement(Distance dis) {
 	    translate(dis);
 	    setVelocity(dis);
+	    forEachContact(OBJECTS, new Consumer<GameObject>() {
+			
+			@Override
+			public void accept(GameObject t) {
+				onContactWith(t);
+				
+			}
+		});
 	}
 	
+	public abstract void onContactWith(GameObject obj);
 	
 	public boolean isOnGround(){
 	    return willCollide(OBJECTS, new Distance(0,1));

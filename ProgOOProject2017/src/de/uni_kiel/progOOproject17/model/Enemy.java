@@ -11,8 +11,7 @@ public class Enemy extends GameEntity {
 	private boolean alive = true;
 
 	public Enemy(String resKey, int x, int y) {
-		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2,
-				PLGameModel.LHPIXEL_HEIGHT);
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT);
 
 		// TODO ENEMY VELOCITY
 		setVelocity(-5, 0); // gehen immer nach links
@@ -31,32 +30,15 @@ public class Enemy extends GameEntity {
 			return;
 
 		// gravity ??
-		
+
 		applyGravity();
 
-		Distance distPerTick = getVelocity();
-		Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
-
-		// collision
-		if (!collDist.equals(distPerTick) && isDeadly()) {
-			// es gabe ne collision
-			ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
-
-			for (GameObject obj : colls)
-				if (obj instanceof Player) {
-					Player player = (Player) obj;
-					if (player.damage(1))
-						addKill();
-
-				}
-
-		}
+		Distance collDist = getCollisionDistance(OBJECTS, getVelocity());
 
 		// movement
 		this.doMovement(collDist);
 
-		if (!getBoundingRect().intersects(new Rectangle(0, 0,
-				PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
+		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
 			// out of game area!!
 			alive = false;
 
@@ -75,6 +57,16 @@ public class Enemy extends GameEntity {
 
 	public void setDeadly(boolean deadly) {
 		this.deadly = deadly;
+	}
+
+	@Override
+	public void onContactWith(GameObject obj) {
+		
+		if(obj.isDeadly()) {
+			destroy();
+			obj.addKill();
+		}
+		
 	}
 
 }

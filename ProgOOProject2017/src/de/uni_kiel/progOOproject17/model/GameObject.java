@@ -8,14 +8,20 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
  */
-public abstract class GameObject extends GameComponent
-		implements Collidable, Destroyable, Deadly, Viewable {
+public abstract class GameObject extends GameComponent implements Collidable, Destroyable, Deadly, Viewable {
 
+<<<<<<< HEAD
+=======
+	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
+
+	public static final LinkedList<GameObject> DESTROYED_OBJECTS = new LinkedList<>();
+>>>>>>> refs/heads/master
 
 	private boolean alive = true;
 
@@ -64,7 +70,19 @@ public abstract class GameObject extends GameComponent
 		return getBoundingRect().intersects(obj.getBoundingRect());
 	}
 
+	@Override
+	public boolean contacts(GameObject obj) {
+
+		if (obj == this)
+			return false;
+		Rectangle rect = getBoundingRect();
+		rect.grow(1, 1);
+
+		return rect.intersects(obj.getBoundingRect());
+	}
+
 	/**
+	 * 
 	 * safe ...i guess will no longer make changes dist
 	 */
 	@Override
@@ -73,7 +91,7 @@ public abstract class GameObject extends GameComponent
 			return false;
 
 		// added this sort of clone
-		Rectangle rect = new Rectangle(getBoundingRect());
+		Rectangle rect = getBoundingRect();
 		rect.translate(dist.x, dist.y);
 		return rect.intersects(obj.getBoundingRect());
 	}
@@ -83,10 +101,8 @@ public abstract class GameObject extends GameComponent
 	 */
 	@Override
 	public boolean willCollide(List<GameObject> gObjts, Distance dist) {
-
-		Rectangle rect = new Rectangle(getBoundingRect());
+		Rectangle rect = getBoundingRect();
 		rect.translate(dist.x, dist.y);
-
 		synchronized (gObjts) {
 			for (GameObject obj : gObjts) {
 				if (obj == this)
@@ -130,10 +146,11 @@ public abstract class GameObject extends GameComponent
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
-				if (!willCollide(obj, dist)
-						&& dist.getSqLenghth() > currBestDist.getSqLenghth())
+				if (!willCollide(obj, dist) && dist.getSqLenghth() > currBestDist.getSqLenghth()) {
 					// möglich und besser? dann:
 					currBestDist = dist;
+				}
+
 			}
 
 		return currBestDist;
@@ -141,10 +158,11 @@ public abstract class GameObject extends GameComponent
 
 	/**
 	 * safe not tested tho
+	 * 
 	 */
 	@Override
-	public Distance getCollisionDistance(List<GameObject> gObjts,
-			Distance maxDist) {
+	public Distance getCollisionDistance(List<GameObject> gObjts, Distance maxDist) {
+
 
 		if (maxDist.x == 0 && maxDist.y == 0)
 			return maxDist;
@@ -178,17 +196,22 @@ public abstract class GameObject extends GameComponent
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
-				for (GameObject obj : collObjts)
+
+				for (GameObject obj : collObjts) {
 					// wenn collision mit nur einem anderen object -> nächtse
 					// pos
 					if (willCollide(obj, dist))
 						continue nextPos;
+				}
+
 
 				// sonst: eine mögliche Distance gefunden!
 
-				if (dist.getSqLenghth() > currBestDist.getSqLenghth())
+
+				if (dist.getSqLenghth() > currBestDist.getSqLenghth()) {
 					// und sie ist besser!
 					currBestDist = dist;
+				}
 
 			}
 
@@ -197,13 +220,14 @@ public abstract class GameObject extends GameComponent
 	}
 
 	@Override
-	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs,
-			Distance dist) {
+	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, Distance dist) {
+
 
 		ArrayList<GameObject> collObjts = new ArrayList<>();
 
 		synchronized (gObjs) {
 			for (GameObject obj : gObjs) {
+
 
 				if (collides(obj))
 					collObjts.add(obj);
@@ -217,14 +241,43 @@ public abstract class GameObject extends GameComponent
 
 	}
 
+	public void forEachCollision(List<GameObject> gObjs, Distance dist, Consumer<GameObject> cons) {
+		synchronized (gObjs) {
+			for (GameObject obj : gObjs) {
+
+				if (collides(obj) || willCollide(obj, dist))
+					cons.accept(obj);
+			}
+		}
+	}
+
+	public void forEachContact(List<GameObject> gObjs, Consumer<GameObject> cons) {
+		synchronized (gObjs) {
+			for (GameObject obj : gObjs) {
+
+				if (contacts(obj))
+					cons.accept(obj);
+			}
+		}
+	}
+
 	@Override
 	public void destroy() {
+		if (isAlive()) {
+			System.out.println("DESTROYED: " + this.resKey);
 
-		System.out.println("DESTROYED: " + resKey);
+			alive = false;
+			OBJECTS.remove(this);
+			COMPONENTS.remove(this);
 
-		alive = false;
-		DESTROYED_OBJECTS.add(this);
+		}
 
+	}
+
+	@Override
+	public void activate() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

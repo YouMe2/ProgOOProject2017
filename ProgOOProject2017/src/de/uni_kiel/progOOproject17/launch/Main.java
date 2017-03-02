@@ -19,6 +19,9 @@ public class Main {
 	// TODO LevelGenerator
 	// TODO Scoreboard
 
+	// TODO Lighthouse util
+	// FIXME CurrentModificationError
+
 	public static void main(String[] args) {
 
 		ResourceManager.getInstance().init();

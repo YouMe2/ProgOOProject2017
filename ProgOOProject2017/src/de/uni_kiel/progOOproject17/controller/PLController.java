@@ -30,34 +30,33 @@ public class PLController extends TickedController {
      * @param model
      */
     public PLController(PLDektopView view, PLGameModel model) {
-	super(view, view, model, 50);
+	super(view, view, model, 40);
 
 	// maybe add a button to toggel the lhView too?
 
 	// init the actions for the standartIn (view)
 
-	standardIn.addAction("pressed SPACE", new AbstractAction() {
+	standardIn.addAction("pressed W", new AbstractAction() {
 	    
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-//		getModel().JUMP.actionPerformed(e);
 		
 		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_JUMP, e);
 		
 	    }
 	});
+	
+//	standardIn.addAction("pressed F", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_JUMP));
+	
 	standardIn.addAction("pressed S", new AbstractAction() {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
 		
-//		getModel().START_CROUCH.actionPerformed(e);
-//		getModel().START_CROUCH.setEnabled(false);
-		
 		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH, e);
-		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(false);
+//		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(false);
 	    }
 
 	});
@@ -66,12 +65,10 @@ public class PLController extends TickedController {
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
 		
-
-//		getModel().STOP_CHROUCH.actionPerformed(e);
-//		getModel().START_CROUCH.setEnabled(true);
+	    
 		
 		ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH, e);
-		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(true);
+//		ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(true);
 	    }
 
 	});

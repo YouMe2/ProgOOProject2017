@@ -25,7 +25,7 @@ public class Floor extends GameObject {
 
 	@Override
 	public void tick(long timestamp) {
-		//nothing here so far
+		// nothing here so far
 	}
 
 	@Override
