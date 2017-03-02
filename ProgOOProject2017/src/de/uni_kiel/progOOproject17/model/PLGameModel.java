@@ -115,7 +115,7 @@ public class PLGameModel extends TickedBaseModel
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects) {
 
-				if (rect.intersects(o.getBoundingRect()))
+				if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 					return true;
 			}
 		}
@@ -207,10 +207,8 @@ public class PLGameModel extends TickedBaseModel
 		rect.translate(0, 1);
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects) {
-				if (o == obj)
-					return false;
 
-				if (rect.intersects(o.getBoundingRect()))
+				if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 					return true;
 			}
 		}
