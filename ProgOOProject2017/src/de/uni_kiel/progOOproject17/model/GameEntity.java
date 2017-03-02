@@ -10,9 +10,9 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * @since 24.02.2017
  */
 public abstract class GameEntity extends GameObject
-		implements Gravitational, Destroyable {
+		implements Gravitational {
 
-	private Velocity velocity;
+	private Distance velocity;
 
 	/**
 	 * @param x
@@ -22,30 +22,41 @@ public abstract class GameEntity extends GameObject
 	 */
 	public GameEntity(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
-		velocity = new Velocity(0, 0);
+		velocity = new Distance(0, 0);
 		setLayer(Viewable.ENTITY_LAYER);
 	}
 
 	@Override
 	public void applyGravity() {
-		// Dimension dis = getCollisionDistance(OBJECTS, velocity.width,
-		// GRAVITY_ACCELERATION + velocity.height);
-		// translate(dis.width, dis.height);
-
-		velocity.speedY += GRAVITY_ACCELERATION;
-
+		velocity.add(GRAVITY_ACCELERATION);
+		
 	}
 
-	public Velocity getVelocity() {
+	public Distance getVelocity() {
 		return velocity;
 	}
+	
+	public void addVelocity(Distance vel) {
+	    velocity.add(vel);
+	}
 
-	public void setVelocity(Velocity v) {
-		setVelocity(v.speedX, v.speedY);
+	public void setVelocity(Distance v) {
+		setVelocity(v.x, v.y);
 	}
 
 	public void setVelocity(int dx, int dy) {
-		velocity = new Velocity(dx, dy);
+		velocity = new Distance(dx, dy);
 	}
+	
+	public void doMovement(Distance dis) {
+	    translate(dis);
+	    setVelocity(dis);
+	}
+	
+	
+	public boolean isOnGround(){
+	    return willCollide(OBJECTS, new Distance(0,1));
+	}
+	
 
 }

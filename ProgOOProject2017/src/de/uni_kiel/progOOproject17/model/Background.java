@@ -40,7 +40,7 @@ public class Background extends GameComponent implements Viewable{
 	}
 	
 	@Override
-	public Rectangle getRect() {
+	public Rectangle getViewRect() {
 		return Background.this.getBoundingRect();
 	}
 	

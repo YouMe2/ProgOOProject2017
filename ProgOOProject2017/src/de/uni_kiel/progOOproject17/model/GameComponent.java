@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
@@ -26,7 +25,7 @@ public abstract class GameComponent implements Ticked {
 		COMPONENTS.add(this);
 	}
 
-	public void move(int x, int y) {
+	public void setLocation(int x, int y) {
 		rect.setLocation(x, y);
 	}
 
@@ -34,12 +33,12 @@ public abstract class GameComponent implements Ticked {
 		rect.translate(dx, dy);
 	}
 
-	public void translate(Dimension dis) {
-		translate(dis.width, dis.height);
+	public void translate(Distance dis) {
+		translate(dis.x, dis.y);
 	}
 
-	public void move(Point p) {
-		move(p.x, p.y);
+	public void setLocation(Point p) {
+		setLocation(p.x, p.y);
 	}
 
 	public void setSize(int w, int h) {

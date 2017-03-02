@@ -14,6 +14,7 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
  */
 public class Main {
 
+    	// TODO Actions im Controller aufbauen und in den Views setzen.
 	// TODO PLGameModel aufbauen
 	// TODO LevelGenerator
 	// TODO Scoreboard

@@ -8,6 +8,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.AbstractAction;
+
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -36,6 +38,15 @@ public class PLGameModel extends TickedBaseModel {
 	public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490
 
+	public static final String ACTIONKEY_PLAYER_STARTCROUCH = "start crouching";
+	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
+	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
+	
+//	public final AbstractAction JUMP;
+//	public final AbstractAction START_CROUCH;
+//	public final AbstractAction STOP_CHROUCH;
+	
+	
 	public PLGameModel() {
 
 		new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT);
@@ -45,6 +56,12 @@ public class PLGameModel extends TickedBaseModel {
 		new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH, GAME_HEIGHT - 2 * LHPIXEL_HEIGHT);
 
 		new Block("yellow", 50, 50, 50, 50);
+		
+//		
+//		JUMP = player.moveJUMP;
+//		START_CROUCH = player.moveSTARTCROUCH;
+//		STOP_CHROUCH = player.moveENDCROUCH;
+		
 
 	}
 
@@ -69,5 +86,7 @@ public class PLGameModel extends TickedBaseModel {
 	public void tick(long timestamp) {
 		GameComponent.COMPONENTS.forEach(c -> c.tick(timestamp));
 	}
+
+	
 
 }
