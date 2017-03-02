@@ -6,7 +6,7 @@ import de.uni_kiel.progOOproject17.model.abs.GameObjectCreator;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
 import static de.uni_kiel.progOOproject17.model.PLGameModel.*;
 
-public class LevelGenerator implements Ticked {
+public class LevelGeneratorDEMO implements Ticked {
 
 	private final Distance standartVelocity = new Distance(-8, 0);
 	private final GameObjectCreator creator;
@@ -18,7 +18,7 @@ public class LevelGenerator implements Ticked {
 	/**
 	 * 
 	 */
-	public LevelGenerator(GameObjectCreator creator, Environment environment) {
+	public LevelGeneratorDEMO(GameObjectCreator creator, Environment environment) {
 		this.creator = creator;
 		this.environment = environment;
 	}

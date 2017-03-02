@@ -24,7 +24,7 @@ public class PLGameModel extends TickedBaseModel
 
 	private final LinkedList<Destroyable> destroyedElements;
 
-	private LevelGenerator levelGenerator;
+	private LevelGeneratorDEMO levelGenerator;
 
 	// scoreboard
 	Scoreboard gSB = new Scoreboard(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
@@ -50,29 +50,34 @@ public class PLGameModel extends TickedBaseModel
 
 		destroyedElements = new LinkedList<>();
 
-		levelGenerator = new LevelGenerator(this);
+		levelGenerator = new LevelGeneratorDEMO(this, this);
 
-		Floor floor = new Floor("cyan", lhToGam(0, LH_HEIGHT-1, LH_WIDTH, 1), this);
-//				
+		Floor floor = new Floor("cyan", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this);
+
 		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this);
-		
-		Block block = new Block("yellow", lhToGam(13, LH_HEIGHT-4, 15, 1), this);
-		block.setVelocity(-5, 0);
-		
-		Enemy enemy = new Enemy("enemy", lhToGame(LH_WIDTH-1, LH_HEIGHT-2), this);
+
+		levelGenerator.setRunning(true);
+
+		// Block block = new Block("yellow", lhToGam(13, LH_HEIGHT-4, 15, 1),
+		// this);
+		// block.setVelocity(-5, 0);
+
+		// Enemy enemy = new Enemy("enemy", lhToGame(LH_WIDTH-1, LH_HEIGHT-2),
+		// this);
 
 		create(floor);
 		create(player);
-		create(enemy);
-		create(block);
+		// create(enemy);
+		// create(block);
 	}
 
-	public static Point lhToGame(int x, int y) {
-		return new Point(x * LHPIXEL_WIDTH, y * LHPIXEL_HEIGHT);
+	public static Point lhToGame(float x, float y) {
+		return new Point(Math.round(x * LHPIXEL_WIDTH), Math.round(y * LHPIXEL_HEIGHT));
 	}
-	
-	public static Rectangle lhToGam(int x, int y, int w, int h) {
-		return new Rectangle(x*LHPIXEL_WIDTH, y*LHPIXEL_HEIGHT, w*LHPIXEL_WIDTH, h*LHPIXEL_HEIGHT);
+
+	public static Rectangle lhToGam(float x, float y, float w, float h) {
+		return new Rectangle(Math.round(x * LHPIXEL_WIDTH), Math.round(y * LHPIXEL_HEIGHT),
+				Math.round(w * LHPIXEL_WIDTH), Math.round(h * LHPIXEL_HEIGHT));
 	}
 
 	@Override
@@ -90,8 +95,8 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void tick(long timestamp) {
-//
-//		System.out.println(gameObjects);
+		//
+		// System.out.println(gameObjects);
 
 		// TODO so wird nicht alles geticked!
 

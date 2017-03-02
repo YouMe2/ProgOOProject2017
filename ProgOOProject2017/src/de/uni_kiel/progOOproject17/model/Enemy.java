@@ -20,9 +20,6 @@ public class Enemy extends GameEntity {
 	
 	public Enemy(String resKey, int x, int y, Environment environment) {
 		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT, environment);
-
-		// TODO ENEMY VELOCITY
-		setVelocity(-8, 0); // gehen immer nach links
 	}
 
 	@Override
