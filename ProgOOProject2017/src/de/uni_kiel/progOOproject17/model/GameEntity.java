@@ -1,29 +1,13 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.model;
-
-import java.util.function.Consumer;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-/**
- * @author Yannik Eikmeier
- * @since 24.02.2017
- */
-public abstract class GameEntity extends GameObject
-		implements Gravitational {
+public abstract class GameEntity extends GameObject implements Gravitational {
 
 	private Distance velocity;
 
-	/**
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
-	 */
-	public GameEntity(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
+	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment) {
+		super(resKey, x, y, w, h, environment);
 		velocity = new Distance(0, 0);
 		setLayer(Viewable.ENTITY_LAYER);
 	}
@@ -31,15 +15,15 @@ public abstract class GameEntity extends GameObject
 	@Override
 	public void applyGravity() {
 		velocity.add(GRAVITY_ACCELERATION);
-		
+
 	}
 
 	public Distance getVelocity() {
 		return velocity;
 	}
-	
+
 	public void addVelocity(Distance vel) {
-	    velocity.add(vel);
+		velocity.add(vel);
 	}
 
 	public void setVelocity(Distance v) {
@@ -49,25 +33,13 @@ public abstract class GameEntity extends GameObject
 	public void setVelocity(int dx, int dy) {
 		velocity = new Distance(dx, dy);
 	}
-	
+
 	public void doMovement(Distance dis) {
-	    translate(dis);
-	    setVelocity(dis);
-	    forEachContact(OBJECTS, new Consumer<GameObject>() {
-			
-			@Override
-			public void accept(GameObject t) {
-				onContactWith(t);
-				
-			}
-		});
+		translate(dis);
+		setVelocity(dis);
+		environment.forEachContact(this, t -> onContactWith(t));
 	}
-	
+
 	public abstract void onContactWith(GameObject obj);
-	
-	public boolean isOnGround(){
-	    return willCollide(OBJECTS, new Distance(0,1));
-	}
-	
 
 }

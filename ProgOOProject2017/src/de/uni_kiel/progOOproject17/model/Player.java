@@ -2,12 +2,10 @@ package de.uni_kiel.progOOproject17.model;
 
 import static de.uni_kiel.progOOproject17.model.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.MoveState.JUMPING;
-import static de.uni_kiel.progOOproject17.model.MoveState.NONE;
+import static de.uni_kiel.progOOproject17.model.MoveState.NORMAL;
 
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Player extends GameEntity {
 
@@ -16,7 +14,7 @@ public class Player extends GameEntity {
 	private int lifes = 1;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
-	private MoveState currMoveState = MoveState.NONE;
+	private MoveState currMoveState = MoveState.NORMAL;
 
 	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
 		@Override
@@ -46,9 +44,8 @@ public class Player extends GameEntity {
 	private static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	private static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
-	public Player(String resKey, int x, int y) {
-		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
-
+	public Player(String resKey, int x, int y, Environment environment) {
+		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment);
 	}
 
 	@Override
@@ -78,10 +75,9 @@ public class Player extends GameEntity {
 			System.out.println("stopped crouching");
 
 			if (currMoveState == CROUCHING) {
-				currMoveState = NONE;
-				if (willCollide(OBJECTS, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL))) {
+				currMoveState = NORMAL;
+				if (environment.willCollide(this, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
 					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
-				}
 				setSize(PLAYER_W, PLAYER_H_NORMAL);
 			}
 
@@ -95,11 +91,8 @@ public class Player extends GameEntity {
 
 			if (currMoveState != MoveState.JUMPING) {
 				currMoveState = MoveState.JUMPING;
-				if (isOnGround()) {
-
+				if (environment.isOnGround(this))
 					addVelocity(JUMPVELOCITY);
-
-				}
 			}
 
 			break;
@@ -108,13 +101,13 @@ public class Player extends GameEntity {
 
 		// gravity
 		applyGravity();
-		Distance collDist = getCollisionDistance(OBJECTS, getVelocity());
+		Distance collDist = environment.getCollisionDistance(this, getVelocity());
 
 		// movement
-		this.doMovement(collDist);
+		doMovement(collDist);
 
 		if (currMoveState == JUMPING && getVelocity().y > 0)
-			currMoveState = NONE;
+			currMoveState = NORMAL;
 
 		// points
 		// points++;

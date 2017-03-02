@@ -1,12 +1,6 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.model.abs;
 
-/**
- * @author Yannik Eikmeier
- * @since 21.02.2017
- */
+@FunctionalInterface
 public interface Ticked {
 
 	public void tick(long timestamp);

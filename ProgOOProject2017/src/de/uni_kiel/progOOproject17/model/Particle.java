@@ -2,24 +2,20 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
-import java.util.LinkedList;
 
 public class Particle extends GameComponent implements Destroyable, Viewable {
 
-
-	private int counter = 0;
+	private int counter;
 	private final int dtime;
-	private long lasttime = 0;
+	private long lasttime;
 	private final int max;
 
 	private boolean alive = true;
 
 	private String resKey;
 
-	public Particle(String resKey, int x, int y, int w, int h, int dtime,
-			int max) {
+	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
 		super(x, y, w, h);
-		PARTICLES.add(this);
 		this.max = max;
 		this.resKey = resKey;
 
@@ -55,7 +51,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 		}
 		// end
 		else if (counter == max - 1)
-			alive = false;
+			destroy();
 
 	}
 
@@ -65,15 +61,15 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 	}
 
 	@Override
-	public void destroy() {
-		alive = false;
-		DESTROYED_PARTICLES.add(this);
+	public void activate() {
+		counter = 0;
+		lasttime = 0;
+		alive = true;
 	}
 
 	@Override
-	public void activate() {
-		// TODO Auto-generated method stub
-		
+	public void destroy() {
+		alive = false;
 	}
 
 }
