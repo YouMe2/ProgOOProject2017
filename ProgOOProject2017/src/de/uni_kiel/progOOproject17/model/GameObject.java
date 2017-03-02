@@ -3,13 +3,12 @@
  */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * @author Yannik Eikmeier
@@ -18,6 +17,8 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 public abstract class GameObject extends GameComponent implements Collidable, Destroyable, Deadly, Viewable {
 
 	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
+
+	public static final LinkedList<GameObject> DESTROYED_OBJECTS = new LinkedList<>();
 
 	private boolean alive = true;
 
@@ -68,15 +69,17 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 
 	@Override
 	public boolean contacts(GameObject obj) {
+
 		if (obj == this)
 			return false;
-
 		Rectangle rect = getBoundingRect();
 		rect.grow(1, 1);
+
 		return rect.intersects(obj.getBoundingRect());
 	}
 
 	/**
+	 * 
 	 * safe ...i guess will no longer make changes dist
 	 */
 	@Override
@@ -95,10 +98,8 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 	 */
 	@Override
 	public boolean willCollide(List<GameObject> gObjts, Distance dist) {
-
-		Rectangle rect = new Rectangle(getBoundingRect());
+		Rectangle rect = getBoundingRect();
 		rect.translate(dist.x, dist.y);
-
 		synchronized (gObjts) {
 			for (GameObject obj : gObjts) {
 				if (obj == this)
@@ -146,6 +147,7 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 					// möglich und besser? dann:
 					currBestDist = dist;
 				}
+
 			}
 
 		return currBestDist;
@@ -157,6 +159,7 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 	 */
 	@Override
 	public Distance getCollisionDistance(List<GameObject> gObjts, Distance maxDist) {
+
 
 		if (maxDist.x == 0 && maxDist.y == 0)
 			return maxDist;
@@ -190,6 +193,7 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
+
 				for (GameObject obj : collObjts) {
 					// wenn collision mit nur einem anderen object -> nächtse
 					// pos
@@ -197,7 +201,9 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 						continue nextPos;
 				}
 
+
 				// sonst: eine mögliche Distance gefunden!
+
 
 				if (dist.getSqLenghth() > currBestDist.getSqLenghth()) {
 					// und sie ist besser!
@@ -213,10 +219,12 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 	@Override
 	public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs, Distance dist) {
 
+
 		ArrayList<GameObject> collObjts = new ArrayList<>();
 
 		synchronized (gObjs) {
 			for (GameObject obj : gObjs) {
+
 
 				if (collides(obj))
 					collObjts.add(obj);
@@ -252,17 +260,17 @@ public abstract class GameObject extends GameComponent implements Collidable, De
 
 	@Override
 	public void destroy() {
-		if(isAlive()) {
+		if (isAlive()) {
 			System.out.println("DESTROYED: " + this.resKey);
-			
+
 			alive = false;
 			OBJECTS.remove(this);
 			COMPONENTS.remove(this);
-			
+
 		}
 
 	}
-	
+
 	@Override
 	public void activate() {
 		// TODO Auto-generated method stub
