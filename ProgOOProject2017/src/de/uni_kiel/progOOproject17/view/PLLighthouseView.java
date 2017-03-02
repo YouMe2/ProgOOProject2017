@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.view;
 
 import java.awt.Graphics;

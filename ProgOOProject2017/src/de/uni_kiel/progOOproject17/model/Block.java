@@ -1,7 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 public class Block extends GameEntity {
 
@@ -9,9 +8,8 @@ public class Block extends GameEntity {
 	private int killcounter = 0;
 	private boolean gravity = true;
 
-	public Block(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
-
+	public Block(String resKey, int x, int y, int w, int h, Environment environment) {
+		super(resKey, x, y, w, h, environment);
 	}
 
 	public void setGravityActive(boolean gravity) {
@@ -28,11 +26,10 @@ public class Block extends GameEntity {
 		if (gravity)
 			applyGravity();
 
-		Distance distPerTick = getVelocity();
-		Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
+		Distance collDist = environment.getCollisionDistance(this, getVelocity());
 
 		// movement
-		this.doMovement(collDist);
+		doMovement(collDist);
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
 			destroy();
@@ -47,7 +44,6 @@ public class Block extends GameEntity {
 	@Override
 	public void addKill() {
 		killcounter++;
-
 	}
 
 	public void setDeadly(boolean deadly) {

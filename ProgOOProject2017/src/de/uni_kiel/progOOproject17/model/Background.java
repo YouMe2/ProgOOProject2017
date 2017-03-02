@@ -1,29 +1,12 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
+public class Background extends GameComponent implements Viewable {
 
-
-/**
- * @author Yannik Eikmeier
- * @since 23.02.2017
- */
-public class Background extends GameComponent implements Viewable{
-	
 	private final String resKey;
-	
 
-	/**
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
-	 * @param i
-	 */
 	public Background(String resKey, int x, int y, int w, int h) {
 		super(x, y, w, h);
 		this.resKey = resKey;
@@ -31,19 +14,19 @@ public class Background extends GameComponent implements Viewable{
 
 	@Override
 	public void tick(long timestamp) {
-		//TODOanimatedBG?
+		// TODOanimatedBG?
 	}
 
 	@Override
 	public String getResourceKey() {
 		return resKey;
 	}
-	
+
 	@Override
 	public Rectangle getViewRect() {
-		return Background.this.getBoundingRect();
+		return getBoundingRect();
 	}
-	
+
 	@Override
 	public int getLayer() {
 		return 0;

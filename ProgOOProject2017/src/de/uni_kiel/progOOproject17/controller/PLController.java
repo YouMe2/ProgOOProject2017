@@ -1,25 +1,13 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.controller;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.security.KeyStore;
-
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
 
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
 import de.uni_kiel.progOOproject17.view.PLLighthouseView;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
 
-/**
- * @author Yannik Eikmeier
- * @since 23.02.2017
- */
 public class PLController extends TickedController {
 
 	private PLLighthouseView lhView;

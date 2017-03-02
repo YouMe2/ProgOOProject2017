@@ -1,16 +1,9 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.model.abs;
 
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import javax.swing.AbstractAction;
 
-/**
- * @author Yannik Eikmeier
- * @since 22.02.2017
- */
 public abstract class ModelAction extends AbstractAction {
 
 	private static final HashMap<String, ModelAction> ACTIONS = new HashMap<>();
