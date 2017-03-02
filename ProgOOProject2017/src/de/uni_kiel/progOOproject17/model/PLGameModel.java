@@ -50,12 +50,16 @@ public class PLGameModel extends TickedBaseModel
 
 		destroyedElements = new LinkedList<>();
 
-		levelGenerator = new LevelGenerator();
+		levelGenerator = new LevelGenerator(this);
 
-		Floor floor = new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT, this);
-		Player player = new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2, this);
-		Enemy enemy = new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH, GAME_HEIGHT - 2 * LHPIXEL_HEIGHT, this);
-		Block block = new Block("yellow", 50, 50, 50, 50, this);
+		Floor floor = new Floor("cyan", lhToGam(0, LH_HEIGHT-1, LH_WIDTH, 1), this);
+//				
+		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this);
+		
+		Block block = new Block("yellow", lhToGam(13, LH_HEIGHT-4, 15, 1), this);
+		block.setVelocity(-5, 0);
+		
+		Enemy enemy = new Enemy("enemy", lhToGame(LH_WIDTH-1, LH_HEIGHT-2), this);
 
 		create(floor);
 		create(player);
@@ -63,8 +67,12 @@ public class PLGameModel extends TickedBaseModel
 		create(block);
 	}
 
-	public static Point lhToGameCoord(int x, int y) {
+	public static Point lhToGame(int x, int y) {
 		return new Point(x * LHPIXEL_WIDTH, y * LHPIXEL_HEIGHT);
+	}
+	
+	public static Rectangle lhToGam(int x, int y, int w, int h) {
+		return new Rectangle(x*LHPIXEL_WIDTH, y*LHPIXEL_HEIGHT, w*LHPIXEL_WIDTH, h*LHPIXEL_HEIGHT);
 	}
 
 	@Override
@@ -82,8 +90,8 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void tick(long timestamp) {
-
-		System.out.println(gameObjects);
+//
+//		System.out.println(gameObjects);
 
 		// TODO so wird nicht alles geticked!
 

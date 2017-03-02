@@ -5,6 +5,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 public abstract class GameEntity extends GameObject implements Gravitational {
 
 	private Distance velocity;
+	private boolean gravity = true;
 
 	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment) {
 		super(resKey, x, y, w, h, environment);
@@ -33,8 +34,15 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	public void setVelocity(int dx, int dy) {
 		velocity = new Distance(dx, dy);
 	}
+	
+
+	public void setGravityActive(boolean gravity) {
+		this.gravity = gravity;
+	}
 
 	public void doMovement() {
+		if (gravity)
+			applyGravity();
 		Distance collDist = environment.getCollisionDistance(this, getVelocity());
 		translate(collDist);
 		setVelocity(collDist);

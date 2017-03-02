@@ -27,6 +27,18 @@ public class PLLighthouseView extends FramedIOView {
 	private ResourceManager res = ResourceManager.getInstance();
 
 	private boolean connected;
+	public final AbstractAction connect = new AbstractAction("Connect") {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				lhNetwork.connect();
+				connected = true;
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	};
+	
 
 	/**
 	 * @param title
@@ -42,29 +54,16 @@ public class PLLighthouseView extends FramedIOView {
 
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
-		// host? port?
+		
 		lhNetwork = new LighthouseNetwork();
 
-		// build frame here..
-
-		// connect btn? in menubar?
+		connect.actionPerformed(null);
 
 		JMenuBar menuBar = new JMenuBar();
-		JButton button = new JButton(new AbstractAction("Connect") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					lhNetwork.connect();
-					connected = true;
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+		JButton button = new JButton(connect);
 		menuBar.add(button);
 		this.setJMenuBar(menuBar);
 
-		// allways pack after building the frame!
 		pack();
 	}
 
@@ -78,9 +77,9 @@ public class PLLighthouseView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 
 				Rectangle rect = v.getViewRect();
-				// gr.drawImage(res.getImage(v.getResourceKey() + "-low"),
-				// rect.x, rect.y, rect.width, rect.height, null);
-				gr.drawImage(res.getImage(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
+				String key = v.getResourceKey();
+				if( key != null)
+					gr.drawImage(res.getImage(key/*+ "-low"*/), rect.x, rect.y, rect.width, rect.height, null);
 
 			});
 

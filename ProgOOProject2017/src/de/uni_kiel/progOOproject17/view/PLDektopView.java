@@ -31,7 +31,9 @@ public class PLDektopView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 
 				Rectangle rect = v.getViewRect();
-				gr.drawImage(res.getImage(v.getResourceKey()), rect.x, rect.y, rect.width, rect.height, null);
+				String key = v.getResourceKey();
+				if( key != null)
+					gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
 
 			});
 

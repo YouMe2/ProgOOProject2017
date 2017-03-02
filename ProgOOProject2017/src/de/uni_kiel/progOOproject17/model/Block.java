@@ -10,15 +10,17 @@ public class Block extends GameEntity {
 
 	private boolean deadly = false;
 	private int killcounter = 0;
-	private boolean gravity = true;
 
+	public Block(String resKey,Rectangle rect, Environment environment) {
+		this(resKey, rect.x, rect.y, rect.width, rect.height, environment);
+	}
+	
 	public Block(String resKey, int x, int y, int w, int h, Environment environment) {
 		super(resKey, x, y, w, h, environment);
+		setGravityActive(false);
 	}
-
-	public void setGravityActive(boolean gravity) {
-		this.gravity = gravity;
-	}
+	
+	
 
 	@Override
 	public void tick(long timestamp) {
@@ -28,9 +30,7 @@ public class Block extends GameEntity {
 			return;
 		}
 
-		// TODO BLOCK gravity ??
-		if (gravity)
-			applyGravity();
+		
 
 		// movement
 		doMovement();

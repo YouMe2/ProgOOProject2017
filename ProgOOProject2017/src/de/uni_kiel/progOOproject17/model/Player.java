@@ -12,6 +12,7 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 
 public class Player extends GameEntity {
@@ -45,12 +46,17 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public static final Distance JUMPVELOCITY = new Distance(0, -18);
+	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
-	private static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
-	private static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
-	private static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
+	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
+	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
+	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
+	
+	public Player(String resKey, Point pos, Environment environment) {
+		this(resKey, pos.x, pos.y, environment);
+	}
+	
 	public Player(String resKey, int x, int y, Environment environment) {
 		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment);
 	}
@@ -94,8 +100,8 @@ public class Player extends GameEntity {
 
 			// TODO PLAYER JUMP
 
-			System.out.println("jumping");
-
+			System.out.println("jumping "+environment.isOnGround(this));
+			
 			if (currMoveState != MoveState.JUMPING) {
 				currMoveState = MoveState.JUMPING;
 				if (environment.isOnGround(this))
@@ -106,13 +112,11 @@ public class Player extends GameEntity {
 		}
 		currMoveCommand = MoveCommand.NONE;
 
-		// gravity
-		applyGravity();
 
 		// movement
 		doMovement();
 
-		if (currMoveState == JUMPING && getVelocity().y > 0)
+		if (currMoveState == JUMPING && getVelocity().y >= 0)
 			currMoveState = NORMAL;
 
 		// points

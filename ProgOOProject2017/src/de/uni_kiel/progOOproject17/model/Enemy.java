@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import de.uni_kiel.progOOproject17.model.abs.Environment;
@@ -13,11 +14,15 @@ public class Enemy extends GameEntity {
 
 	private boolean alive = true;
 
+	public Enemy(String resKey, Point pos, Environment environment) {
+		this(resKey, pos.x, pos.y, environment);
+	}
+	
 	public Enemy(String resKey, int x, int y, Environment environment) {
 		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT, environment);
 
 		// TODO ENEMY VELOCITY
-		setVelocity(-5, 0); // gehen immer nach links
+		setVelocity(-8, 0); // gehen immer nach links
 	}
 
 	@Override
@@ -32,8 +37,6 @@ public class Enemy extends GameEntity {
 			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
 		}
-
-		applyGravity();
 
 		// movement
 		doMovement();

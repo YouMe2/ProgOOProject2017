@@ -65,6 +65,7 @@ public class PLController extends TickedController {
 
 				toggelLighthouseView();
 				view.requestFocus();
+				
 			}
 
 		});
@@ -76,7 +77,6 @@ public class PLController extends TickedController {
 			lhView = new PLLighthouseView("LighthouseView");
 			addOutputView(lhView);
 			addInputView(lhView);
-
 			// add Actions to lhView here
 
 		} else
