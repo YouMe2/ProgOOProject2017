@@ -63,7 +63,6 @@ public class Block extends GameEntity {
 	@Override
 	public void addKill() {
 		killcounter++;
-
 	}
 
 	public void setDeadly(boolean deadly) {

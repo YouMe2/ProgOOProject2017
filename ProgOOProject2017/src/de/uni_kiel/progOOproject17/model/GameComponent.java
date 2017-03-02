@@ -16,7 +16,6 @@ import de.uni_kiel.progOOproject17.model.abs.Ticked;
  */
 public abstract class GameComponent implements Ticked {
 
-	public static final LinkedList<GameComponent> COMPONENTS = new LinkedList<>();
 
 	private Rectangle rect;
 

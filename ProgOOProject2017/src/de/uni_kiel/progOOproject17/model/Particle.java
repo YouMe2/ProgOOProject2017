@@ -6,8 +6,6 @@ import java.util.LinkedList;
 
 public class Particle extends GameComponent implements Destroyable, Viewable {
 
-	public static final LinkedList<Particle> PARTICLES = new LinkedList<>();
-	public static final LinkedList<Particle> DESTROYED_PARTICLES = new LinkedList<>();
 
 	private int counter = 0;
 	private final int dtime;

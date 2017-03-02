@@ -16,8 +16,6 @@ import java.util.List;
 public abstract class GameObject extends GameComponent
 		implements Collidable, Destroyable, Deadly, Viewable {
 
-	public static final LinkedList<GameObject> OBJECTS = new LinkedList<>();
-	public static final LinkedList<GameObject> DESTROYED_OBJECTS = new LinkedList<>();
 
 	private boolean alive = true;
 

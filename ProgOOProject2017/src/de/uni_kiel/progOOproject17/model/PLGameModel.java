@@ -7,18 +7,27 @@ import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * @author Yannik Eikmeier
  * @since 23.02.2017
  */
-public class PLGameModel extends TickedBaseModel {
+public class PLGameModel extends TickedBaseModel
+		implements GameObjectCreator, ParticleCreator {
+
+	private final LinkedList<GameObject> gameObjects;
+	private final LinkedList<GameObject> destroyedGameObjects;
+
+	private final LinkedList<Particle> particles;
+	private final LinkedList<GameObject> destroyedParticles;
+
+	private LevelGenerator levelGenerator;
 
 	// scoreboard
 	Scoreboard gSB = new Scoreboard(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 	// bg
 	Background gBG = new Background("gray", 0, 0, GAME_WIDTH, GAME_HEIGHT);
-	private LevelGenerator levelGenerator;
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -33,27 +42,23 @@ public class PLGameModel extends TickedBaseModel {
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
 
-	// public final AbstractAction JUMP;
-	// public final AbstractAction START_CROUCH;
-	// public final AbstractAction STOP_CHROUCH;
-
 	public PLGameModel() {
+		gameObjects = new LinkedList<>();
+		destroyedGameObjects = new LinkedList<>();
+		particles = new LinkedList<>();
+		destroyedParticles = new LinkedList<>();
 
-		new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH,
-				LHPIXEL_HEIGHT);
-
-		new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2);
-
-		new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH,
+		Floor floor = new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT,
+				GAME_WIDTH, LHPIXEL_HEIGHT);
+		Player player = new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2);
+		Enemy enemy = new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH,
 				GAME_HEIGHT - 2 * LHPIXEL_HEIGHT);
+		Block block = new Block("yellow", 50, 50, 50, 50);
 
-		new Block("yellow", 50, 50, 50, 50);
-
-		//
-		// JUMP = player.moveJUMP;
-		// START_CROUCH = player.moveSTARTCROUCH;
-		// STOP_CHROUCH = player.moveENDCROUCH;
-
+		create(floor);
+		create(player);
+		create(enemy);
+		create(block);
 	}
 
 	public static Point lhToGameCoord(int x, int y) {
@@ -67,8 +72,8 @@ public class PLGameModel extends TickedBaseModel {
 
 		views.add(gBG);
 		// views.addAll(Arrays.asList(gSB.getViewables()));
-		views.addAll(GameObject.OBJECTS);
-		views.addAll(Particle.PARTICLES);
+		views.addAll(gameObjects);
+		views.addAll(particles);
 
 		return views.toArray(new Viewable[views.size()]);
 	}
@@ -78,14 +83,27 @@ public class PLGameModel extends TickedBaseModel {
 		// level generator
 		levelGenerator.tick(timestamp);
 		// tick all components
-		GameComponent.COMPONENTS.forEach(c -> c.tick(timestamp));
+		gameObjects.forEach(c -> c.tick(timestamp));
+		particles.forEach(c -> c.tick(timestamp));
 
 		// remove dead game objects
-		GameComponent.COMPONENTS.removeAll(GameObject.DESTROYED_OBJECTS);
-		GameObject.OBJECTS.removeAll(GameObject.DESTROYED_OBJECTS);
+		gameObjects.removeAll(destroyedGameObjects);
+		destroyedGameObjects.clear();
 		// remove dead particles
-		GameComponent.COMPONENTS.removeAll(Particle.DESTROYED_PARTICLES);
-		Particle.PARTICLES.removeAll(Particle.DESTROYED_PARTICLES);
+		particles.removeAll(destroyedParticles);
+		particles.clear();
+	}
+
+	@Override
+	public void create(GameObject g) {
+		gameObjects.add(g);
+		g.activate();
+	}
+
+	@Override
+	public void create(Particle p) {
+		particles.add(p);
+		p.activate();
 	}
 
 }
