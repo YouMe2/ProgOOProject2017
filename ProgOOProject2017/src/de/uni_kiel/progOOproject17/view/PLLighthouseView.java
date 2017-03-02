@@ -19,10 +19,6 @@ import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-/**
- * @author Yannik Eikmeier
- * @since 23.02.2017
- */
 public class PLLighthouseView extends FramedIOView {
 
 	private BufferedImage img;
@@ -44,8 +40,6 @@ public class PLLighthouseView extends FramedIOView {
 	public PLLighthouseView(String title) {
 		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, false);
 
-		
-		
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
 		// host? port?
@@ -109,7 +103,7 @@ public class PLLighthouseView extends FramedIOView {
 				lhNetwork.send(data);
 			} catch (IOException e) {
 				connected = false;
-				
+
 			}
 		}
 

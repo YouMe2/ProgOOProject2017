@@ -46,14 +46,13 @@ public interface Environment {
 	public ArrayList<GameObject> getCollObjects(GameObject g, Distance dist);
 
 	/**
-	 * Checks if the given object is in contact with any other object.
+	 * Checks if the given objects are in contact.
 	 *
 	 * @param obj
 	 *            the object to be checked for
-	 * @return <code>true</code> if the given object is in contact with any
-	 *         other object
+	 * @return <code>true</code> if the given objects are in contact
 	 */
-	public boolean contacts(GameObject obj);
+	public boolean contacts(GameObject o1, GameObject o2);
 
 	/**
 	 * Checks if the given object is currently touching another object from

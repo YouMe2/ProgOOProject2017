@@ -1,11 +1,13 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Consumer;
+
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class PLGameModel extends TickedBaseModel
 		implements Environment, GameObjectCreator, ParticleCreator, DestroyListener {
@@ -73,6 +75,11 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void tick(long timestamp) {
+		
+		System.out.println(gameObjects);
+		
+		
+		//TODO so wird nicht alles geticked!
 		// level generator
 		levelGenerator.tick(timestamp);
 		// tick all components
@@ -80,239 +87,144 @@ public class PLGameModel extends TickedBaseModel
 		particles.forEach(c -> c.tick(timestamp));
 
 		// remove dead elements
-		gameObjects.removeAll(destroyedElements);
+		gameObjects.removeAll(destroyedElements); //FIXME DOES NOt WORK!
 		particles.removeAll(destroyedElements);
 
 		destroyedElements.clear();
 	}
 
-	// /**
-	// * safe
-	// */
-	// @Override
-	// public boolean collides(GameObject obj) {
-	// if (obj == this)
-	// return false;
-	//
-	// return getBoundingRect().intersects(obj.getBoundingRect());
-	// }
-	//
-	// @Override
-	// public boolean contacts(GameObject obj) {
-	//
-	// if (obj == this)
-	// return false;
-	// Rectangle rect = getBoundingRect();
-	// rect.grow(1, 1);
-	//
-	// return rect.intersects(obj.getBoundingRect());
-	// }
-	//
-	// /**
-	// *
-	// * safe ...i guess will no longer make changes dist
-	// */
-	// @Override
-	// public boolean willCollide(GameObject obj, Distance dist) {
-	// if (obj == this)
-	// return false;
-	//
-	// // added this sort of clone
-	// Rectangle rect = getBoundingRect();
-	// rect.translate(dist.x, dist.y);
-	// return rect.intersects(obj.getBoundingRect());
-	// }
-	//
-	// /**
-	// * safe and better will no longer make changes dist
-	// */
-	// @Override
-	// public boolean willCollide(List<GameObject> gObjts, Distance dist) {
-	// Rectangle rect = getBoundingRect();
-	// rect.translate(dist.x, dist.y);
-	// synchronized (gObjts) {
-	// for (GameObject obj : gObjts) {
-	// if (obj == this)
-	// return false;
-	//
-	// if (rect.intersects(obj.getBoundingRect()))
-	// return true;
-	// }
-	// }
-	//
-	// return false;
-	// }
-	//
-	// /**
-	// * fixed ... i hope so
-	// */
-	// @Override
-	// public Distance getCollisionDistance(GameObject obj, Distance maxDist) {
-	//
-	// if (maxDist.x == 0 && maxDist.y == 0)
-	// return maxDist;
-	//
-	// if (collides(obj))
-	// return new Distance();
-	//
-	// // deckt den fall, dass (obj == this) gilt ab
-	// if (!willCollide(obj, maxDist))
-	// return new Distance(maxDist);
-	//
-	// // sonst:
-	//
-	// Distance signD = maxDist.getSignDistance();
-	// Distance absDist = maxDist.getAbsDistance();
-	// Distance currBestDist = new Distance(0, 0);
-	//
-	// for (int dx = absDist.x; dx >= 0; dx--)
-	// for (int dy = absDist.y; dy >= 0; dy--) {
-	//
-	// // für jede Distance im max bereich:
-	//
-	// Distance dist = new Distance(dx, dy);
-	// dist.multiply(signD);
-	//
-	// if (!willCollide(obj, dist) && dist.getSqLenghth() >
-	// currBestDist.getSqLenghth())
-	// // möglich und besser? dann:
-	// currBestDist = dist;
-	//
-	// }
-	//
-	// return currBestDist;
-	// }
-	//
-	// /**
-	// * safe not tested tho
-	// *
-	// */
-	// @Override
-	// public Distance getCollisionDistance(List<GameObject> gObjts, Distance
-	// maxDist) {
-	//
-	// if (maxDist.x == 0 && maxDist.y == 0)
-	// return maxDist;
-	//
-	// ArrayList<GameObject> collObjts = new ArrayList<>();
-	//
-	// synchronized (gObjts) {
-	// for (GameObject obj : gObjts) {
-	//
-	// if (collides(obj))
-	// return new Distance(); // (0 ,0)
-	//
-	// if (willCollide(obj, maxDist))
-	// collObjts.add(obj);
-	// }
-	// }
-	//
-	// if (collObjts.isEmpty())
-	// return new Distance(maxDist);
-	//
-	// // sonst:
-	//
-	// Distance signD = maxDist.getSignDistance();
-	// Distance absDist = maxDist.getAbsDistance();
-	// Distance currBestDist = new Distance(0, 0);
-	//
-	// for (int dx = absDist.x; dx >= 0; dx--)
-	// nextPos: for (int dy = absDist.y; dy >= 0; dy--) {
-	//
-	// // für jede mögliche position:
-	// Distance dist = new Distance(dx, dy);
-	// dist.multiply(signD);
-	//
-	// for (GameObject obj : collObjts)
-	// // wenn collision mit nur einem anderen object -> nächtse
-	// // pos
-	// if (willCollide(obj, dist))
-	// continue nextPos;
-	//
-	// // sonst: eine mögliche Distance gefunden!
-	//
-	// if (dist.getSqLenghth() > currBestDist.getSqLenghth())
-	// // und sie ist besser!
-	// currBestDist = dist;
-	//
-	// }
-	//
-	// return currBestDist;
-	//
-	// }
-	//
-	// @Override
-	// public ArrayList<GameObject> getCollObjects(List<GameObject> gObjs,
-	// Distance dist) {
-	//
-	// ArrayList<GameObject> collObjts = new ArrayList<>();
-	//
-	// synchronized (gObjs) {
-	// for (GameObject obj : gObjs) {
-	//
-	// if (collides(obj))
-	// collObjts.add(obj);
-	//
-	// if (willCollide(obj, dist))
-	// collObjts.add(obj);
-	// }
-	// }
-	//
-	// return collObjts;
-	//
-	// }
-	//
-	// @Override
-	// public void forEachCollision(List<GameObject> gObjs, Distance dist,
-	// Consumer<GameObject> cons) {
-	// synchronized (gObjs) {
-	// for (GameObject obj : gObjs)
-	// if (collides(obj) || willCollide(obj, dist))
-	// cons.accept(obj);
-	// }
-	// }
-	//
-	// @Override
-	// public void forEachContact(List<GameObject> gObjs, Consumer<GameObject>
-	// cons) {
-	// synchronized (gObjs) {
-	// for (GameObject obj : gObjs)
-	// if (contacts(obj))
-	// cons.accept(obj);
-	// }
-	// }
-
 	@Override
 	public boolean willCollide(GameObject obj, Distance dist) {
+		Rectangle rect = obj.getBoundingRect();
+		rect.translate(dist.x, dist.y);
+		synchronized (gameObjects) {
+			for (GameObject o : gameObjects) {
+				if (o == obj)
+					return false;
+
+				if (rect.intersects(obj.getBoundingRect()))
+					return true;
+			}
+		}
+
 		return false;
 	}
 
+	private boolean collides2(GameObject o1, GameObject o2, Distance d1) {
+		if (o1 == o2)
+			return false;
+
+		// added this sort of clone
+		Rectangle rect = o1.getBoundingRect();
+		rect.translate(d1.x, d1.y);
+		
+		return rect.intersects(o2.getBoundingRect());
+	}
+
+	/**
+	 * TODO!! FIXME
+	 */
 	@Override
 	public Distance getCollisionDistance(GameObject obj, Distance maxDist) {
-		return null;
+
+		if (maxDist.x == 0 && maxDist.y == 0)
+			return maxDist;
+
+		ArrayList<GameObject> collObjts = getCollObjects(obj, maxDist);
+
+		if (collObjts.isEmpty())
+			return new Distance(maxDist);
+
+		// sonst:
+
+		Distance signD = maxDist.getSignDistance();
+		Distance absDist = maxDist.getAbsDistance();
+		Distance currBestDist = new Distance(0, 0);
+
+		for (int dx = absDist.x; dx >= 0; dx--)
+			nextPos: for (int dy = absDist.y; dy >= 0; dy--) {
+
+				// für jede mögliche position:
+				Distance dist = new Distance(dx, dy);
+				dist.multiply(signD);
+
+				for (GameObject o : collObjts)
+					// wenn collision mit nur einem anderen object -> nächtse
+					if (collides2(obj, o, dist))
+						continue nextPos;
+
+				// sonst: eine mögliche Distance gefunden!
+
+				if (dist.getSqLenghth() > currBestDist.getSqLenghth())
+					// und sie ist besser!
+					currBestDist = dist;
+
+			}
+
+		return currBestDist;
+
 	}
 
 	@Override
-	public ArrayList<GameObject> getCollObjects(GameObject g, Distance dist) {
-		return null;
+	public ArrayList<GameObject> getCollObjects(GameObject obj, Distance dist) {
+
+		ArrayList<GameObject> collObjts = new ArrayList<>();
+
+		synchronized (gameObjects) {
+			for (GameObject o : gameObjects) {
+
+				if (collides2(obj, o, dist))
+					collObjts.add(obj);
+			}
+		}
+		return collObjts;
 	}
 
 	@Override
-	public boolean contacts(GameObject obj) {
-		return false;
+	public boolean contacts(GameObject o1, GameObject o2) {
+
+		if (o1 == o2)
+			return false;
+		Rectangle rect = o1.getBoundingRect();
+		rect.grow(1, 1);
+
+		return rect.intersects(o2.getBoundingRect());
 	}
 
 	@Override
 	public boolean isOnGround(GameObject obj) {
+		Rectangle rect = obj.getBoundingRect();
+		rect.translate(0, 1);
+		synchronized (gameObjects) {
+			for (GameObject o : gameObjects) {
+				if (o == obj)
+					return false;
+
+				if (rect.intersects(obj.getBoundingRect()))
+					return true;
+			}
+		}
+
 		return false;
 	}
 
 	@Override
 	public void forEachCollision(GameObject obj, Distance dist, Consumer<GameObject> consumer) {
+		synchronized (gameObjects) {
+			for (GameObject o : gameObjects)
+				if (collides2(obj, o, dist))
+					consumer.accept(obj);
+		}
 	}
 
 	@Override
 	public void forEachContact(GameObject obj, Consumer<GameObject> consumer) {
+
+		synchronized (gameObjects) {
+			for (GameObject o : gameObjects)
+				if (contacts(obj, o))
+					consumer.accept(obj);
+		}
 	}
 
 	@Override
