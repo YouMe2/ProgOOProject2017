@@ -11,10 +11,12 @@ public abstract class GameObject extends GameComponent implements Destroyable, D
 	private int layer;
 
 	public final Environment environment;
+	public final DestroyListener destroyListener;
 
-	public GameObject(String resKey, int x, int y, int w, int h, Environment environment) {
+	public GameObject(String resKey, int x, int y, int w, int h, Environment environment, DestroyListener destroyListener) {
 		super(x, y, w, h);
 		this.environment = environment;
+		this.destroyListener = destroyListener;
 		setResKey(resKey);
 		setLayer(0);
 	}
@@ -52,6 +54,7 @@ public abstract class GameObject extends GameComponent implements Destroyable, D
 		if (isAlive()) {
 			System.out.println("DESTROYED: " + resKey);
 			alive = false;
+			destroyListener.onDestruction(this);
 		}
 	}
 

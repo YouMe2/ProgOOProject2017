@@ -2,6 +2,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Rectangle;
 
+import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
@@ -11,12 +12,12 @@ public class Block extends GameEntity {
 	private boolean deadly = false;
 	private int killcounter = 0;
 
-	public Block(String resKey,Rectangle rect, Environment environment) {
-		this(resKey, rect.x, rect.y, rect.width, rect.height, environment);
+	public Block(String resKey,Rectangle rect, Environment environment, DestroyListener destroyListener) {
+		this(resKey, rect.x, rect.y, rect.width, rect.height, environment, destroyListener);
 	}
 	
-	public Block(String resKey, int x, int y, int w, int h, Environment environment) {
-		super(resKey, x, y, w, h, environment);
+	public Block(String resKey, int x, int y, int w, int h, Environment environment, DestroyListener destroyListener) {
+		super(resKey, x, y, w, h, environment, destroyListener);
 		setGravityActive(false);
 	}
 	
@@ -35,8 +36,8 @@ public class Block extends GameEntity {
 		// movement
 		doMovement();
 
-		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
-			destroy();
+//		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
+//			destroy();
 
 	}
 

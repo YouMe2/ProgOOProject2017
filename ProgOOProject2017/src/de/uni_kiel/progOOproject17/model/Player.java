@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
@@ -54,12 +55,12 @@ public class Player extends GameEntity {
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
 	
-	public Player(String resKey, Point pos, Environment environment) {
-		this(resKey, pos.x, pos.y, environment);
+	public Player(String resKey, Point pos, Environment environment, DestroyListener destroyListener) {
+		this(resKey, pos.x, pos.y, environment,destroyListener);
 	}
 	
-	public Player(String resKey, int x, int y, Environment environment) {
-		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment);
+	public Player(String resKey, int x, int y, Environment environment, DestroyListener destroyListener) {
+		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment,destroyListener);
 	}
 
 	@Override

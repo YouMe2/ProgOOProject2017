@@ -7,8 +7,8 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	private Distance velocity;
 	private boolean gravity = true;
 
-	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment) {
-		super(resKey, x, y, w, h, environment);
+	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment, DestroyListener destroyListener) {
+		super(resKey, x, y, w, h, environment, destroyListener);
 		velocity = new Distance(0, 0);
 		setLayer(Viewable.ENTITY_LAYER);
 	}

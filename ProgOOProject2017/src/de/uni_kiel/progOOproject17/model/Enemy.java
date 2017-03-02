@@ -3,6 +3,7 @@ package de.uni_kiel.progOOproject17.model;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
@@ -14,12 +15,12 @@ public class Enemy extends GameEntity {
 
 	private boolean alive = true;
 
-	public Enemy(String resKey, Point pos, Environment environment) {
-		this(resKey, pos.x, pos.y, environment);
+	public Enemy(String resKey, Point pos, Environment environment, DestroyListener destroyListener) {
+		this(resKey, pos.x, pos.y, environment, destroyListener);
 	}
 	
-	public Enemy(String resKey, int x, int y, Environment environment) {
-		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT, environment);
+	public Enemy(String resKey, int x, int y, Environment environment, DestroyListener destroyListener) {
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT, environment, destroyListener);
 	}
 
 	@Override
@@ -38,9 +39,9 @@ public class Enemy extends GameEntity {
 		// movement
 		doMovement();
 
-		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
-			// out of game area!!
-			destroy();
+//		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
+//			// out of game area!!
+//			destroy();
 
 	}
 

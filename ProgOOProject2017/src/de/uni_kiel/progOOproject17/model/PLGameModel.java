@@ -51,17 +51,20 @@ public class PLGameModel extends TickedBaseModel
 
 		destroyedElements = new LinkedList<>();
 
-		levelGenerator = new LevelGeneratorDEMO(this, this);
+		levelGenerator = new LevelGeneratorDEMO(this, this, this);
 
-		Floor floor = new Floor("floor", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this);
+		Floor floor = new Floor("floor", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this, this);
+		Floor barier = new Floor(null, lhToGam(-20, 0, 1, LH_HEIGHT), this, this);
+		barier.setDeadly(true);
 
-		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this);
-		
+		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this, this);
+
 		scoreboard = new Scoreboard(player);
-		
+
 		levelGenerator.setRunning(true);
-		
+
 		create(floor);
+		create(barier);
 		create(player);
 	}
 
