@@ -16,8 +16,7 @@ public abstract class AbstractController {
 
 	protected final AbstractBaseModel model;
 
-	public AbstractController(OutputView out, InputView in,
-			AbstractBaseModel model) {
+	public AbstractController(OutputView out, InputView in, AbstractBaseModel model) {
 		standardOut = out;
 		standardIn = in;
 		this.model = model;

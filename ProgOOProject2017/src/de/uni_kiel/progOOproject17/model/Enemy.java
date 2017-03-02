@@ -2,6 +2,10 @@ package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Rectangle;
 
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameEntity;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+
 public class Enemy extends GameEntity {
 
 	private boolean deadly = true;
@@ -24,17 +28,15 @@ public class Enemy extends GameEntity {
 	@Override
 	public void tick(long timestamp) {
 
-		if (!isAlive())
+		if (!isAlive()) {
+			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
-
-		// gravity ??
+		}
 
 		applyGravity();
 
-		Distance collDist = environment.getCollisionDistance(this, getVelocity());
-
 		// movement
-		doMovement(collDist);
+		doMovement();
 
 		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
 			// out of game area!!
@@ -59,6 +61,7 @@ public class Enemy extends GameEntity {
 
 	@Override
 	public void onContactWith(GameObject obj) {
+		assert !obj.equals(this);
 
 		if (obj.isDeadly()) {
 			destroy();

@@ -1,6 +1,5 @@
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.abs;
 
-import de.uni_kiel.progOOproject17.model.abs.Ticked;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;

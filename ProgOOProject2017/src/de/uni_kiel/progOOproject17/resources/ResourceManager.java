@@ -43,8 +43,8 @@ public class ResourceManager {
 		String path = url.getFile();
 		File parent = new File(path);
 		File[] resList = parent.listFiles();
-		System.out.println("Loading " + resList.length + " image(s):\n"
-				+ Arrays.toString(resList).replaceAll(", ", ",\n\t"));
+		System.out.println(
+				"Loading " + resList.length + " image(s):\n" + Arrays.toString(resList).replaceAll(", ", ",\n\t"));
 		for (File res : resList) {
 			String resKey = generateKeyFromFile(res);
 			String resPath = imagesFolder + res.getName();
@@ -62,19 +62,17 @@ public class ResourceManager {
 		path = url.getFile();
 		parent = new File(path);
 		resList = parent.listFiles();
-		System.out.println("Loading " + resList.length + " sound(s):\n"
-				+ Arrays.toString(resList).replaceAll(", ", ",\n\t"));
+		System.out.println(
+				"Loading " + resList.length + " sound(s):\n" + Arrays.toString(resList).replaceAll(", ", ",\n\t"));
 		for (File res : resList) {
 			String resKey = generateKeyFromFile(res);
 			try {
-				AudioInputStream inputStream = AudioSystem
-						.getAudioInputStream(res);
+				AudioInputStream inputStream = AudioSystem.getAudioInputStream(res);
 				Clip clip = AudioSystem.getClip();
 				clip.open(inputStream);
 				Sound resource = new Sound(clip);
 				soundResources.put(resKey, resource);
-			} catch (UnsupportedAudioFileException | IOException
-					| LineUnavailableException e) {
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				e.printStackTrace();
 			}
 		}

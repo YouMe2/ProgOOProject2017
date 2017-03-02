@@ -1,4 +1,4 @@
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.abs;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -34,9 +34,10 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 		velocity = new Distance(dx, dy);
 	}
 
-	public void doMovement(Distance dis) {
-		translate(dis);
-		setVelocity(dis);
+	public void doMovement() {
+		Distance collDist = environment.getCollisionDistance(this, getVelocity());
+		translate(collDist);
+		setVelocity(collDist);
 		environment.forEachContact(this, t -> onContactWith(t));
 	}
 

@@ -1,10 +1,17 @@
 package de.uni_kiel.progOOproject17.model;
 
-import static de.uni_kiel.progOOproject17.model.MoveState.CROUCHING;
-import static de.uni_kiel.progOOproject17.model.MoveState.JUMPING;
-import static de.uni_kiel.progOOproject17.model.MoveState.NORMAL;
-
+import de.uni_kiel.progOOproject17.model.abs.Distance;
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameEntity;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
+import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
+import de.uni_kiel.progOOproject17.model.abs.MoveState;
+
+import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
+import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
+import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
+
 import java.awt.event.ActionEvent;
 
 public class Player extends GameEntity {
@@ -50,9 +57,9 @@ public class Player extends GameEntity {
 
 	@Override
 	public void tick(long timestamp) {
-		// nur wenn der player noch "lebt"
+		
 		if (!isAlive()) {
-			System.out.println("sollte nicht passieren");
+			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
 		}
 
@@ -101,10 +108,9 @@ public class Player extends GameEntity {
 
 		// gravity
 		applyGravity();
-		Distance collDist = environment.getCollisionDistance(this, getVelocity());
 
 		// movement
-		doMovement(collDist);
+		doMovement();
 
 		if (currMoveState == JUMPING && getVelocity().y > 0)
 			currMoveState = NORMAL;
@@ -116,6 +122,7 @@ public class Player extends GameEntity {
 
 	@Override
 	public void onContactWith(GameObject obj) {
+		assert !obj.equals(this);
 
 		if (obj.isDeadly() && damage(1))
 			obj.addKill();

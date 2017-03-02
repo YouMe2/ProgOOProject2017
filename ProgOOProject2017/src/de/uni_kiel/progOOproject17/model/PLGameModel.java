@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
+import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
+import de.uni_kiel.progOOproject17.model.abs.Destroyable;
+import de.uni_kiel.progOOproject17.model.abs.Distance;
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.GameObjectCreator;
+import de.uni_kiel.progOOproject17.model.abs.ParticleCreator;
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -75,11 +82,11 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void tick(long timestamp) {
-		
+
 		System.out.println(gameObjects);
-		
-		
-		//TODO so wird nicht alles geticked!
+
+		// TODO so wird nicht alles geticked!
+
 		// level generator
 		levelGenerator.tick(timestamp);
 		// tick all components
@@ -87,7 +94,7 @@ public class PLGameModel extends TickedBaseModel
 		particles.forEach(c -> c.tick(timestamp));
 
 		// remove dead elements
-		gameObjects.removeAll(destroyedElements); //FIXME DOES NOt WORK!
+		gameObjects.removeAll(destroyedElements); // FIXME DOES NOt WORK!
 		particles.removeAll(destroyedElements);
 
 		destroyedElements.clear();
@@ -99,10 +106,8 @@ public class PLGameModel extends TickedBaseModel
 		rect.translate(dist.x, dist.y);
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects) {
-				if (o == obj)
-					return false;
 
-				if (rect.intersects(obj.getBoundingRect()))
+				if (rect.intersects(o.getBoundingRect()))
 					return true;
 			}
 		}
@@ -110,20 +115,16 @@ public class PLGameModel extends TickedBaseModel
 		return false;
 	}
 
-	private boolean collides2(GameObject o1, GameObject o2, Distance d1) {
+	private boolean willCollide(GameObject o1, Distance d1, GameObject o2) {
 		if (o1 == o2)
 			return false;
 
-		// added this sort of clone
 		Rectangle rect = o1.getBoundingRect();
 		rect.translate(d1.x, d1.y);
-		
+
 		return rect.intersects(o2.getBoundingRect());
 	}
 
-	/**
-	 * TODO!! FIXME
-	 */
 	@Override
 	public Distance getCollisionDistance(GameObject obj, Distance maxDist) {
 
@@ -148,10 +149,11 @@ public class PLGameModel extends TickedBaseModel
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
-				for (GameObject o : collObjts)
+				for (GameObject o : collObjts) {
 					// wenn collision mit nur einem anderen object -> nächtse
-					if (collides2(obj, o, dist))
+					if (willCollide(obj, dist, o))
 						continue nextPos;
+				}
 
 				// sonst: eine mögliche Distance gefunden!
 
@@ -173,8 +175,8 @@ public class PLGameModel extends TickedBaseModel
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects) {
 
-				if (collides2(obj, o, dist))
-					collObjts.add(obj);
+				if (willCollide(obj, dist, o))
+					collObjts.add(o);
 			}
 		}
 		return collObjts;
@@ -200,7 +202,7 @@ public class PLGameModel extends TickedBaseModel
 				if (o == obj)
 					return false;
 
-				if (rect.intersects(obj.getBoundingRect()))
+				if (rect.intersects(o.getBoundingRect()))
 					return true;
 			}
 		}
@@ -212,8 +214,8 @@ public class PLGameModel extends TickedBaseModel
 	public void forEachCollision(GameObject obj, Distance dist, Consumer<GameObject> consumer) {
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects)
-				if (collides2(obj, o, dist))
-					consumer.accept(obj);
+				if (willCollide(obj, dist, o))
+					consumer.accept(o);
 		}
 	}
 
@@ -223,7 +225,7 @@ public class PLGameModel extends TickedBaseModel
 		synchronized (gameObjects) {
 			for (GameObject o : gameObjects)
 				if (contacts(obj, o))
-					consumer.accept(obj);
+					consumer.accept(o);
 		}
 	}
 

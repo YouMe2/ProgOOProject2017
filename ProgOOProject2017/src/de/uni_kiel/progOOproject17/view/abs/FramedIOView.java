@@ -12,8 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public abstract class FramedIOView extends JFrame
-		implements InputView, OutputView {
+public abstract class FramedIOView extends JFrame implements InputView, OutputView {
 
 	private MappedKeyInputView in;
 
@@ -29,8 +28,7 @@ public abstract class FramedIOView extends JFrame
 		in = new MappedKeyInputView();
 		centerPane = new JPanel(true);
 		centerPane.setPreferredSize(new Dimension(w, h));
-		in.initMaps(centerPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW),
-				centerPane.getActionMap());
+		in.initMaps(centerPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW), centerPane.getActionMap());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());

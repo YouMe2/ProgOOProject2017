@@ -81,7 +81,7 @@ public class PLController extends TickedController {
 
 		} else
 			lhView.setVisible(!lhView.isVisible());
-		
+
 	}
 
 	@Override

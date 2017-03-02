@@ -1,5 +1,7 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class Floor extends GameObject {

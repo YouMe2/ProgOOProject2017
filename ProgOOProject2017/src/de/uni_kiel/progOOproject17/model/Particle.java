@@ -1,5 +1,7 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.Destroyable;
+import de.uni_kiel.progOOproject17.model.abs.GameComponent;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
 

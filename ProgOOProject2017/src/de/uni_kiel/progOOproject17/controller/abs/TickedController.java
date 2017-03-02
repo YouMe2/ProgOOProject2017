@@ -5,20 +5,17 @@ import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.InputView;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 
-
 public abstract class TickedController extends AbstractController implements Runnable, Ticked {
-
 
 	private Thread thread;
 
 	private boolean running = false;
-	
+
 	private int ticklength = 20;// ms = 1000/50 -> 50 ticks/sec
 	private int fps = 0;
 	private int tps = 0;
 	private long gametime = 0;
 	private boolean printTpsFps = false;
-
 
 	public TickedController(OutputView out, InputView in, TickedBaseModel model, int ticklength) {
 		super(out, in, model);
@@ -40,7 +37,6 @@ public abstract class TickedController extends AbstractController implements Run
 		int secTimer = 0;
 		int frames = 0;
 		int ticks = 0;
-
 
 		while (running) {
 

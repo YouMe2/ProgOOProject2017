@@ -7,8 +7,8 @@ import java.net.UnknownHostException;
 
 /**
  * This class wraps the network communication with the lighthouse in a simple
- * interface. The network connection is configured upon object creation but needs
- * to manually connect. Afterwards data can be sent to the lighthouse.
+ * interface. The network connection is configured upon object creation but
+ * needs to manually connect. Afterwards data can be sent to the lighthouse.
  */
 public class LighthouseNetwork {
 
@@ -42,7 +42,8 @@ public class LighthouseNetwork {
 	 * Establishes the connection to the lighthouse server.
 	 *
 	 * @throws IOException
-	 *             if an I/O error occurs when creating or writing to the socket.
+	 *             if an I/O error occurs when creating or writing to the
+	 *             socket.
 	 * @throws UnknownHostException
 	 *             if the IP address of the host could not be determined.
 	 */
@@ -57,9 +58,9 @@ public class LighthouseNetwork {
 	/**
 	 * Sends a packet of data to the lighthouse server. Usually the data should
 	 * be a byte array consisting of 1176 bytes. The first three bytes are the
-	 * red, green and blue color values of the first window. The windows start at
-	 * the top-left corner. If less bytes are sent, only the first windows are
-	 * updated. The next transmission starts at the first window again.
+	 * red, green and blue color values of the first window. The windows start
+	 * at the top-left corner. If less bytes are sent, only the first windows
+	 * are updated. The next transmission starts at the first window again.
 	 *
 	 * @param data
 	 *            The data to send
