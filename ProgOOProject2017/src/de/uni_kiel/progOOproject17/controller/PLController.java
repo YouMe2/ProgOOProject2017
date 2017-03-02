@@ -12,51 +12,20 @@ public class PLController extends TickedController {
 
 	private PLLighthouseView lhView;
 	private PLGameModel myModel;
+	
+	private long gametimeSafer = 0;
 
 	/**
 	 * @param view
 	 * @param model
 	 */
 	public PLController(PLDektopView view, PLGameModel model) {
-		super(view, view, model, 40);
+		super(view, view, model, 35);
 
-		// maybe add a button to toggel the lhView too?
 
-		// init the actions for the standartIn (view)
-
-		standardIn.addAction("pressed W", new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_JUMP, e);
-
-			}
-		});
-
-		// standardIn.addAction("pressed F",
-		// ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_JUMP));
-
-		standardIn.addAction("pressed S", new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH, e);
-				// ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(false);
-			}
-
-		});
-		standardIn.addAction("released S", new AbstractAction() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				ModelAction.performAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH, e);
-				// ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH).setEnabled(true);
-			}
-
-		});
+		standardIn.addAction("pressed W", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_JUMP));
+		standardIn.addAction("pressed S", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH));
+		standardIn.addAction("released S", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH));
 
 		standardIn.addAction("pressed F", new AbstractAction() {
 
@@ -65,9 +34,25 @@ public class PLController extends TickedController {
 
 				toggelLighthouseView();
 				view.requestFocus();
-				
+
 			}
 
+		});
+
+		standardIn.addAction("pressed SPACE", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gametimeSafer = stop();
+			}
+		});
+		
+		standardIn.addAction("released SPACE", new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				start(gametimeSafer);
+			}
 		});
 
 	}

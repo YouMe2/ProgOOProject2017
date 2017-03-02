@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 public class Player extends GameEntity {
 
 	private int points = 0;
+
 	private int steps;
 	private int lifes = 1;
 
@@ -121,15 +122,22 @@ public class Player extends GameEntity {
 
 		// points
 		// points++;
-		steps++;
+		
+		
+		
+		addStep();
+		
 	}
 
 	@Override
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
 
-		if (obj.isDeadly() && damage(1))
+		if (obj.isDeadly() && damage(1)){
 			obj.addKill();
+			obj.destroy();
+		}
+			
 
 	}
 
@@ -158,4 +166,26 @@ public class Player extends GameEntity {
 		// nothing here
 	}
 
+	public int getPoints() {
+		return points;
+	}
+	
+	public void addStep() {
+		steps++;
+		if(steps > PLGameModel.GAME_WIDTH) {
+			//TODO PARTICLE HERE
+			
+			steps -= PLGameModel.GAME_WIDTH;
+			points++;
+			
+		}
+	}
+
+	public int getSteps() {
+		return steps;
+	}
+
+	public int getLifes() {
+		return lifes;
+	}
 }

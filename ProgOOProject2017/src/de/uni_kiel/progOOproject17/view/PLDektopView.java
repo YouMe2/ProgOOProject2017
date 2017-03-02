@@ -15,10 +15,10 @@ public class PLDektopView extends FramedIOView {
 	private ResourceManager res = ResourceManager.getInstance();
 
 	public PLDektopView(String title) {
-		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, true);
+		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, false);
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 		res = ResourceManager.getInstance();
-		// maybe add a button to toggel the lhView too?
+//		setResizable(false);
 	}
 
 	@Override

@@ -6,7 +6,8 @@ import java.awt.Rectangle;
 
 public class Background extends GameComponent implements Viewable {
 
-	private final String resKey;
+	private String resKey;
+	private int layer = BG_LAYER;
 
 	public Background(String resKey, int x, int y, int w, int h) {
 		super(x, y, w, h);
@@ -22,6 +23,13 @@ public class Background extends GameComponent implements Viewable {
 	public String getResourceKey() {
 		return resKey;
 	}
+	
+	/**
+	 * 
+	 */
+	public void setResKey(String resKey) {
+		this.resKey = resKey;
+	}
 
 	@Override
 	public Rectangle getViewRect() {
@@ -30,7 +38,14 @@ public class Background extends GameComponent implements Viewable {
 
 	@Override
 	public int getLayer() {
-		return 0;
+		return layer;
+	}
+	
+	/**
+	 * @param layer the layer to set
+	 */
+	public void setLayer(int layer) {
+		this.layer = layer;
 	}
 
 }

@@ -78,8 +78,9 @@ public abstract class TickedController extends AbstractController implements Run
 		}
 	}
 
-	public void start() {
+	public void start(long gametime) {
 		if (thread == null) {
+			this.gametime = gametime;
 			thread = new Thread(this);
 			running = true;
 			gametime = 0;
@@ -87,9 +88,10 @@ public abstract class TickedController extends AbstractController implements Run
 		}
 	}
 
-	public void stop() {
+	public long stop() {
 		running = false;
 		thread = null;
+		return gametime;
 	}
 
 	public void tick(long timestamp) {

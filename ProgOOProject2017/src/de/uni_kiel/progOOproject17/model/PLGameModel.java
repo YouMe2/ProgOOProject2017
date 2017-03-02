@@ -3,6 +3,7 @@ package de.uni_kiel.progOOproject17.model;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -27,9 +28,9 @@ public class PLGameModel extends TickedBaseModel
 	private LevelGeneratorDEMO levelGenerator;
 
 	// scoreboard
-	Scoreboard gSB = new Scoreboard(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
+	private final Scoreboard scoreboard;
 	// bg
-	Background gBG = new Background("gray", 0, 0, GAME_WIDTH, GAME_HEIGHT);
+	private Background gBG = new Background("background", 0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -52,23 +53,16 @@ public class PLGameModel extends TickedBaseModel
 
 		levelGenerator = new LevelGeneratorDEMO(this, this);
 
-		Floor floor = new Floor("cyan", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this);
+		Floor floor = new Floor("floor", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this);
 
 		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this);
-
+		
+		scoreboard = new Scoreboard(player);
+		
 		levelGenerator.setRunning(true);
-
-		// Block block = new Block("yellow", lhToGam(13, LH_HEIGHT-4, 15, 1),
-		// this);
-		// block.setVelocity(-5, 0);
-
-		// Enemy enemy = new Enemy("enemy", lhToGame(LH_WIDTH-1, LH_HEIGHT-2),
-		// this);
-
+		
 		create(floor);
 		create(player);
-		// create(enemy);
-		// create(block);
 	}
 
 	public static Point lhToGame(float x, float y) {
@@ -86,7 +80,7 @@ public class PLGameModel extends TickedBaseModel
 		ArrayList<Viewable> views = new ArrayList<>();
 
 		views.add(gBG);
-		// views.addAll(Arrays.asList(gSB.getViewables()));
+		views.addAll(Arrays.asList(scoreboard.getViewables()));
 		views.addAll(gameObjects);
 		views.addAll(particles);
 
@@ -100,6 +94,7 @@ public class PLGameModel extends TickedBaseModel
 
 		// TODO so wird nicht alles geticked!
 
+		scoreboard.tick(timestamp);
 		// level generator
 		levelGenerator.tick(timestamp);
 		// tick all components
