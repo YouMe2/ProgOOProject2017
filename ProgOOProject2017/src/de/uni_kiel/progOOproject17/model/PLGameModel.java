@@ -18,8 +18,7 @@ public class PLGameModel extends TickedBaseModel {
 	Scoreboard gSB = new Scoreboard(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 	// bg
 	Background gBG = new Background("gray", 0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-	// TODO LevelGenerator
+	private LevelGenerator levelGenerator;
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -76,6 +75,8 @@ public class PLGameModel extends TickedBaseModel {
 
 	@Override
 	public void tick(long timestamp) {
+		// level generator
+		levelGenerator.tick(timestamp);
 		// tick all components
 		GameComponent.COMPONENTS.forEach(c -> c.tick(timestamp));
 
