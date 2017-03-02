@@ -41,6 +41,8 @@ public class PLGameModel extends TickedBaseModel
 
 		destroyedElements = new LinkedList<>();
 
+		levelGenerator = new LevelGenerator();
+
 		Floor floor = new Floor("cyan", 0, GAME_HEIGHT - LHPIXEL_HEIGHT, GAME_WIDTH, LHPIXEL_HEIGHT, this);
 		Player player = new Player("player", GAME_WIDTH / 2, GAME_HEIGHT / 2, this);
 		Enemy enemy = new Enemy("enemy", GAME_WIDTH - 2 * LHPIXEL_WIDTH, GAME_HEIGHT - 2 * LHPIXEL_HEIGHT, this);
