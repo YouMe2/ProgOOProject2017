@@ -82,7 +82,7 @@ public abstract class GameComponent implements Ticked {
 	}
 
 	public Rectangle getBoundingRect() {
-		return rect;
+		return new Rectangle(rect);
 	}
 
 }

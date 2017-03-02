@@ -14,11 +14,12 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
  */
 public class Main {
 
-    	// TODO Actions im Controller aufbauen und in den Views setzen.
+    // TODO Viewsaufbauen
 	// TODO PLGameModel aufbauen
 	// TODO LevelGenerator
 	// TODO Scoreboard
 	// TODO Lighthouse util
+	// FIXME CurrentModificationError
 
 	// TODO bei applyGravity einen check auf Kollision einbeziehen.
 	// Dazu: Die GameEntities werden zwar von der Schwerkraft beeinflusst,

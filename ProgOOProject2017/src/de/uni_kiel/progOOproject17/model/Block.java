@@ -31,24 +31,7 @@ public class Block extends GameEntity {
 	Distance distPerTick = getVelocity();
 	Distance collDist = getCollisionDistance(OBJECTS, distPerTick);
 
-	// collision
-	// TODO nicht andersherum? Die müssen doch gleich sein
-	if (!collDist.equals(distPerTick) && isDeadly()) {
-	    // es gabe ne collision
-	    ArrayList<GameObject> colls = getCollObjects(OBJECTS, distPerTick);
-
-	    for (GameObject obj : colls)
-		if (obj instanceof Player) {
-		    Player player = (Player) obj;
-		    if (player.damage(1))
-			addKill();
-
-		}
-
-	}
-
 	// movement
-
 	this.doMovement(collDist);
 
 	if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
@@ -70,5 +53,14 @@ public class Block extends GameEntity {
     public void setDeadly(boolean deadly) {
 	this.deadly = deadly;
     }
+
+	@Override
+	public void onContactWith(GameObject obj) {
+		if(obj.isDeadly()) {
+			destroy();
+			obj.addKill();
+		}
+		
+	}
 
 }
