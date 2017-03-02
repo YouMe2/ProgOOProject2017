@@ -19,7 +19,7 @@ public class Main {
 
 		ResourceManager.getInstance().init();
 
-		new PLController(new PLDektopView("Project Lighthouze - Yannik Eikemeier und Steffen Trog"), new PLGameModel())
+		new PLController(new PLDektopView("Project Lighthouze - Yannik Eikmeier und Steffen Trog"), new PLGameModel())
 				.start();
 
 	}
