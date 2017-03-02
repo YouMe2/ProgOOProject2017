@@ -1,14 +1,13 @@
 package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class Particle extends GameComponent implements Destroyable, Viewable{
+public class Particle extends GameComponent implements Destroyable, Viewable {
 
-	public static final ArrayList<Particle> PARTICLES = new ArrayList<>();
+	public static final LinkedList<Particle> PARTICLES = new LinkedList<>();
+	public static final LinkedList<Particle> DESTROYED_PARTICLES = new LinkedList<>();
 
 	private int counter = 0;
 	private final int dtime;
@@ -19,7 +18,8 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 
 	private String resKey;
 
-	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
+	public Particle(String resKey, int x, int y, int w, int h, int dtime,
+			int max) {
 		super(x, y, w, h);
 		PARTICLES.add(this);
 		this.max = max;
@@ -42,7 +42,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 	public int getLayer() {
 		return Viewable.PARTICLE_LAYER;
 	}
-	
+
 	@Override
 	public void tick(long timestamp) {
 		// init
@@ -61,7 +61,6 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 
 	}
 
-
 	@Override
 	public boolean isAlive() {
 		return alive;
@@ -70,8 +69,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable{
 	@Override
 	public void destroy() {
 		alive = false;
-		PARTICLES.remove(this);
-		COMPONENTS.remove(this);
+		DESTROYED_PARTICLES.add(this);
 	}
 
 }
