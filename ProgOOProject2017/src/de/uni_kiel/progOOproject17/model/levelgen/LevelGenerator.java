@@ -1,12 +1,6 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_HEIGHT;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_WIDTH;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.lhToGame;
-
 import de.uni_kiel.progOOproject17.model.CreationHelper;
-import de.uni_kiel.progOOproject17.model.Enemy;
-import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
@@ -14,9 +8,8 @@ import java.util.Collection;
 
 public class LevelGenerator implements Ticked {
 
-	private final Distance standardVelocity = new Distance(-8, 0);
 	private final Environment environment;
-	private final CreationHelper creatHelp;
+	private final CreationHelper createHelper;
 
 	private long nextSequenceTime = 0;
 	private boolean running = false;
@@ -25,7 +18,7 @@ public class LevelGenerator implements Ticked {
 	private Stage[] stages;
 
 	public LevelGenerator(Environment environment, CreationHelper creatHelp) {
-		this.creatHelp = creatHelp;
+		createHelper = creatHelp;
 		this.environment = environment;
 		currentStage = 0;
 		stages = Stage.values();
@@ -57,6 +50,8 @@ public class LevelGenerator implements Ticked {
 		int stageStart = environment.getScreenPosition().x;
 		Stage stage = stages[currentStage];
 		Collection<GameElement> c = stage.create(stageStart);
+		for (GameElement element : c)
+			createHelper.create(element);
 		int nextStage = currentStage + 1;
 		if (nextStage < stages.length)
 			currentStage = nextStage;
@@ -66,18 +61,6 @@ public class LevelGenerator implements Ticked {
 		// collection count within stage
 		// speed depending on total collection count
 		// use last sequence repeatedly
-
-		Enemy e = new Enemy("enemy", lhToGame(LH_WIDTH, LH_HEIGHT - 2),
-				environment, creatHelp);
-		e.setGravityActive(false);
-		e.setVelocity(standardVelocity);
-		creatHelp.create(e);
-
-		Enemy e2 = new Enemy("enemy", lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f),
-				environment, creatHelp);
-		e2.setGravityActive(false);
-		e2.setVelocity(standardVelocity);
-		creatHelp.create(e2);
 
 		return 3500;
 	}

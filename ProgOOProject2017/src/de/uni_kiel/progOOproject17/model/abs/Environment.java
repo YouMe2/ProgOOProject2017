@@ -27,13 +27,15 @@ public interface Environment {
 	 *            the object to regard
 	 * @param maxDist
 	 *            the distance to check for
-	 * @return the maximal distance the object can be moven in the given distance
+	 * @return the maximal distance the object can be moven in the given
+	 *         distance
 	 */
 	public Distance getCollisionDistance(Collidable obj, Distance maxDist);
 
 	/**
-	 * Scans the game for all objects that would collide with the given object if
-	 * it was moved by the given distance and returns all positives as a list.
+	 * Scans the game for all objects that would collide with the given object
+	 * if it was moved by the given distance and returns all positives as a
+	 * list.
 	 *
 	 * @param g
 	 *            the object to be checked for
@@ -54,8 +56,8 @@ public interface Environment {
 	public boolean contacts(Collidable o1, Collidable o2);
 
 	/**
-	 * Checks if the given object is currently touching another object from above
-	 * (that is, if it is currently on top of another object)
+	 * Checks if the given object is currently touching another object from
+	 * above (that is, if it is currently on top of another object)
 	 *
 	 * @param obj
 	 *            the object to be regarded
@@ -75,8 +77,7 @@ public interface Environment {
 	 * @param consumer
 	 * @see #willCollide(GameObject, Distance)
 	 */
-	public void forEachCollision(Collidable obj, Distance dist,
-			Consumer<GameObject> consumer);
+	public void forEachCollision(Collidable obj, Distance dist, Consumer<GameObject> consumer);
 
 	/**
 	 * Executes a given action for each contacting object as specified in
@@ -92,8 +93,9 @@ public interface Environment {
 	public void forEachContact(Collidable obj, Consumer<GameObject> consumer);
 
 	/**
-	 * * Gets the absolute position of the game screen. * * @return the position
-	 * of the game screen
+	 * * Gets the absolute position of the game screen.
+	 *
+	 * @return the position of the game screen
 	 */
 	public Point getScreenPosition();
 

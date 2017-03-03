@@ -6,20 +6,15 @@ public enum Obstacle {
 
 	SINGLE(100, x -> {
 		return new GameElement[] {};
-	}),
-	DOUBLE(180, x -> {
+	}), DOUBLE(180, x -> {
 		return new GameElement[] {};
-	}),
-	TRIPLE(250, x -> {
+	}), TRIPLE(250, x -> {
 		return new GameElement[] {};
-	}),
-	HOVERING(100, x -> {
+	}), HOVERING(100, x -> {
 		return new GameElement[] {};
-	}),
-	DOUBLE_HOVERING(180, x -> {
+	}), DOUBLE_HOVERING(180, x -> {
 		return new GameElement[] {};
-	}),
-	TRIPLE_HOVERING(250, x -> {
+	}), TRIPLE_HOVERING(250, x -> {
 		return new GameElement[] {};
 	});
 

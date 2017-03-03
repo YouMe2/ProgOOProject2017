@@ -33,14 +33,14 @@ public enum Stage {
 
 	public Collection<GameElement> create(int stageStart) {
 		Random r = ThreadLocalRandom.current();
-		ArrayList<GameElement> ls = new ArrayList<>();
-		while (ls.size() < length) {
+		ArrayList<GameElement> res = new ArrayList<>();
+		while (res.size() < length) {
 			int obstacle = r.nextInt(possibleObstacles.length);
 			Obstacle o = possibleObstacles[obstacle];
-			ls.addAll(Arrays.asList(o.createNew(stageStart)));
+			res.addAll(Arrays.asList(o.createNew(stageStart)));
 			stageStart += o.getWidth();
 		}
-		return ls;
+		return res;
 	}
 
 }
