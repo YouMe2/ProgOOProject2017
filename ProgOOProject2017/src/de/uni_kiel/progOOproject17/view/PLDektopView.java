@@ -27,7 +27,7 @@ public class PLDektopView extends FramedIOView {
 
 		final Graphics gr = img.getGraphics();
 
-		for (int i = 0; i < Viewable.MAXLAYER; i++) {
+		for (int i = 0; i < Viewable.LAYERsSIZE; i++) {
 			final int layer = i;
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 

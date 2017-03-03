@@ -10,7 +10,6 @@ public class Main {
 	// TODO LevelGenerator
 	// TODO COMMENTS
 	// TODO MENU
-	// TODO TEST PARTICLES
 	// TODO ENDSCREEN
 
 	public static void main(String[] args) {

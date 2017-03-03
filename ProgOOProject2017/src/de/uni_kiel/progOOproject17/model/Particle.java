@@ -49,14 +49,14 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 			lasttime = timestamp;
 
 		// next
-		if (timestamp - lasttime > dtime && counter < max - 1) {
-			lasttime = timestamp;
-			counter++;
+		if (timestamp - lasttime > dtime) {
+			if (counter < max - 1) {
+				lasttime = timestamp;
+				counter++;
 
+			} else if (counter == max - 1)
+				destroy();
 		}
-		// end
-		else if (counter == max - 1)
-			destroy();
 
 	}
 
