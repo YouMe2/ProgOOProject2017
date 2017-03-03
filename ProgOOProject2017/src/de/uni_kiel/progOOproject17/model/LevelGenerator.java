@@ -34,10 +34,8 @@ public class LevelGenerator implements Ticked {
 			nextSequenceTime = 0;
 			return;
 		}
-
 		if (nextSequenceTime <= timestamp)
 			nextSequenceTime += spawnRandomSequence();
-
 	}
 
 	/**
@@ -45,7 +43,7 @@ public class LevelGenerator implements Ticked {
 	 * master, And returns the time in ms that new sequence will take before a
 	 * new one should be spawned.
 	 *
-	 * @return the time the new sequence will take to run thru
+	 * @return the time the new sequence will take to run through
 	 */
 	public long spawnRandomSequence() {
 
@@ -55,14 +53,12 @@ public class LevelGenerator implements Ticked {
 		// speed depending on total collection count
 		// use last sequence repeatedly
 
-		Enemy e = new Enemy("enemy", lhToGame(LH_WIDTH, LH_HEIGHT - 2),
-				environment, creatHelp);
+		Enemy e = new Enemy("enemy", lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
 		e.setGravityActive(false);
 		e.setVelocity(standardVelocity);
 		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f),
-				environment, creatHelp);
+		Enemy e2 = new Enemy("enemy", lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f), environment, creatHelp);
 		e2.setGravityActive(false);
 		e2.setVelocity(standardVelocity);
 		creatHelp.create(e2);
