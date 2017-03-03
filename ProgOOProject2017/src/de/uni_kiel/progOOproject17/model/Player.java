@@ -24,9 +24,13 @@ public class Player extends GameEntity {
 	private int points = 0;
 
 	private int steps;
-	private int lifes = 3;
+	private int lifes = 4;
+	private final int playerXVelocity = 10;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
+	private boolean movingLeft = false;
+	private boolean movingRight = false;
+	
 	private MoveState currMoveState = MoveState.NORMAL;
 
 	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
@@ -50,10 +54,49 @@ public class Player extends GameEntity {
 			currMoveCommand = MoveCommand.END_CROUCH;
 		}
 	};
+	public final ModelAction moveLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_LEFT) {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			movingLeft = true;
+			movingRight = false;
+			
+		}
+	};
 
+	public final ModelAction moveRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_RIGHT) {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			movingLeft = false;
+			movingRight = true;
+			
+		}
+	};
+
+	public final ModelAction moveStopLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPLEFT) {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			movingLeft = false;
+			
+		}
+	};
+
+	public final ModelAction moveStopRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT) {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			movingRight= false;
+		}
+	};
+	
+	
+	
+	
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
-	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
+	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 4;
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
@@ -119,6 +162,14 @@ public class Player extends GameEntity {
 			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
+		
+		if(movingLeft)
+			setVelocity( -playerXVelocity, getVelocity().y);
+		else if(movingRight)
+			setVelocity(playerXVelocity, getVelocity().y);
+		else
+			setVelocity(0, getVelocity().y);
+		
 
 		// movement
 		doMovement();
@@ -132,11 +183,19 @@ public class Player extends GameEntity {
 		addStep();
 
 	}
+	
 
 	@Override
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
 
+		if(currMoveState == JUMPING){
+			
+			setVelocity(getVelocity().x, (int)(getVelocity().y*0.7));
+			
+		}
+		
+		
 		if (obj.isDeadly()) {
 			if (damage(1)) {
 				obj.addKill();
@@ -190,4 +249,5 @@ public class Player extends GameEntity {
 	public int getLifes() {
 		return lifes;
 	}
+
 }

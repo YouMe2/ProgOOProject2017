@@ -1,6 +1,6 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -93,10 +93,10 @@ public interface Environment {
 	public void forEachContact(Collidable obj, Consumer<GameObject> consumer);
 
 	/**
-	 * * Gets the absolute position of the game screen.
+	 * * Gets the position of the game screen.
 	 *
 	 * @return the position of the game screen
 	 */
-	public Point getScreenPosition();
+	public Rectangle getScreenRect();
 
 }

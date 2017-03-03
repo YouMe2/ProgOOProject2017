@@ -3,6 +3,7 @@
  */
 package de.uni_kiel.progOOproject17.model.abs;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
@@ -15,16 +16,13 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  */
 public abstract class GameElement extends GameComponent implements Viewable, Destroyable {
 
-
 	private boolean alive = true;
 
-	
 	private String resKey;
 	private int layer;
 
 	public final Environment environment;
 	public final CreationHelper creatHelp;
-	
 
 	/**
 	 * 
@@ -36,7 +34,7 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 		setResKey(resKey);
 		setLayer(0);
 	}
-	
+
 	@Override
 	public String getResourceKey() {
 		return resKey;
@@ -44,8 +42,15 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 
 	@Override
 	public Rectangle getViewRect() {
-		//TODO rect translated
-		return getBoundingRect();
+
+		Point p = environment.getScreenRect().getLocation();
+
+		Rectangle rect = getBoundingRect();
+		rect.translate(-p.x, -p.y);
+		return rect;
+		
+//		return getBoundingRect();
+		
 	}
 
 	@Override
@@ -78,5 +83,5 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 	public boolean isAlive() {
 		return alive;
 	}
-	
+
 }

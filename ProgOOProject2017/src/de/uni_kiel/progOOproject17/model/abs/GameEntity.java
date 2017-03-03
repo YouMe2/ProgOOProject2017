@@ -1,12 +1,18 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public abstract class GameEntity extends GameObject implements Gravitational {
 
 	private Distance velocity;
 	private boolean gravity = true;
+	
+	
+	private boolean permaMoveX = false;
+	private int permaXVel = 0;
+	private boolean permaMoveY = false;
+	private int permaYVel = 0;
+	
 
 	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
 		super(resKey, x, y, w, h, environment, creatHelp);
@@ -40,8 +46,31 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	public void setGravityActive(boolean gravity) {
 		this.gravity = gravity;
 	}
+	
+
+	public void setPermaXVel(int dx) {
+		if(dx == 0) {
+			permaMoveX = false;
+			return;
+		}
+		permaMoveX = true;
+		permaXVel = dx;
+	}
+	
+	public void setPermaYVel(int dy) {
+		if(dy == 0) {
+			permaMoveY = false;
+			return;
+		}
+		permaMoveY = true;
+		permaYVel = dy;
+	}
+
 
 	public void doMovement() {
+		if(permaMoveX){
+			setVelocity(permaXVel,getVelocity().y);
+		}
 		if (gravity)
 			applyGravity();
 		Distance collDist = environment.getCollisionDistance(this, getVelocity());

@@ -21,6 +21,10 @@ public class PLGameModel extends TickedBaseModel {
 	public static final String ACTIONKEY_PLAYER_STARTCROUCH = "start crouching";
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
+	public static final String ACTIONKEY_PLAYER_LEFT = "left";
+	public static final String ACTIONKEY_PLAYER_RIGHT = "right";
+	public static final String ACTIONKEY_PLAYER_STOPLEFT = "stopleft";
+	public static final String ACTIONKEY_PLAYER_STOPRIGHT = "stopright";
 
 	// scoreboard
 	private final Scoreboard scoreboard;
@@ -31,20 +35,17 @@ public class PLGameModel extends TickedBaseModel {
 	public PLGameModel() {
 
 		gamescreen = new GameScreen(GAME_WIDTH, GAME_HEIGHT);
-		scoreboard = new Scoreboard(gamescreen.getPlayer(), gamescreen,
-				gamescreen);
+		scoreboard = new Scoreboard(gamescreen.getPlayer());
 
 	}
 
 	public static Point lhToGame(float x, float y) {
-		return new Point(Math.round(x * LHPIXEL_WIDTH),
-				Math.round(y * LHPIXEL_HEIGHT));
+		return new Point(Math.round(x * LHPIXEL_WIDTH), Math.round(y * LHPIXEL_HEIGHT));
 	}
 
 	public static Rectangle lhToGam(float x, float y, float w, float h) {
-		return new Rectangle(Math.round(x * LHPIXEL_WIDTH),
-				Math.round(y * LHPIXEL_HEIGHT), Math.round(w * LHPIXEL_WIDTH),
-				Math.round(h * LHPIXEL_HEIGHT));
+		return new Rectangle(Math.round(x * LHPIXEL_WIDTH), Math.round(y * LHPIXEL_HEIGHT),
+				Math.round(w * LHPIXEL_WIDTH), Math.round(h * LHPIXEL_HEIGHT));
 	}
 
 	@Override
