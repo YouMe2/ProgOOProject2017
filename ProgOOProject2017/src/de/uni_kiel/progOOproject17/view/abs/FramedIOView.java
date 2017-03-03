@@ -12,15 +12,22 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
-
+/**
+ * This class provides a {@link JFrame} which holds an {@link InputView} in as
+ * well as a {@link MappedKeyInputView} and a {@link OutputView}.
+ * This class builds a basic Frame which can easily be modified by the subclass.
+ * 
+ * 
+ * @author Yannik Eikmeier
+ * @since 03.03.2017
+ *
+ */
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {
+
 
 	private MappedKeyInputView in;
 
 	protected JPanel centerPane;
-
-	private AbstractBaseModel model;
 
 	private HashMap<String, JButton> buttons = new HashMap<>();
 

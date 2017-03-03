@@ -65,7 +65,7 @@ public class LevelGeneratorDEMO implements Ticked {
 
 		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
 		b.setGravityActive(false);
-//		e2.setVelocity(standartVelocity);
+//		b.setVelocity(standartVelocity);
 		b.setContinuesVel(standartVelocity); //TODO wie ists besser?
 		creatHelp.create(b);
 
