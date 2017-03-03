@@ -1,9 +1,13 @@
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.levelgen;
 
 import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_HEIGHT;
 import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_WIDTH;
 import static de.uni_kiel.progOOproject17.model.PLGameModel.lhToGam;
 
+import de.uni_kiel.progOOproject17.model.Block;
+import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.Enemy;
+import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;

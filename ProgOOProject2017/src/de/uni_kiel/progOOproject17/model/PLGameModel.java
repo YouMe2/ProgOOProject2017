@@ -5,6 +5,7 @@ import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.model.levelgen.LevelGeneratorDEMO;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;

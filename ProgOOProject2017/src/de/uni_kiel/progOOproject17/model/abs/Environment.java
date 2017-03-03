@@ -91,7 +91,12 @@ public interface Environment {
 	 * @see #contacts(GameObject)
 	 */
 	public void forEachContact(GameObject obj, Consumer<GameObject> consumer);
-	
+
+	/**
+	 * Gets the absolute position of the game screen.
+	 * 
+	 * @return the position of the game screen
+	 */
 	public Point getScreenPosition();
-	
+
 }
