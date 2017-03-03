@@ -11,15 +11,17 @@ public class LevelGenerator implements Ticked {
 	private final Environment environment;
 	private final CreationHelper createHelper;
 
-	private long nextSequenceTime = 0;
 	private boolean running = false;
+
+	private int generatedTerrain;
 
 	private int currentStage;
 	private Stage[] stages;
 
-	public LevelGenerator(Environment environment, CreationHelper creatHelp) {
-		createHelper = creatHelp;
+	public LevelGenerator(Environment environment, CreationHelper createHelper) {
+		this.createHelper = createHelper;
 		this.environment = environment;
+		generatedTerrain = 0;
 		currentStage = 0;
 		stages = Stage.values();
 	}
@@ -30,12 +32,14 @@ public class LevelGenerator implements Ticked {
 
 	@Override
 	public void tick(long timestamp) {
-		if (!running) {
-			nextSequenceTime = 0;
-			return;
+		if (running) {
+			// Rectangle screenRectangle = environment.getScreenRectangle();
+			int rightScreenBorder = environment.getScreenPosition().x + 200; // screenRectangle.x
+																				// +
+																				// screenRectangle.width;
+			if (generatedTerrain <= rightScreenBorder)
+				generatedTerrain += spawnRandomSequence();
 		}
-		if (nextSequenceTime <= timestamp)
-			nextSequenceTime += spawnRandomSequence();
 	}
 
 	/**
@@ -46,10 +50,9 @@ public class LevelGenerator implements Ticked {
 	 * @return the time the new sequence will take to run through
 	 */
 	public long spawnRandomSequence() {
-
 		int stageStart = environment.getScreenPosition().x;
 		Stage stage = stages[currentStage];
-		Collection<GameElement> c = stage.create(stageStart);
+		Collection<GameElement> c = stage.create(stageStart, environment, createHelper);
 		for (GameElement element : c)
 			createHelper.create(element);
 		int nextStage = currentStage + 1;
