@@ -7,18 +7,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
 import de.uni_kiel.progOOproject17.model.abs.Destroyable;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.GameObjectCreator;
-import de.uni_kiel.progOOproject17.model.abs.ParticleCreator;
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class PLGameModel extends TickedBaseModel
-		implements Environment, GameObjectCreator, ParticleCreator, DestroyListener {
+		implements Environment, CreationHelper {
 
 	private final LinkedList<GameObject> gameObjects;
 	private final LinkedList<Particle> particles;
@@ -51,14 +48,14 @@ public class PLGameModel extends TickedBaseModel
 
 		destroyedElements = new LinkedList<>();
 
-		levelGenerator = new LevelGeneratorDEMO(this, this, this);
+		levelGenerator = new LevelGeneratorDEMO(this, this);
 
 		Floor floor = new Floor("floor", lhToGam(0, LH_HEIGHT - 1, LH_WIDTH, 1), this, this);
 		Floor barier = new Floor(null, lhToGam(-20, 0, 1, LH_HEIGHT), this, this);
 		barier.setDeadly(true);
 
 		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this, this);
-
+		
 		scoreboard = new Scoreboard(player);
 
 		levelGenerator.setRunning(true);
@@ -66,6 +63,10 @@ public class PLGameModel extends TickedBaseModel
 		create(floor);
 		create(barier);
 		create(player);
+		
+		//PARTICLE TEST:
+//		Particle particle = new Particle("partTest", 120, 120, 60, 60, 1000, 3, this);
+//		create(particle);
 	}
 
 	public static Point lhToGame(float x, float y) {

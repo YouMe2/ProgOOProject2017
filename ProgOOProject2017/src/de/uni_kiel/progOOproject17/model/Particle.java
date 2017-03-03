@@ -1,9 +1,10 @@
 package de.uni_kiel.progOOproject17.model;
 
+import java.awt.Rectangle;
+
 import de.uni_kiel.progOOproject17.model.abs.Destroyable;
 import de.uni_kiel.progOOproject17.model.abs.GameComponent;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
-import java.awt.Rectangle;
 
 public class Particle extends GameComponent implements Destroyable, Viewable {
 
@@ -16,22 +17,24 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 
 	private String resKey;
 
-	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
+	private CreationHelper creatHelp;
+
+	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max, CreationHelper creatHelp) {
 		super(x, y, w, h);
 		this.max = max;
 		this.resKey = resKey;
-
+		this.creatHelp = creatHelp;
 		this.dtime = dtime;
 	}
 
 	@Override
 	public String getResourceKey() {
-		return Particle.this.resKey + "_" + counter;
+		return resKey + "_" + counter;
 	}
 
 	@Override
 	public Rectangle getViewRect() {
-		return Particle.this.getBoundingRect();
+		return getBoundingRect();
 	}
 
 	@Override
@@ -72,6 +75,7 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 	@Override
 	public void destroy() {
 		alive = false;
+		creatHelp.onDestruction(this);
 	}
 
 }

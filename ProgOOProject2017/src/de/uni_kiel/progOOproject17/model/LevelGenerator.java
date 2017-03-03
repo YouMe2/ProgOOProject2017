@@ -1,18 +1,18 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.lhToGame;
+
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameObjectCreator;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.*;
 
 public class LevelGenerator implements Ticked {
 
 	private final Distance standartVelocity = new Distance(-8, 0);
-	private final GameObjectCreator creator;
 	private final Environment environment;
-	private final DestroyListener destroyListener;
+	private final CreationHelper creatHelp;
 
 	private long nextSequenzeTime = 0;
 	private boolean running = false;
@@ -20,10 +20,9 @@ public class LevelGenerator implements Ticked {
 	/**
 	 * 
 	 */
-	public LevelGenerator(GameObjectCreator creator, Environment environment, DestroyListener destroyListener) {
-		this.creator = creator;
+	public LevelGenerator(Environment environment, CreationHelper creatHelp) {
+		this.creatHelp = creatHelp;
 		this.environment = environment;
-		this.destroyListener = destroyListener;
 	}
 
 	public void setRunning(boolean running) {
@@ -52,15 +51,15 @@ public class LevelGenerator implements Ticked {
 	 */
 	public long spawnRandomSequence() {
 
-		Enemy e = new Enemy("enemy", lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, destroyListener);
+		Enemy e = new Enemy("enemy", lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
 		e.setGravityActive(false);
 		e.setVelocity(standartVelocity);
-		creator.create(e);
+		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f), environment, destroyListener);
+		Enemy e2 = new Enemy("enemy", lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f), environment, creatHelp);
 		e2.setGravityActive(false);
 		e2.setVelocity(standartVelocity);
-		creator.create(e2);
+		creatHelp.create(e2);
 
 		return 3500;
 	}

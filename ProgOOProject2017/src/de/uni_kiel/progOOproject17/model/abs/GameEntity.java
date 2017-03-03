@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
+import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public abstract class GameEntity extends GameObject implements Gravitational {
@@ -7,8 +8,8 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	private Distance velocity;
 	private boolean gravity = true;
 
-	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment, DestroyListener destroyListener) {
-		super(resKey, x, y, w, h, environment, destroyListener);
+	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
+		super(resKey, x, y, w, h, environment, creatHelp);
 		velocity = new Distance(0, 0);
 		setLayer(Viewable.ENTITY_LAYER);
 	}

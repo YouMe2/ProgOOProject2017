@@ -2,6 +2,7 @@ package de.uni_kiel.progOOproject17.model.abs;
 
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
+
 import javax.swing.AbstractAction;
 
 public abstract class ModelAction extends AbstractAction {

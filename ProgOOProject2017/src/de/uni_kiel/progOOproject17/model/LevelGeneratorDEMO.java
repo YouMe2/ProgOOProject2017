@@ -1,28 +1,30 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.lhToGam;
+
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameObjectCreator;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.*;
 
 public class LevelGeneratorDEMO implements Ticked {
 
 	private final Distance standartVelocity = new Distance(-8, 0);
-	private final GameObjectCreator creator;
+	
 	private final Environment environment;
-	private final DestroyListener destroyListener;
+	private final CreationHelper creatHelp;
+	
 	private long nextSequenzeTime = 0;
 	private boolean running = false;
 
 	/**
 	 * 
 	 */
-	public LevelGeneratorDEMO(GameObjectCreator creator, Environment environment, DestroyListener destroyListener) {
-		this.creator = creator;
+	public LevelGeneratorDEMO(Environment environment, CreationHelper creatHelp) {
+		
 		this.environment = environment;
-		this.destroyListener = destroyListener;
+		this.creatHelp = creatHelp;
 	}
 
 	public void setRunning(boolean running) {
@@ -51,20 +53,21 @@ public class LevelGeneratorDEMO implements Ticked {
 	 */
 	public long spawnRandomSequence() {
 
-		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, destroyListener);
+		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
 		e.setGravityActive(false);
 		e.setVelocity(standartVelocity);
-		creator.create(e);
+		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f), environment, destroyListener);
+		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3.1f), environment, creatHelp);
 		e2.setGravityActive(false);
 		e2.setVelocity(standartVelocity);
-		creator.create(e2);
+		creatHelp.create(e2);
 
-		Block b = new Block("floor", lhToGam(LH_WIDTH + 23, LH_HEIGHT - 4, 12, 1), environment, destroyListener);
+		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
 		b.setGravityActive(false);
-		b.setVelocity(standartVelocity);
-		creator.create(b);
+//		e2.setVelocity(standartVelocity);
+		b.setContinuesVel(standartVelocity); //TODO wie ists besser?
+		creatHelp.create(b);
 
 		return 3600;
 	}

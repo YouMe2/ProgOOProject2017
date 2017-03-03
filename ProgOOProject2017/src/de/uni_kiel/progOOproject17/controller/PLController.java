@@ -1,12 +1,14 @@
 package de.uni_kiel.progOOproject17.controller;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
 import de.uni_kiel.progOOproject17.view.PLLighthouseView;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
 
 public class PLController extends TickedController {
 

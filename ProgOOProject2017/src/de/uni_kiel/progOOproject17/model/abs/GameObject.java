@@ -1,7 +1,9 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
+
+import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public abstract class GameObject extends GameComponent implements Destroyable, Deadly, Viewable {
 
@@ -11,12 +13,12 @@ public abstract class GameObject extends GameComponent implements Destroyable, D
 	private int layer;
 
 	public final Environment environment;
-	public final DestroyListener destroyListener;
+	public final CreationHelper creatHelp;
 
-	public GameObject(String resKey, int x, int y, int w, int h, Environment environment, DestroyListener destroyListener) {
+	public GameObject(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
 		super(x, y, w, h);
 		this.environment = environment;
-		this.destroyListener = destroyListener;
+		this.creatHelp = creatHelp;
 		setResKey(resKey);
 		setLayer(0);
 	}
@@ -52,9 +54,9 @@ public abstract class GameObject extends GameComponent implements Destroyable, D
 	@Override
 	public void destroy() {
 		if (isAlive()) {
-			System.out.println("DESTROYED: " + resKey);
+//			System.out.println("DESTROYED: " + resKey);
 			alive = false;
-			destroyListener.onDestruction(this);
+			creatHelp.onDestruction(this);
 		}
 	}
 

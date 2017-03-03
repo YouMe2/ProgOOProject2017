@@ -1,16 +1,18 @@
 package de.uni_kiel.progOOproject17.view.abs;
 
-import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Set;
+
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
 
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {
 

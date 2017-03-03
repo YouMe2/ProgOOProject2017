@@ -1,13 +1,14 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.GameCompound;
-import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
-
-import static de.uni_kiel.progOOproject17.model.PLGameModel.*;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.GAME_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_WIDTH;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import de.uni_kiel.progOOproject17.model.abs.GameCompound;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class Scoreboard extends GameCompound {
 

@@ -1,8 +1,9 @@
 package de.uni_kiel.progOOproject17.model;
 
+import java.awt.Rectangle;
+
 import de.uni_kiel.progOOproject17.model.abs.GameComponent;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
-import java.awt.Rectangle;
 
 public class Background extends GameComponent implements Viewable {
 

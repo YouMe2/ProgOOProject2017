@@ -1,13 +1,14 @@
 package de.uni_kiel.progOOproject17.view;
 
-import de.uni_kiel.progOOproject17.model.PLGameModel;
-import de.uni_kiel.progOOproject17.resources.ResourceManager;
-import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+
+import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class PLDektopView extends FramedIOView {
 

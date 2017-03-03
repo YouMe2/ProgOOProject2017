@@ -1,14 +1,5 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.DestroyListener;
-import de.uni_kiel.progOOproject17.model.abs.Distance;
-import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameEntity;
-import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.ModelAction;
-import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
-import de.uni_kiel.progOOproject17.model.abs.MoveState;
-
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
@@ -16,12 +7,21 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
+import de.uni_kiel.progOOproject17.model.abs.Distance;
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameEntity;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.ModelAction;
+import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
+import de.uni_kiel.progOOproject17.model.abs.MoveState;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
+
 public class Player extends GameEntity {
 
 	private int points = 0;
 
 	private int steps;
-	private int lifes = 1;
+	private int lifes = 2;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 	private MoveState currMoveState = MoveState.NORMAL;
@@ -54,18 +54,17 @@ public class Player extends GameEntity {
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
-	
-	public Player(String resKey, Point pos, Environment environment, DestroyListener destroyListener) {
-		this(resKey, pos.x, pos.y, environment,destroyListener);
+	public Player(String resKey, Point pos, Environment environment, CreationHelper creatHelp) {
+		this(resKey, pos.x, pos.y, environment, creatHelp);
 	}
-	
-	public Player(String resKey, int x, int y, Environment environment, DestroyListener destroyListener) {
-		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment,destroyListener);
+
+	public Player(String resKey, int x, int y, Environment environment, CreationHelper creatHelp) {
+		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment, creatHelp);
 	}
 
 	@Override
 	public void tick(long timestamp) {
-		
+
 		if (!isAlive()) {
 			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
@@ -77,17 +76,22 @@ public class Player extends GameEntity {
 		case NONE:
 			break;
 		case START_CROUCH:
-			System.out.println("started chrouching!");
+			// System.out.println("started chrouching!");
 			if (currMoveState != CROUCHING) {
+
+				ResourceManager.getInstance().getSound("crouch").play();
 				currMoveState = CROUCHING;
-				// CHROUCH
+				if(environment.isOnGround(this)) {
+					translate(0, - PLAYER_H_CROUCH + PLAYER_H_NORMAL);
+				}
+				
 				setSize(PLAYER_W, PLAYER_H_CROUCH);
 			}
 
 			break;
 		case END_CROUCH:
 
-			System.out.println("stopped crouching");
+			// System.out.println("stopped crouching");
 
 			if (currMoveState == CROUCHING) {
 				currMoveState = NORMAL;
@@ -102,9 +106,10 @@ public class Player extends GameEntity {
 
 			// TODO PLAYER JUMP
 
-			System.out.println("jumping "+environment.isOnGround(this));
-			
+			// System.out.println("jumping "+environment.isOnGround(this));
+
 			if (currMoveState != MoveState.JUMPING) {
+				ResourceManager.getInstance().getSound("jump").play();
 				currMoveState = MoveState.JUMPING;
 				if (environment.isOnGround(this))
 					addVelocity(JUMPVELOCITY);
@@ -114,7 +119,6 @@ public class Player extends GameEntity {
 		}
 		currMoveCommand = MoveCommand.NONE;
 
-
 		// movement
 		doMovement();
 
@@ -123,22 +127,28 @@ public class Player extends GameEntity {
 
 		// points
 		// points++;
-		
-		
-		
+
 		addStep();
-		
+
 	}
 
 	@Override
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
 
-		if (obj.isDeadly() && damage(1)){
-			obj.addKill();
-			obj.destroy();
+		if (obj.isDeadly()) {
+			if (damage(1)) {
+				obj.addKill();
+			}
+			else {
+				obj.destroy();
+				
+			}
 		}
+		else {
 			
+			
+		}
 
 	}
 
@@ -151,6 +161,10 @@ public class Player extends GameEntity {
 
 		if (lifes <= 0) {
 			destroy();
+			
+			creatHelp.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6, creatHelp));
+			ResourceManager.getInstance().getSound("death").play();
+			
 			return true;
 		}
 
@@ -170,15 +184,15 @@ public class Player extends GameEntity {
 	public int getPoints() {
 		return points;
 	}
-	
+
 	public void addStep() {
 		steps++;
-		if(steps > PLGameModel.GAME_WIDTH) {
-			//TODO PARTICLE HERE
-			
+		if (steps > PLGameModel.GAME_WIDTH) {
+			// TODO PARTICLE HERE
+
 			steps -= PLGameModel.GAME_WIDTH;
 			points++;
-			
+
 		}
 	}
 
