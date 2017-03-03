@@ -1,8 +1,6 @@
 package de.uni_kiel.progOOproject17.model;
 
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_HEIGHT;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LH_WIDTH;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.lhToGam;
+import static de.uni_kiel.progOOproject17.model.PLGameModel.*;
 
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
@@ -53,17 +51,17 @@ public class LevelGeneratorDEMO implements Ticked {
 	 */
 	public long spawnRandomSequence() {
 
-		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
+		Enemy e = new Enemy("enemy", environment.getScreenRect().x + GAME_WIDTH, (LH_HEIGHT - 2)*LHPIXEL_HEIGHT, environment, creatHelp);
 		e.setGravityActive(false);
 //		e.setVelocity(standartVelocity);
 		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3), environment, creatHelp);
+		Enemy e2 = new Enemy("enemy", environment.getScreenRect().x + GAME_WIDTH+150, (LH_HEIGHT - 3)*LHPIXEL_HEIGHT, environment, creatHelp);
 		e2.setGravityActive(false);
 //		e2.setVelocity(standartVelocity);
 		creatHelp.create(e2);
 
-		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
+		Block b = new Block("floor", environment.getScreenRect().x + GAME_WIDTH +400, (LH_HEIGHT - 4)*LHPIXEL_HEIGHT, 12*LHPIXEL_WIDTH, LHPIXEL_HEIGHT, environment, creatHelp);
 		b.setGravityActive(false);
 //		b.setVelocity(standartVelocity);
 //		b.setContinuesVel(standartVelocity); //TODO wie ists besser?

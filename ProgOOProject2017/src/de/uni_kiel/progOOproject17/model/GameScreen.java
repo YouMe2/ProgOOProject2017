@@ -30,7 +30,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final Distance screenVelocity;
+	private final int screenVelocity = 8;
 
 	private LevelGeneratorDEMO levelGenerator;
 
@@ -49,22 +49,27 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		createdElements = new LinkedList<>();
 
 		levelGenerator = new LevelGeneratorDEMO(this, this);
-		screenVelocity = new Distance( 8, 0);
 		
 
-		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
-		player.setPermaXVel(screenVelocity.x);
+		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
+		player.setPermaXVel(screenVelocity);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
-		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH+50, 1), this, this);
-		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
-		barier.setDeadly(true);
+		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 200, 1), this, this);
+		
+		
+		
+//		Block barier = new Block(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
+//		barier.setDeadly(true);
+//		barier.setGravityActive(false);
+//		barier.setPermaXVel(screenVelocity);
+		
 		Background bg = new Background("background", 0, 0, w, h, this, this);
 		create(bg);
 		create(floor);
-		create(barier);
+//		create(barier);
 
 		// PARTICLE TEST:
 //		 Particle particle = new Particle("partTest", 800, 0, 300, 300, 1000, 4, this, this);
