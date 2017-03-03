@@ -4,6 +4,7 @@ import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
+import java.awt.Rectangle;
 import java.util.Collection;
 
 public class LevelGenerator implements Ticked {
@@ -33,10 +34,8 @@ public class LevelGenerator implements Ticked {
 	@Override
 	public void tick(long timestamp) {
 		if (running) {
-			// Rectangle screenRectangle = environment.getScreenRectangle();
-			int rightScreenBorder = environment.getScreenPosition().x + 200; // screenRectangle.x
-																				// +
-																				// screenRectangle.width;
+			Rectangle screenRectangle = environment.getScreenRect();
+			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder)
 				generatedTerrain += spawnRandomSequence();
 		}
@@ -50,7 +49,7 @@ public class LevelGenerator implements Ticked {
 	 * @return the time the new sequence will take to run through
 	 */
 	public long spawnRandomSequence() {
-		int stageStart = environment.getScreenPosition().x;
+		int stageStart = environment.getScreenRect().x;
 		Stage stage = stages[currentStage];
 		Collection<GameElement> c = stage.create(stageStart, environment, createHelper);
 		for (GameElement element : c)

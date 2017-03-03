@@ -14,15 +14,19 @@ import de.uni_kiel.progOOproject17.model.abs.Ticked;
 
 public class LevelGeneratorDEMO implements Ticked {
 
-	private final Distance standardVelocity = new Distance(-8, 0);
+	private final Distance standartVelocity = new Distance(-8, 0);
 
 	private final Environment environment;
 	private final CreationHelper creatHelp;
 
-	private long nextSequenceTime = 0;
+	private long nextSequenzeTime = 0;
 	private boolean running = false;
 
+	/**
+	 *
+	 */
 	public LevelGeneratorDEMO(Environment environment, CreationHelper creatHelp) {
+
 		this.environment = environment;
 		this.creatHelp = creatHelp;
 	}
@@ -34,12 +38,12 @@ public class LevelGeneratorDEMO implements Ticked {
 	@Override
 	public void tick(long timestamp) {
 		if (!running) {
-			nextSequenceTime = 0;
+			nextSequenzeTime = 0;
 			return;
 		}
 
-		if (nextSequenceTime <= timestamp)
-			nextSequenceTime += spawnRandomSequence();
+		if (nextSequenzeTime <= timestamp)
+			nextSequenzeTime += spawnRandomSequence();
 
 	}
 
@@ -54,18 +58,18 @@ public class LevelGeneratorDEMO implements Ticked {
 
 		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
 		e.setGravityActive(false);
-		e.setVelocity(standardVelocity);
+		// e.setVelocity(standartVelocity);
 		creatHelp.create(e);
 
 		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3), environment, creatHelp);
 		e2.setGravityActive(false);
-		e2.setVelocity(standardVelocity);
+		// e2.setVelocity(standartVelocity);
 		creatHelp.create(e2);
 
 		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
 		b.setGravityActive(false);
 		// b.setVelocity(standartVelocity);
-		b.setContinuesVel(standardVelocity); // TODO wie ists besser?
+		// b.setContinuesVel(standartVelocity); //TODO wie ists besser?
 		creatHelp.create(b);
 
 		return 3600;
