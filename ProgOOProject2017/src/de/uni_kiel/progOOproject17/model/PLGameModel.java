@@ -1,5 +1,11 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.Destroyable;
+import de.uni_kiel.progOOproject17.model.abs.Distance;
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -7,27 +13,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-import de.uni_kiel.progOOproject17.model.abs.Destroyable;
-import de.uni_kiel.progOOproject17.model.abs.Distance;
-import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
-
-public class PLGameModel extends TickedBaseModel
-		implements Environment, CreationHelper {
-
-	private final LinkedList<GameObject> gameObjects;
-	private final LinkedList<Particle> particles;
-
-	private final LinkedList<Destroyable> destroyedElements;
-
-	private LevelGeneratorDEMO levelGenerator;
-
-	// scoreboard
-	private final Scoreboard scoreboard;
-	// bg
-	private Background gBG = new Background("background", 0, 0, GAME_WIDTH, GAME_HEIGHT);
+public class PLGameModel extends TickedBaseModel implements Environment, CreationHelper {
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -42,6 +28,22 @@ public class PLGameModel extends TickedBaseModel
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
 
+	private final LinkedList<GameObject> gameObjects;
+	private final LinkedList<Particle> particles;
+
+	private final LinkedList<Destroyable> destroyedElements;
+
+	private LevelGeneratorDEMO levelGenerator;
+
+	// scoreboard
+	private final Scoreboard scoreboard;
+	// bg
+	private Background gBG = new Background("background", 0, 0, GAME_WIDTH, GAME_HEIGHT);
+	// keep reference to player
+	private Player player;
+
+	private boolean running;
+
 	public PLGameModel() {
 		gameObjects = new LinkedList<>();
 		particles = new LinkedList<>();
@@ -54,8 +56,8 @@ public class PLGameModel extends TickedBaseModel
 		Floor barier = new Floor(null, lhToGam(-20, 0, 1, LH_HEIGHT), this, this);
 		barier.setDeadly(true);
 
-		Player player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this, this);
-		
+		player = new Player("player", lhToGame(3, LH_HEIGHT - 3), this, this);
+
 		scoreboard = new Scoreboard(player);
 
 		levelGenerator.setRunning(true);
@@ -63,10 +65,12 @@ public class PLGameModel extends TickedBaseModel
 		create(floor);
 		create(barier);
 		create(player);
-		
-		//PARTICLE TEST:
-//		Particle particle = new Particle("partTest", 120, 120, 60, 60, 1000, 3, this);
-//		create(particle);
+
+		running = true;
+		// PARTICLE TEST:
+		// Particle particle = new Particle("partTest", 120, 120, 60, 60, 1000,
+		// 3, this);
+		// create(particle);
 	}
 
 	public static Point lhToGame(float x, float y) {
@@ -93,23 +97,30 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void tick(long timestamp) {
-		//
-		// System.out.println(gameObjects);
-
 		// TODO so wird nicht alles geticked!
 
-		scoreboard.tick(timestamp);
-		// level generator
-		levelGenerator.tick(timestamp);
-		// tick all components
-		gameObjects.forEach(c -> c.tick(timestamp));
-		particles.forEach(c -> c.tick(timestamp));
+		if (running) {
+			scoreboard.tick(timestamp);
+			// level generator
+			levelGenerator.tick(timestamp);
+			// tick all components
+			gameObjects.forEach(c -> c.tick(timestamp));
+			particles.forEach(c -> c.tick(timestamp));
 
-		// remove dead elements
-		gameObjects.removeAll(destroyedElements); // FIXME DOES NOt WORK!
-		particles.removeAll(destroyedElements);
+			// remove dead elements
+			gameObjects.removeAll(destroyedElements);
+			particles.removeAll(destroyedElements);
 
-		destroyedElements.clear();
+			System.out.println(
+					"Dest (" + destroyedElements.size() + "): " + Arrays.toString(destroyedElements.toArray()));
+			System.out.println("GObj (" + gameObjects.size() + "): " + Arrays.toString(gameObjects.toArray()));
+			System.out.println("Part (" + particles.size() + "): " + Arrays.toString(particles.toArray()));
+			System.out.println("---");
+
+			destroyedElements.clear();
+		} else {
+			// TODO was sonst? Menüs?
+		}
 	}
 
 	@Override
@@ -117,11 +128,9 @@ public class PLGameModel extends TickedBaseModel
 		Rectangle rect = obj.getBoundingRect();
 		rect.translate(dist.x, dist.y);
 		synchronized (gameObjects) {
-			for (GameObject o : gameObjects) {
-
+			for (GameObject o : gameObjects)
 				if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 					return true;
-			}
 		}
 
 		return false;
@@ -161,11 +170,10 @@ public class PLGameModel extends TickedBaseModel
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
-				for (GameObject o : collObjts) {
+				for (GameObject o : collObjts)
 					// wenn collision mit nur einem anderen object -> nächtse
 					if (willCollide(obj, dist, o))
 						continue nextPos;
-				}
 
 				// sonst: eine mögliche Distance gefunden!
 
@@ -185,11 +193,9 @@ public class PLGameModel extends TickedBaseModel
 		ArrayList<GameObject> collObjts = new ArrayList<>();
 
 		synchronized (gameObjects) {
-			for (GameObject o : gameObjects) {
-
+			for (GameObject o : gameObjects)
 				if (willCollide(obj, dist, o))
 					collObjts.add(o);
-			}
 		}
 		return collObjts;
 	}
@@ -210,11 +216,9 @@ public class PLGameModel extends TickedBaseModel
 		Rectangle rect = obj.getBoundingRect();
 		rect.translate(0, 1);
 		synchronized (gameObjects) {
-			for (GameObject o : gameObjects) {
-
+			for (GameObject o : gameObjects)
 				if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 					return true;
-			}
 		}
 
 		return false;
@@ -253,7 +257,19 @@ public class PLGameModel extends TickedBaseModel
 
 	@Override
 	public void onDestruction(Destroyable d) {
-		destroyedElements.add(d);
+		if (d == player)
+			stopGame();
+		else
+			destroyedElements.add(d);
+	}
+
+	private void stopGame() {
+		running = false;
+		showEndScreen();
+	}
+
+	private void showEndScreen() {
+		// TODO end screen
 	}
 
 }
