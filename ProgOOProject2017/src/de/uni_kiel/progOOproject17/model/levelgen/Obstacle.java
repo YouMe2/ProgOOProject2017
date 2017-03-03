@@ -12,6 +12,7 @@ public enum Obstacle {
 	SINGLE(100, (x, e, c) -> {
 		Distance velocity = new Distance(-5, 0);
 		Enemy e1 = new Enemy("enemy", new Point(x, 200), e, c);
+		e1.setGravityActive(false);
 		e1.setVelocity(velocity);
 		return new GameElement[] { e1/* , e2, b */ };
 	}), DOUBLE(180, (x, e, c) -> {
@@ -35,7 +36,6 @@ public enum Obstacle {
 	}
 
 	public GameElement[] createNew(int obstacleStart, Environment e, CreationHelper c) {
-		System.out.println("obs " + width + " c!");
 		return creator.createNew(obstacleStart, e, c);
 	}
 

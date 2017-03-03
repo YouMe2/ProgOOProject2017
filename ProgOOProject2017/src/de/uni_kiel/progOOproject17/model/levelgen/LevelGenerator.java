@@ -64,7 +64,7 @@ public class LevelGenerator implements Ticked {
 		// speed depending on total collection count
 		// use last sequence repeatedly
 
-		return 3500;
+		return stage.getLastWidth();
 	}
 
 }
