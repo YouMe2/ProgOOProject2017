@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -90,4 +91,7 @@ public interface Environment {
 	 * @see #contacts(GameObject)
 	 */
 	public void forEachContact(GameObject obj, Consumer<GameObject> consumer);
+	
+	public Point getScreenPosition();
+	
 }
