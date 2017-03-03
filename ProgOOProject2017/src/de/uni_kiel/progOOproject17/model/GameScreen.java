@@ -1,14 +1,4 @@
-/**
- * 
- */
 package de.uni_kiel.progOOproject17.model;
-
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.function.Consumer;
 
 import de.uni_kiel.progOOproject17.model.abs.Collidable;
 import de.uni_kiel.progOOproject17.model.abs.Destroyable;
@@ -17,14 +7,14 @@ import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameCompound;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.Ticked;
+import de.uni_kiel.progOOproject17.model.levelgen.LevelGeneratorDEMO;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.function.Consumer;
 
-/**
- * @author Yannik Eikmeier
- * @since 03.03.2017
- *
- */
 public class GameScreen extends GameCompound implements Environment, CreationHelper {
 
 	private final LinkedList<GameElement> gameElements;
@@ -34,7 +24,6 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	private final Player player;
 
 	private LevelGeneratorDEMO levelGenerator;
-
 
 	/**
 	 * @param x
@@ -51,13 +40,13 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 
 		levelGenerator = new LevelGeneratorDEMO(this, this);
 
-
 		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
-		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1), this, this);
+		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1),
+				this, this);
 		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
 		barier.setDeadly(true);
 		Background bg = new Background("background", 0, 0, w, h, this, this);
@@ -79,13 +68,13 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 */
 	@Override
 	public void tick(long timestamp) {
-		
+
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(e -> e.tick(timestamp));
-		
+
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();
-		
+
 		gameElements.addAll(createdElements);
 		createdElements.clear();
 	}
@@ -97,7 +86,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 */
 	@Override
 	public Viewable[] getViewables() {
-		
+
 		return gameElements.toArray(new Viewable[gameElements.size()]);
 	}
 
@@ -111,15 +100,12 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		Rectangle rect = obj.getBoundingRect();
 		rect.translate(dist.x, dist.y);
 		synchronized (gameElements) {
-			for (GameElement o : gameElements) {
-
+			for (GameElement o : gameElements)
 				if (o instanceof Collidable) {
 					Collidable c = (Collidable) o;
 					if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 						return true;
 				}
-
-			}
 		}
 
 		return false;
@@ -159,11 +145,10 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 				Distance dist = new Distance(dx, dy);
 				dist.multiply(signD);
 
-				for (Collidable o : collObjts) {
+				for (Collidable o : collObjts)
 					// wenn collision mit nur einem anderen object -> nächtse
 					if (willCollide(obj, dist, o))
 						continue nextPos;
-				}
 
 				// sonst: eine mögliche Distance gefunden!
 
@@ -183,15 +168,12 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		ArrayList<Collidable> collObjts = new ArrayList<>();
 
 		synchronized (gameElements) {
-			for (GameElement o : gameElements) {
-
+			for (GameElement o : gameElements)
 				if (o instanceof Collidable) {
 					Collidable c = (Collidable) o;
 					if (willCollide(obj, dist, c))
 						collObjts.add(c);
 				}
-
-			}
 		}
 		return collObjts;
 	}
@@ -212,16 +194,13 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		Rectangle rect = obj.getBoundingRect();
 		rect.translate(0, 1);
 		synchronized (gameElements) {
-			for (GameElement e : gameElements) {
-
+			for (GameElement e : gameElements)
 				if (e instanceof Collidable) {
 					Collidable c = (Collidable) e;
 					if (rect.intersects(c.getBoundingRect()) && !c.equals(obj))
 						return true;
 
 				}
-
-			}
 		}
 
 		return false;
@@ -245,31 +224,31 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	public void forEachContact(Collidable obj, Consumer<GameObject> consumer) {
 
 		synchronized (gameElements) {
-			
+
 			for (GameElement o : gameElements)
-				
+
 				if (o instanceof Collidable) {
-					
+
 					Collidable c = (Collidable) o;
 					if (contacts(obj, c))
-						consumer.accept((GameObject)c);
+						consumer.accept((GameObject) c);
 				}
 		}
 	}
 
 	@Override
 	public void create(GameElement g) {
-		
-		System.out.println("Created: "+ g.getResourceKey());
-		
+
+		System.out.println("Created: " + g.getResourceKey());
+
 		createdElements.add(g);
 		g.activate();
 	}
 
 	@Override
 	public void onDestruction(Destroyable d) {
-		System.out.println("Destroyed: "+ ((GameElement)d).getResourceKey());
-		
+		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
+
 		destroyedElements.add(d);
 	}
 
