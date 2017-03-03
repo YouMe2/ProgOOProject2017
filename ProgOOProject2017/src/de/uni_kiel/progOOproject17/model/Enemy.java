@@ -18,7 +18,7 @@ public class Enemy extends GameEntity {
 	}
 	
 	public Enemy(String resKey, int x, int y, Environment environment, CreationHelper creatHelp) {
-		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, PLGameModel.LHPIXEL_HEIGHT, environment, creatHelp);
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, Math.round(PLGameModel.LHPIXEL_HEIGHT * 0.9f), environment, creatHelp);
 	}
 
 	@Override

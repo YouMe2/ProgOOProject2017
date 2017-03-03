@@ -81,10 +81,10 @@ public class Player extends GameEntity {
 
 				ResourceManager.getInstance().getSound("crouch").play();
 				currMoveState = CROUCHING;
-				if(environment.isOnGround(this)) {
-					translate(0, - PLAYER_H_CROUCH + PLAYER_H_NORMAL);
+				if (environment.isOnGround(this)) {
+					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
 				}
-				
+
 				setSize(PLAYER_W, PLAYER_H_CROUCH);
 			}
 
@@ -104,15 +104,15 @@ public class Player extends GameEntity {
 
 		case JUMP:
 
-			// TODO PLAYER JUMP
-
-			// System.out.println("jumping "+environment.isOnGround(this));
+			
 
 			if (currMoveState != MoveState.JUMPING) {
-				ResourceManager.getInstance().getSound("jump").play();
-				currMoveState = MoveState.JUMPING;
-				if (environment.isOnGround(this))
+				if (environment.isOnGround(this)){
 					addVelocity(JUMPVELOCITY);
+					currMoveState = MoveState.JUMPING;
+					ResourceManager.getInstance().getSound("jump").play();
+					
+				}
 			}
 
 			break;
@@ -139,15 +139,12 @@ public class Player extends GameEntity {
 		if (obj.isDeadly()) {
 			if (damage(1)) {
 				obj.addKill();
-			}
-			else {
+			} else {
 				obj.destroy();
-				
+
 			}
-		}
-		else {
-			
-			
+		} else {
+
 		}
 
 	}
@@ -158,13 +155,14 @@ public class Player extends GameEntity {
 			return false;
 
 		lifes -= dmg;
-
+		ResourceManager.getInstance().getSound("playerhurt").play();
+		
 		if (lifes <= 0) {
 			destroy();
-			
+
 			creatHelp.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6, creatHelp));
 			ResourceManager.getInstance().getSound("death").play();
-			
+
 			return true;
 		}
 
@@ -189,7 +187,7 @@ public class Player extends GameEntity {
 		steps++;
 		if (steps > PLGameModel.GAME_WIDTH) {
 			// TODO PARTICLE HERE
-
+			ResourceManager.getInstance().getSound("pickup").play();
 			steps -= PLGameModel.GAME_WIDTH;
 			points++;
 

@@ -80,7 +80,7 @@ public class PLLighthouseView extends FramedIOView {
 				String key = v.getResourceKey();
 				if( key != null)
 					gr.drawImage(res.getImage(key+ "-low"), rect.x, rect.y, rect.width, rect.height, null);
-
+//					gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
 			});
 
 		}
