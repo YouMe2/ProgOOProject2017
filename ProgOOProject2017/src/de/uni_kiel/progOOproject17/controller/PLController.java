@@ -28,7 +28,11 @@ public class PLController extends TickedController {
 		standardIn.addAction("pressed W", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_JUMP));
 		standardIn.addAction("pressed S", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH));
 		standardIn.addAction("released S", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH));
-
+//		standardIn.addAction("pressed D", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_RIGHT));
+//		standardIn.addAction("pressed A", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_LEFT));
+//		standardIn.addAction("released D", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT));
+//		standardIn.addAction("released A", ModelAction.getAction(PLGameModel.ACTIONKEY_PLAYER_STOPLEFT));
+		
 		standardIn.addAction("pressed F", new AbstractAction() {
 
 			@Override
@@ -79,5 +83,6 @@ public class PLController extends TickedController {
 			myModel = (PLGameModel) model;
 		return myModel;
 	}
+
 
 }

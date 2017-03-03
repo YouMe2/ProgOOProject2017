@@ -55,18 +55,18 @@ public class LevelGeneratorDEMO implements Ticked {
 
 		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
 		e.setGravityActive(false);
-		e.setVelocity(standartVelocity);
+//		e.setVelocity(standartVelocity);
 		creatHelp.create(e);
 
 		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3), environment, creatHelp);
 		e2.setGravityActive(false);
-		e2.setVelocity(standartVelocity);
+//		e2.setVelocity(standartVelocity);
 		creatHelp.create(e2);
 
 		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
 		b.setGravityActive(false);
 //		b.setVelocity(standartVelocity);
-		b.setContinuesVel(standartVelocity); //TODO wie ists besser?
+//		b.setContinuesVel(standartVelocity); //TODO wie ists besser?
 		creatHelp.create(b);
 
 		return 3600;

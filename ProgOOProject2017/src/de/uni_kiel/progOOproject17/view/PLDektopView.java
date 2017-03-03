@@ -26,6 +26,7 @@ public class PLDektopView extends FramedIOView {
 	public void render(Viewable[] viewables) {
 
 		final Graphics gr = img.getGraphics();
+		gr.clearRect(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT);
 
 		for (int i = 0; i < Viewable.LAYERsSIZE; i++) {
 			final int layer = i;

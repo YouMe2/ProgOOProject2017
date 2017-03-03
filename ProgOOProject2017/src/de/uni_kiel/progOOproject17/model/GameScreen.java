@@ -6,7 +6,6 @@ package de.uni_kiel.progOOproject17.model;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
@@ -17,7 +16,6 @@ import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameCompound;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.Ticked;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -32,6 +30,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
+	private final Distance screenVelocity;
 
 	private LevelGeneratorDEMO levelGenerator;
 
@@ -50,14 +49,16 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		createdElements = new LinkedList<>();
 
 		levelGenerator = new LevelGeneratorDEMO(this, this);
+		screenVelocity = new Distance( 8, 0);
+		
 
-
-		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
+		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
+		player.setPermaXVel(screenVelocity.x);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
-		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1), this, this);
+		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH+50, 1), this, this);
 		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
 		barier.setDeadly(true);
 		Background bg = new Background("background", 0, 0, w, h, this, this);
@@ -66,9 +67,8 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		create(barier);
 
 		// PARTICLE TEST:
-		// Particle particle = new Particle("partTest", 120, 120, 60, 60, 1000,
-		// 3, this);
-		// create(particle)
+//		 Particle particle = new Particle("partTest", 800, 0, 300, 300, 1000, 4, this, this);
+//		 create(particle);
 
 	}
 
@@ -80,8 +80,11 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	@Override
 	public void tick(long timestamp) {
 		
+		this.setLocation(player.getX()-PLGameModel.LHPIXEL_WIDTH*2 ,0);
+		
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(e -> e.tick(timestamp));
+		
 		
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();
@@ -281,9 +284,8 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 * )
 	 */
 	@Override
-	public Point getScreenPosition() {
-		// TODO Auto-generated method stub
-		return null;
+	public Rectangle getScreenRect() {
+		return getBoundingRect();
 	}
 
 }

@@ -2,17 +2,12 @@ package de.uni_kiel.progOOproject17.model;
 
 import java.awt.Rectangle;
 
-import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 
 public class Block extends GameEntity {
 
-	private boolean deadly = false;
-	private int killcounter = 0;
-	
-	private Distance continuesVel = null;
 
 	public Block(String resKey,Rectangle rect, Environment environment, CreationHelper creatHelp) {
 		this(resKey, rect.x, rect.y, rect.width, rect.height, environment, creatHelp);
@@ -33,9 +28,6 @@ public class Block extends GameEntity {
 			return;
 		}
 
-		if(continuesVel != null){
-			setVelocity(continuesVel);
-		}
 		
 		
 		// movement
@@ -47,9 +39,6 @@ public class Block extends GameEntity {
 	}
 	
 	
-	public void setContinuesVel(Distance vel) {
-		this.continuesVel = vel;
-	}
 
 	@Override
 	public void onContactWith(GameObject obj) {

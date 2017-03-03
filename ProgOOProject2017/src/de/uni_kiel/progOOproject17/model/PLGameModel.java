@@ -38,12 +38,16 @@ public class PLGameModel extends TickedBaseModel{
 	public static final String ACTIONKEY_PLAYER_STARTCROUCH = "start crouching";
 	public static final String ACTIONKEY_PLAYER_STOPCROUCH = "stop crouching";
 	public static final String ACTIONKEY_PLAYER_JUMP = "jump";
+	public static final String ACTIONKEY_PLAYER_LEFT = "left";
+	public static final String ACTIONKEY_PLAYER_RIGHT = "right";
+	public static final String ACTIONKEY_PLAYER_STOPLEFT = "stopleft";
+	public static final String ACTIONKEY_PLAYER_STOPRIGHT = "stopright";
 
 	public PLGameModel() {
 		
 		
 		gamescreen = new GameScreen(GAME_WIDTH, GAME_HEIGHT);
-		scoreboard = new Scoreboard(gamescreen.getPlayer(), gamescreen, gamescreen);
+		scoreboard = new Scoreboard(gamescreen.getPlayer());
 		
 		
 	}
