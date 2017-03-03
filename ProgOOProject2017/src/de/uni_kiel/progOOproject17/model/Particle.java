@@ -1,45 +1,30 @@
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Rectangle;
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameElement;
 
-import de.uni_kiel.progOOproject17.model.abs.Destroyable;
-import de.uni_kiel.progOOproject17.model.abs.GameComponent;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
-
-public class Particle extends GameComponent implements Destroyable, Viewable {
+public class Particle extends GameElement{
 
 	private int counter;
 	private final int dtime;
 	private long lasttime;
 	private final int max;
 
-	private boolean alive = true;
 
-	private String resKey;
-
-	private CreationHelper creatHelp;
-
-	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max, CreationHelper creatHelp) {
-		super(x, y, w, h);
+	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max, Environment environment, CreationHelper creatHelp) {
+		super(resKey, max, y, w, h, environment, creatHelp);
 		this.max = max;
-		this.resKey = resKey;
-		this.creatHelp = creatHelp;
 		this.dtime = dtime;
+		setLayer(PARTICLE_LAYER);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
+	 */
 	@Override
 	public String getResourceKey() {
-		return resKey + "_" + counter;
-	}
-
-	@Override
-	public Rectangle getViewRect() {
-		return getBoundingRect();
-	}
-
-	@Override
-	public int getLayer() {
-		return Viewable.PARTICLE_LAYER;
+		
+		return super.getResourceKey() + "_" + counter;
 	}
 
 	@Override
@@ -60,22 +45,5 @@ public class Particle extends GameComponent implements Destroyable, Viewable {
 
 	}
 
-	@Override
-	public boolean isAlive() {
-		return alive;
-	}
-
-	@Override
-	public void activate() {
-		counter = 0;
-		lasttime = 0;
-		alive = true;
-	}
-
-	@Override
-	public void destroy() {
-		alive = false;
-		creatHelp.onDestruction(this);
-	}
 
 }

@@ -1,8 +1,8 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
 @FunctionalInterface
-public interface GameObjectCreator {
+public interface ElementCreator {
 
-	public void create(GameObject g);
+	public void create(GameElement g);
 
 }

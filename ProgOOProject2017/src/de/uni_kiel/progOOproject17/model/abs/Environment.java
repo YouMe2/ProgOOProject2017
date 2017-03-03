@@ -17,7 +17,7 @@ public interface Environment {
 	 *            the distance to check for
 	 * @return <code>true</code> if there's a collision
 	 */
-	public boolean willCollide(GameObject obj, Distance dist);
+	public boolean willCollide(Collidable obj, Distance dist);
 
 	/**
 	 * Computes the furthest distance the object can be moved in the given
@@ -30,7 +30,7 @@ public interface Environment {
 	 * @return the maximal distance the object can be moven in the given
 	 *         distance
 	 */
-	public Distance getCollisionDistance(GameObject obj, Distance maxDist);
+	public Distance getCollisionDistance(Collidable obj, Distance maxDist);
 
 	/**
 	 * Scans the game for all objects that would collide with the given object
@@ -44,7 +44,7 @@ public interface Environment {
 	 * @return a list of all objects that would collide with the given object if
 	 *         it was moved by the given distance
 	 */
-	public ArrayList<GameObject> getCollObjects(GameObject g, Distance dist);
+	public ArrayList<Collidable> getCollObjects(Collidable g, Distance dist);
 
 	/**
 	 * Checks if the given objects are in contact.
@@ -53,7 +53,7 @@ public interface Environment {
 	 *            the object to be checked for
 	 * @return <code>true</code> if the given objects are in contact
 	 */
-	public boolean contacts(GameObject o1, GameObject o2);
+	public boolean contacts(Collidable o1, Collidable o2);
 
 	/**
 	 * Checks if the given object is currently touching another object from
@@ -64,7 +64,7 @@ public interface Environment {
 	 * @return <code>true</code> if the given object is currently touching
 	 *         another object from above
 	 */
-	public boolean isOnGround(GameObject obj);
+	public boolean isOnGround(Collidable obj);
 
 	/**
 	 * Executes a given action for each colliding object as specified in
@@ -77,7 +77,7 @@ public interface Environment {
 	 * @param consumer
 	 * @see #willCollide(GameObject, Distance)
 	 */
-	public void forEachCollision(GameObject obj, Distance dist, Consumer<GameObject> consumer);
+	public void forEachCollision(Collidable obj, Distance dist, Consumer<GameObject> consumer);
 
 	/**
 	 * Executes a given action for each contacting object as specified in
@@ -90,7 +90,7 @@ public interface Environment {
 	 * @param consumer
 	 * @see #contacts(GameObject)
 	 */
-	public void forEachContact(GameObject obj, Consumer<GameObject> consumer);
+	public void forEachContact(Collidable obj, Consumer<GameObject> consumer);
 	
 	public Point getScreenPosition();
 	
