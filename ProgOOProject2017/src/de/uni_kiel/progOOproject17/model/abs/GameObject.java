@@ -1,67 +1,45 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import java.awt.Rectangle;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
-public abstract class GameObject extends GameComponent implements Destroyable, Deadly, Viewable {
+public abstract class GameObject extends GameElement implements Deadly, Collidable{
 
-	private boolean alive = true;
+	
 
-	private String resKey;
-	private int layer;
-
-	public final Environment environment;
-	public final CreationHelper creatHelp;
+	private boolean deadly;
+	private int killcounter;
 
 	public GameObject(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
-		super(x, y, w, h);
-		this.environment = environment;
-		this.creatHelp = creatHelp;
-		setResKey(resKey);
-		setLayer(0);
+		super(resKey, x, y, w, h, environment, creatHelp);
+	}
+
+
+
+	@Override
+	public boolean isDeadly() {
+		return deadly;
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Deadly#setDeadly(boolean)
+	 */
+	@Override
+	public void setDeadly(boolean deadly) {
+		this.deadly = deadly;
+		
 	}
 
 	@Override
-	public String getResourceKey() {
-		return resKey;
+	public void addKill() {
+		killcounter++;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Deadly#getKills()
+	 */
 	@Override
-	public Rectangle getViewRect() {
-		return getBoundingRect();
-	}
-
-	@Override
-	public int getLayer() {
-		return layer;
-	}
-
-	public void setResKey(String resKey) {
-		this.resKey = resKey;
-	}
-
-	public void setLayer(int layer) {
-		this.layer = layer;
-	}
-
-	@Override
-	public void activate() {
-		alive = true;
-	}
-
-	@Override
-	public void destroy() {
-		if (isAlive()) {
-//			System.out.println("DESTROYED: " + resKey);
-			alive = false;
-			creatHelp.onDestruction(this);
-		}
-	}
-
-	@Override
-	public boolean isAlive() {
-		return alive;
+	public int getKills() {
+		return killcounter;
 	}
 }

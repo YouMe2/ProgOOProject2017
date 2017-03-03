@@ -11,7 +11,7 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	public GameEntity(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
 		super(resKey, x, y, w, h, environment, creatHelp);
 		velocity = new Distance(0, 0);
-		setLayer(Viewable.ENTITY_LAYER);
+		setLayer(ENTITY_LAYER);
 	}
 
 	@Override

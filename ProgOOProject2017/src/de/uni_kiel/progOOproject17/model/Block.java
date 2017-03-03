@@ -52,23 +52,9 @@ public class Block extends GameEntity {
 	}
 
 	@Override
-	public boolean isDeadly() {
-		return deadly;
-	}
-
-	@Override
-	public void addKill() {
-		killcounter++;
-	}
-
-	public void setDeadly(boolean deadly) {
-		this.deadly = deadly;
-	}
-
-	@Override
 	public void onContactWith(GameObject obj) {
-
 		assert !obj.equals(this);
+		
 		if (obj.isDeadly()) {
 			destroy();
 			obj.addKill();

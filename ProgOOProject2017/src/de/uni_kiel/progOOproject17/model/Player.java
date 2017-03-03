@@ -7,8 +7,11 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
+import de.uni_kiel.progOOproject17.model.abs.Collidable;
+import de.uni_kiel.progOOproject17.model.abs.Deadly;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
@@ -21,7 +24,7 @@ public class Player extends GameEntity {
 	private int points = 0;
 
 	private int steps;
-	private int lifes = 2;
+	private int lifes = 3;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 	private MoveState currMoveState = MoveState.NORMAL;
@@ -104,14 +107,12 @@ public class Player extends GameEntity {
 
 		case JUMP:
 
-			
-
 			if (currMoveState != MoveState.JUMPING) {
-				if (environment.isOnGround(this)){
+				if (environment.isOnGround(this)) {
 					addVelocity(JUMPVELOCITY);
 					currMoveState = MoveState.JUMPING;
 					ResourceManager.getInstance().getSound("jump").play();
-					
+
 				}
 			}
 
@@ -143,8 +144,6 @@ public class Player extends GameEntity {
 				obj.destroy();
 
 			}
-		} else {
-
 		}
 
 	}
@@ -156,27 +155,17 @@ public class Player extends GameEntity {
 
 		lifes -= dmg;
 		ResourceManager.getInstance().getSound("playerhurt").play();
-		
+
 		if (lifes <= 0) {
 			destroy();
 
-			creatHelp.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6, creatHelp));
+			creatHelp.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6, environment, creatHelp));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;
 		}
 
 		return false;
-	}
-
-	@Override
-	public boolean isDeadly() {
-		return false;
-	}
-
-	@Override
-	public void addKill() {
-		// nothing here
 	}
 
 	public int getPoints() {
