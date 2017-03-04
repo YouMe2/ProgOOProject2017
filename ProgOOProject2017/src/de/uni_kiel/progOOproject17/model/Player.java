@@ -4,15 +4,14 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
+import java.awt.Point;
+
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
 
 public class Player extends GameEntity implements Stats{
 
@@ -20,33 +19,11 @@ public class Player extends GameEntity implements Stats{
 
 	private int steps;
 	private int lifes = 3;
-	private final int playerXVelocity = 10;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
 	private MoveState currMoveState = MoveState.NORMAL;
 
-	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			currMoveCommand = MoveCommand.JUMP;
-		}
-	};
-
-	public final ModelAction moveSTARTCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			currMoveCommand = MoveCommand.START_CROUCH;
-		}
-	};
-	public final ModelAction moveENDCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			currMoveCommand = MoveCommand.END_CROUCH;
-		}
-	};
 
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
@@ -62,6 +39,7 @@ public class Player extends GameEntity implements Stats{
 		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 	}
 
+	//TESTWISE
 	private static int counter = 0;
 
 	@Override
@@ -192,6 +170,13 @@ public class Player extends GameEntity implements Stats{
 
 	public int getLifes() {
 		return lifes;
+	}
+	
+	/**
+	 * @param currMoveCommand the currMoveCommand to set
+	 */
+	public void setCurrMoveCommand(MoveCommand currMoveCommand) {
+		this.currMoveCommand = currMoveCommand;
 	}
 
 }

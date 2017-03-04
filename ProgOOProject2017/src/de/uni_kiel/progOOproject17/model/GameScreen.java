@@ -7,14 +7,20 @@ import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameCompound;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-public class GameScreen extends GameCompound implements Environment, CreationHelper {
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+public class GameScreen extends Screen implements Environment, CreationHelper {
 
 	private final LinkedList<GameElement> gameElements;
 	private final LinkedList<GameElement> createdElements;
@@ -23,7 +29,9 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	private final Player player;
 	private final int screenVelocity = 8;
 
+	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
+	
 
 	/**
 	 * @param x
@@ -31,8 +39,8 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 * @param w
 	 * @param h
 	 */
-	public GameScreen(int w, int h) {
-		super(0, 0, w, h);
+	public GameScreen(int w, int h, Action pauseAction) {
+		super(w, h);
 
 		gameElements = new LinkedList<>();
 		destroyedElements = new LinkedList<>();
@@ -42,9 +50,42 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 
 		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
+		scoreboard = new Scoreboard(getPlayerStats());
+
+		putAction(InputActionKeys.P_UP, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player.setCurrMoveCommand(MoveCommand.JUMP);
+
+			}
+		});
+
+		putAction(InputActionKeys.P_DOWN, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player.setCurrMoveCommand(MoveCommand.START_CROUCH);
+
+			}
+		});
+
+		putAction(InputActionKeys.R_DOWN, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player.setCurrMoveCommand(MoveCommand.END_CROUCH);
+
+			}
+		});
+
+		putAction(InputActionKeys.P_SELECT, pauseAction);
+
 		create(player);
 
 		levelGenerator.setRunning(true);
+
+		// tests below:
 
 		create(new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
 
@@ -81,6 +122,8 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 
 		});
 
+		scoreboard.tick(timestamp);
+
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();
 
@@ -95,7 +138,10 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 */
 	@Override
 	public Viewable[] getViewables() {
-		return gameElements.toArray(new Viewable[gameElements.size()]);
+		ArrayList<Viewable> views = new ArrayList<>();
+		views.addAll(Arrays.asList(scoreboard.getViewables()));
+		views.addAll(gameElements);
+		return views.toArray(new Viewable[views.size()]);
 	}
 
 	public Stats getPlayerStats() {
