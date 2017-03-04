@@ -13,7 +13,7 @@ public class PLGameModel extends TickedBaseModel {
 	public static final int LH_HEIGHT = 14;
 
 	public static final int LHPIXEL_WIDTH = 15;
-	public static final int LHPIXEL_HEIGHT = 35;
+	public static final int LHPIXEL_HEIGHT = 30;
 
 	public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490
@@ -35,7 +35,7 @@ public class PLGameModel extends TickedBaseModel {
 	public PLGameModel() {
 
 		gamescreen = new GameScreen(GAME_WIDTH, GAME_HEIGHT);
-		scoreboard = new Scoreboard(gamescreen.getPlayer());
+		scoreboard = new Scoreboard(gamescreen.getPlayerStats());
 
 	}
 

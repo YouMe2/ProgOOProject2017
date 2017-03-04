@@ -13,7 +13,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class Scoreboard extends GameCompound {
 
-	private final Player player;
+	private final Stats stats;
 
 	private ImageViewable stepsDisplay;
 
@@ -24,9 +24,9 @@ public class Scoreboard extends GameCompound {
 	private String lifesKey = "life";
 
 
-	public Scoreboard(Player player) {
+	public Scoreboard(Stats stats) {
 		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
-		this.player = player;
+		this.stats = stats;
 
 
 		stepsDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0, Math.round(LHPIXEL_HEIGHT * 0.8f), Viewable.SB_LAYER);
@@ -46,10 +46,12 @@ public class Scoreboard extends GameCompound {
 	@Override
 	public void tick(long timestamp) {
 
-		stepsDisplay.setSize(player.getSteps(), stepsDisplay.getHeight());
+		stepsDisplay.setSize(stats.getSteps(), stepsDisplay.getHeight());
 
-		int p = player.getPoints();
-
+		int p = stats.getPoints();
+		if(p > pointsDisplay.length) {
+			p = pointsDisplay.length;
+		}
 		for (int i = 0; i < p; i++) {
 			pointsDisplay[i].setResKey(pointsKey);
 		}
@@ -57,7 +59,12 @@ public class Scoreboard extends GameCompound {
 			pointsDisplay[i].setResKey(null);
 		}
 
-		int l = player.getLifes();
+		int l = stats.getLifes();
+		if(l > lifesDisplay.length) {
+			l = lifesDisplay.length;
+		}
+		
+		
 		for (int i = 0; i < l; i++) {
 			lifesDisplay[i].setResKey(lifesKey);
 		}

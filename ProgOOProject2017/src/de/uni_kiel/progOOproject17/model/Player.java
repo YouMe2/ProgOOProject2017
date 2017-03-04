@@ -14,12 +14,12 @@ import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
-public class Player extends GameEntity {
+public class Player extends GameEntity implements Stats{
 
 	private int points = 0;
 
 	private int steps;
-	private int lifes = 4;
+	private int lifes = 3;
 	private final int playerXVelocity = 10;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;

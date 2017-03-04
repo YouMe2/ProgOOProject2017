@@ -39,26 +39,20 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		createdElements = new LinkedList<>();
 
 		levelGenerator = new LevelGenerator(this, this);
-		
 
-		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
-		
-		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 200, 1));
-		
-		
-		
-		
-		Background bg = new Background("background", 0, 0, w, h);
-		create(bg);
-		create(floor);
+		create(new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
+
+		create(new Background("background", 0, 0, w, h));
 
 		// PARTICLE TEST:
-		// Particle particle = new Particle("partTest", 800, 0, 300, 300, 1000,4);
+		// Particle particle = new Particle("partTest", 800, 0, 300, 300,
+		// 1000,4);
 		// create(particle);
 
 	}
@@ -75,17 +69,16 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
-			
+
 			public void accept(GameElement e) {
-				
+
 				e.tick(timestamp);
 				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX()) {
 					e.destroy();
 				}
-				
-				
+
 			};
-			
+
 		});
 
 		gameElements.removeAll(destroyedElements);
@@ -105,7 +98,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		return gameElements.toArray(new Viewable[gameElements.size()]);
 	}
 
-	public Player getPlayer() {
+	public Stats getPlayerStats() {
 		return player;
 
 	}
