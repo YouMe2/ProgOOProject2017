@@ -51,7 +51,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		levelGenerator = new LevelGeneratorDEMO(this, this);
 		
 
-		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
+		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
 		player.setPermaXVel(screenVelocity);
 		create(player);
 
@@ -61,10 +61,6 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		
 		
 		
-//		Block barier = new Block(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
-//		barier.setDeadly(true);
-//		barier.setGravityActive(false);
-//		barier.setPermaXVel(screenVelocity);
 		
 		Background bg = new Background("background", 0, 0, w, h, this, this);
 		create(bg);
