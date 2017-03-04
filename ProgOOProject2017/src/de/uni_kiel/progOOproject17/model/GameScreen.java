@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class GameScreen extends Screen implements Environment, CreationHelper {
+public class GameScreen extends Screen implements Environment, CreationHelper, Stats {
 
 	private final LinkedList<GameElement> gameElements;
 	private final LinkedList<GameElement> createdElements;
@@ -30,6 +30,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
 	private final Action endAction;
+
 	/**
 	 * @param x
 	 * @param y
@@ -43,11 +44,18 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		levelGenerator = new LevelGenerator(this, this);
-
 		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
+
+		// Note to self: player reference must be final for player::addPoint,
+		// otherwise an anonymous interface is required!
+		// See the end of chapter 15.13.3, Run-Time Evaluation of Method
+		// References, in the Java specification,
+		// http://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.13.3
+		// For an explanation, see SOF,
+		// http://stackoverflow.com/a/30360878/4453823
+		levelGenerator = new LevelGenerator(this, this, player::addPoint);
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 
@@ -103,13 +111,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	 */
 	@Override
 	public void tick(long timestamp) {
-		
-		if(!player.isAlive()) {
-			
+
+		if (!player.isAlive())
 			endAction.actionPerformed(null);
-			
-		}
-		
 
 		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
 
@@ -150,8 +154,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	}
 
 	public Stats getPlayerStats() {
-		return player;
-
+		return this;
 	}
 
 	@Override
@@ -160,13 +163,10 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 		rect.translate(dist.x, dist.y);
 		synchronized (gameElements) {
 			for (GameElement o : gameElements)
-				if (o instanceof Collidable) {
-					Collidable c = (Collidable) o;
+				if (o instanceof Collidable)
 					if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
 						return true;
-				}
 		}
-
 		return false;
 	}
 
@@ -326,4 +326,18 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 		return getBoundingRect();
 	}
 
+	@Override
+	public double getProgress() {
+		return levelGenerator.getProgressOf(player.getX());
+	}
+
+	@Override
+	public int getPoints() {
+		return levelGenerator.getCurrentStage() - 1;
+	}
+
+	@Override
+	public int getLifes() {
+		return player.getLifes();
+	}
 }

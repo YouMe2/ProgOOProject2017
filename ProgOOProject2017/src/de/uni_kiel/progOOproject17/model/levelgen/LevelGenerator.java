@@ -7,6 +7,7 @@ import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Rectangle;
 import java.util.Collection;
 
@@ -14,24 +15,27 @@ public class LevelGenerator implements Ticked {
 
 	public static final int FLOOR_HEIGHT = PLGameModel.lhToGame(0, 1).y;
 	// height for enemies at floor level
-	public static final int FLOOR_POS = PLGameModel.GAME_HEIGHT- LevelGenerator.FLOOR_HEIGHT;
+	public static final int FLOOR_POS = PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT;
 
 	private final Environment environment;
 	private final CreationHelper createHelper;
+	private Runnable stageSpawnListener;
 
 	private boolean running = false;
 
+	private int lastGeneratedTerrain;
 	private int generatedTerrain;
 	private int generatedBackground;
 
 	private int currentStage;
 	private Stage[] stages;
 
-	public LevelGenerator(Environment environment, CreationHelper createHelper) {
+	public LevelGenerator(Environment environment, CreationHelper createHelper, Runnable stageSpawnListener) {
 		this.createHelper = createHelper;
 		this.environment = environment;
+		this.stageSpawnListener = stageSpawnListener;
 		generatedTerrain = generatedBackground = 0;
-		currentStage = 5;
+		currentStage = 0;
 		stages = Stage.values();
 	}
 
@@ -44,8 +48,10 @@ public class LevelGenerator implements Ticked {
 		if (running) {
 			Rectangle screenRectangle = environment.getScreenRect();
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
-			if (generatedTerrain <= rightScreenBorder)
+			if (generatedTerrain <= rightScreenBorder) {
+				lastGeneratedTerrain = generatedTerrain;
 				generatedTerrain = spawnStage(generatedTerrain);
+			}
 			if (generatedBackground <= rightScreenBorder)
 				generatedBackground = spawnBackground(generatedBackground);
 		}
@@ -66,7 +72,9 @@ public class LevelGenerator implements Ticked {
 			Floor startFloor = new Floor("floor", 0, FLOOR_POS, floorLength, FLOOR_HEIGHT);
 			stageStart = floorLength;
 			createHelper.create(startFloor);
-		}
+		} else
+			// TODO PARTICLE HERE
+			ResourceManager.getInstance().getSound("pickup").play();
 		// Create the stage
 		Collection<GameElement> c;
 		int stageEnd;
@@ -79,6 +87,7 @@ public class LevelGenerator implements Ticked {
 		int nextStage = currentStage + 1;
 		if (nextStage < stages.length)
 			currentStage = nextStage;
+		stageSpawnListener.run();
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}
@@ -89,6 +98,14 @@ public class LevelGenerator implements Ticked {
 		createHelper.create(b);
 		System.out.println("Spawned background from " + backgroundStart + " to " + backgroundEnd);
 		return backgroundEnd;
+	}
+
+	public double getProgressOf(int x) {
+		return (double) (x - lastGeneratedTerrain) / (generatedTerrain - lastGeneratedTerrain);
+	}
+
+	public int getCurrentStage() {
+		return currentStage;
 	}
 
 }

@@ -13,11 +13,10 @@ import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Point;
 
-public class Player extends GameEntity implements Stats {
+public class Player extends GameEntity {
 
 	private int points = 0;
 
-	private int steps;
 	private int lifes = 3;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
@@ -132,8 +131,6 @@ public class Player extends GameEntity implements Stats {
 				currMoveState = NORMAL;
 			else if (currMoveState == JUMPING_AND_CROUCHING)
 				currMoveState = CROUCHING;
-
-		addStep();
 	}
 
 	@Override
@@ -171,28 +168,15 @@ public class Player extends GameEntity implements Stats {
 		return false;
 	}
 
-	@Override
+	public void addPoint() {
+		System.out.println(getResourceKey());
+		points++;
+	}
+
 	public int getPoints() {
 		return points;
 	}
 
-	public void addStep() {
-		steps++;
-		if (steps > PLGameModel.GAME_WIDTH) {
-			// TODO PARTICLE HERE
-			ResourceManager.getInstance().getSound("pickup").play();
-			steps -= PLGameModel.GAME_WIDTH;
-			points++;
-
-		}
-	}
-
-	@Override
-	public int getSteps() {
-		return steps;
-	}
-
-	@Override
 	public int getLifes() {
 		return lifes;
 	}
