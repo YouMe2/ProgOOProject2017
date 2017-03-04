@@ -26,8 +26,11 @@ public class PLController extends TickedController {
 
 
 		standardIn.addAction("pressed W", model.getAction(InputActionKeys.P_UP));
+		standardIn.addAction("released W", model.getAction(InputActionKeys.R_UP));
 		standardIn.addAction("pressed S", model.getAction(InputActionKeys.P_DOWN));
 		standardIn.addAction("released S", model.getAction(InputActionKeys.R_DOWN));
+		standardIn.addAction("pressed SPACE", model.getAction(InputActionKeys.P_SELECT));
+		standardIn.addAction("released SPACE", model.getAction(InputActionKeys.R_SELECT));
 
 		standardIn.addAction("pressed F", new AbstractAction() {
 
@@ -41,7 +44,7 @@ public class PLController extends TickedController {
 
 		});
 
-		standardIn.addAction("pressed SPACE", new AbstractAction() {
+		standardIn.addAction("pressed E", new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -49,7 +52,7 @@ public class PLController extends TickedController {
 			}
 		});
 		
-		standardIn.addAction("released SPACE", new AbstractAction() {
+		standardIn.addAction("released E", new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

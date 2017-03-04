@@ -14,6 +14,6 @@ public interface Actionable {
 
 	public Action getAction(InputActionKeys iA);
 	public void putAction(InputActionKeys iA, Action action);
-	public void copyAllActions(Actionable a);
+	public void forwardAllActions(Actionable a);
 	
 }
