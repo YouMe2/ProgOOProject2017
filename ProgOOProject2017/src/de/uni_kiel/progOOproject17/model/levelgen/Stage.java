@@ -4,7 +4,7 @@ import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.DOUBLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.DOUBLE_HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.SINGLE;
-import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE;
+import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE_HOVERING;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
@@ -20,15 +20,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public enum Stage {
 
-	ZERO(80, 500, 15, SINGLE),
-	ONE(60, 350, 25, SINGLE, DOUBLE, TRIPLE, HOVERING, DOUBLE_HOVERING),
-	TWO(0, 0, 0),
+	ZERO(100, 500, 10, SINGLE, DOUBLE, HOVERING),
+	ONE(90, 350, 15, SINGLE, DOUBLE, HOVERING, DOUBLE_HOVERING),
+	TWO(80, 300, 20, DOUBLE, DOUBLE_HOVERING, TRIPLE_HOVERING),
 	THREE(0, 0, 0),
 	FOUR(0, 0, 0),
 	FIVE(0, 0, 0),
 	FINAL(0, 0, 0);
-
-	public static final int FLOOR_HEIGHT = 20;
 
 	private final int minSpace;
 	private final int maxSpace;
@@ -36,29 +34,36 @@ public enum Stage {
 	private final Obstacle[] possibleObstacles;
 	private int lastWidth = -1;
 
-	private Stage(int minSpace, int maxSpace, int elements, Obstacle... possibleObstacles) {
+	private Stage(int minSpace, int maxSpace, int elements,
+			Obstacle... possibleObstacles) {
 		this.minSpace = minSpace;
 		this.maxSpace = maxSpace;
 		this.elements = elements;
 		this.possibleObstacles = possibleObstacles;
 	}
 
-	public Collection<GameElement> create(int stageStart, Environment e, CreationHelper c) {
-		System.out.println("stage for " + stageStart + " from\n\t" + Arrays.toString(possibleObstacles));
+	public Collection<GameElement> create(int stageStart, Environment e,
+			CreationHelper c) {
+		System.out.println("stage for " + stageStart + " from\n\t"
+				+ Arrays.toString(possibleObstacles));
 		Random r = ThreadLocalRandom.current();
 		ArrayList<GameElement> res = new ArrayList<>();
 		int stagePos = stageStart;
 		while (res.size() < elements) {
 			int obstacle = r.nextInt(possibleObstacles.length);
 			Obstacle o = possibleObstacles[obstacle];
-			List<GameElement> obstacleElements = Arrays.asList(o.createNew(stagePos, e, c));
+			List<GameElement> obstacleElements = Arrays
+					.asList(o.createNew(stagePos, e, c));
 			int randomSpace = minSpace + r.nextInt(maxSpace - minSpace);
 			res.addAll(obstacleElements);
 			stagePos += o.getWidth() + randomSpace;
-			System.out.println("w = " + o.getWidth() + ", rnd = " + randomSpace + " -> " + stagePos);
+			// System.out.println("w = " + o.getWidth() + ", rnd = " +
+			// randomSpace + " -> " + stagePos);
 		}
 		lastWidth = stagePos;
-		Floor floor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, stagePos, FLOOR_HEIGHT);
+		Floor floor = new Floor("floor", stageStart,
+				PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT, stagePos,
+				LevelGenerator.FLOOR_HEIGHT);
 		res.add(floor);
 		System.out.println("STAGE '" + this + "' CREATED, WIDTH = " + stagePos);
 		return res;

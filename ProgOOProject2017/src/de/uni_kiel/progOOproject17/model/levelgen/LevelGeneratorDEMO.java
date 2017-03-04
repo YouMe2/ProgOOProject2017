@@ -25,7 +25,8 @@ public class LevelGeneratorDEMO implements Ticked {
 	/**
 	 *
 	 */
-	public LevelGeneratorDEMO(Environment environment, CreationHelper creatHelp) {
+	public LevelGeneratorDEMO(Environment environment,
+			CreationHelper creatHelp) {
 
 		this.environment = environment;
 		this.creatHelp = creatHelp;
@@ -55,18 +56,22 @@ public class LevelGeneratorDEMO implements Ticked {
 	 * @return the time the new sequence will take to run thru
 	 */
 	public long spawnRandomSequence() {
+		System.out.println("DEMO!!");
 
-		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2));
+		Enemy e = new Enemy("enemy",
+				PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2));
 		e.setGravityActive(false);
 		// e.setVelocity(standartVelocity);
 		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3));
+		Enemy e2 = new Enemy("enemy",
+				PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3));
 		e2.setGravityActive(false);
 		// e2.setVelocity(standartVelocity);
 		creatHelp.create(e2);
 
-		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1));
+		Block b = new Block("floor",
+				lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1));
 		b.setGravityActive(false);
 		// b.setVelocity(standartVelocity);
 		// b.setContinuesVel(standartVelocity); //TODO wie ists besser?

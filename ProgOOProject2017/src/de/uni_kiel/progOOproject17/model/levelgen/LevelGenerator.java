@@ -1,6 +1,8 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.Floor;
+import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
@@ -8,6 +10,8 @@ import java.awt.Rectangle;
 import java.util.Collection;
 
 public class LevelGenerator implements Ticked {
+
+	public static final int FLOOR_HEIGHT = PLGameModel.lhToGame(0, 1).y;
 
 	private final Environment environment;
 	private final CreationHelper createHelper;
@@ -19,7 +23,8 @@ public class LevelGenerator implements Ticked {
 	private int currentStage;
 	private Stage[] stages;
 
-	public LevelGenerator(Environment environment, CreationHelper createHelper) {
+	public LevelGenerator(Environment environment,
+			CreationHelper createHelper) {
 		this.createHelper = createHelper;
 		this.environment = environment;
 		generatedTerrain = 0;
@@ -50,12 +55,25 @@ public class LevelGenerator implements Ticked {
 	 */
 	public long spawnStage(int stageStart) {
 		Stage stage = stages[currentStage];
-		Collection<GameElement> c = stage.create(stageStart, environment, createHelper);
+		if (currentStage == 0) {
+			int space = PLGameModel.GAME_WIDTH * 2;
+			Floor intermediateFloor = new Floor("floor", stageStart,
+					PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, space,
+					FLOOR_HEIGHT);
+			stageStart += space;
+			createHelper.create(intermediateFloor);
+		}
+		Collection<GameElement> c;
+		int stageWidth;
+		synchronized (stage) {
+			c = stage.create(stageStart, environment, createHelper);
+			stageWidth = stage.getLastWidth();
+		}
 		for (GameElement element : c)
 			createHelper.create(element);
 		if (currentStage < stages.length - 1)
 			currentStage++;
-		return stage.getLastWidth();
+		return stageWidth;
 	}
 
 }
