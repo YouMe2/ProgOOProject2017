@@ -10,7 +10,7 @@ public class Particle extends GameElement {
 	private final int max;
 
 	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
-		super(resKey, max, y, w, h);
+		super(resKey, x, y, w, h);
 		this.max = max;
 		this.dtime = dtime;
 		setLayer(PARTICLE_LAYER);

@@ -50,7 +50,7 @@ public class PLLighthouseView extends FramedIOView {
 	 * @param port
 	 */
 	public PLLighthouseView(String title) {
-		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, false);
+		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, true);
 
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 

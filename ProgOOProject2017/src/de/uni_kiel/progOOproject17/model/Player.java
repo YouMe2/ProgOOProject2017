@@ -88,7 +88,7 @@ public class Player extends GameEntity {
 
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
-	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 4;
+	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
@@ -122,6 +122,7 @@ public class Player extends GameEntity {
 			if (currMoveState != CROUCHING) {
 
 				ResourceManager.getInstance().getSound("crouch").play();
+				setResKey(getResourceKey() + "_C");
 				currMoveState = CROUCHING;
 				if (environment.isOnGround(this))
 					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
@@ -136,6 +137,8 @@ public class Player extends GameEntity {
 
 			if (currMoveState == CROUCHING) {
 				currMoveState = NORMAL;
+
+				setResKey(getResourceKey().replace("_C", ""));
 				if (environment.willCollide(this, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
 					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
 				setSize(PLAYER_W, PLAYER_H_NORMAL);

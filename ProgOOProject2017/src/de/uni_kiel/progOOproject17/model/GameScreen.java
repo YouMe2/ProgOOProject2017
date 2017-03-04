@@ -21,7 +21,7 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final Distance screenVelocity;
+	private final int screenVelocity = 8;
 
 	private LevelGenerator levelGenerator;
 
@@ -39,26 +39,26 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		createdElements = new LinkedList<>();
 
 		levelGenerator = new LevelGenerator(this, this);
-		screenVelocity = new Distance(8, 0);
+		
 
 		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
-		player.setPermaXVel(screenVelocity.x);
+		player.setPermaXVel(screenVelocity);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
-		Floor floor = new Floor("floor",
-				PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 50, 1));
-		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT));
-		barier.setDeadly(true);
+		
+		Floor floor = new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 200, 1));
+		
+		
+		
+		
 		Background bg = new Background("background", 0, 0, w, h);
 		create(bg);
 		create(floor);
-		create(barier);
 
 		// PARTICLE TEST:
-		// Particle particle = new Particle("partTest", 800, 0, 300, 300, 1000,
-		// 4, this, this);
+		// Particle particle = new Particle("partTest", 800, 0, 300, 300, 1000,4);
 		// create(particle);
 
 	}
@@ -74,7 +74,19 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
 
 		levelGenerator.tick(timestamp);
-		gameElements.forEach(e -> e.tick(timestamp));
+		gameElements.forEach(new Consumer<GameElement>() {
+			
+			public void accept(GameElement e) {
+				
+				e.tick(timestamp);
+				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX()) {
+					e.destroy();
+				}
+				
+				
+			};
+			
+		});
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();
