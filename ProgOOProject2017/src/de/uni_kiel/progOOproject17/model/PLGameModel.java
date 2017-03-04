@@ -17,8 +17,8 @@ public class PLGameModel extends TickedBaseModel {
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
 
-	public static final int LHPIXEL_WIDTH = 15;
-	public static final int LHPIXEL_HEIGHT = 30;
+	public static final int LHPIXEL_WIDTH = 16;
+	public static final int LHPIXEL_HEIGHT = 32;
 
 	public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490

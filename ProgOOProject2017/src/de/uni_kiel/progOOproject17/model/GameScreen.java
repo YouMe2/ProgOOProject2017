@@ -48,7 +48,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 		levelGenerator = new LevelGenerator(this, this);
 
-		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 

@@ -26,11 +26,12 @@ public class Player extends GameEntity implements Stats {
 	private MoveState currMoveState = MoveState.NORMAL;
 
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
-
-	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 2;
+//
+	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 4;
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
+	
 	public Player(String resKey, Point pos) {
 		this(resKey, pos.x, pos.y);
 	}
