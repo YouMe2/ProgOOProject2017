@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
+import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -19,6 +20,7 @@ public class LevelGenerator implements Ticked {
 	private boolean running = false;
 
 	private int generatedTerrain;
+	private int generatedBackground;
 
 	private int currentStage;
 	private Stage[] stages;
@@ -26,7 +28,7 @@ public class LevelGenerator implements Ticked {
 	public LevelGenerator(Environment environment, CreationHelper createHelper) {
 		this.createHelper = createHelper;
 		this.environment = environment;
-		generatedTerrain = 0;
+		generatedTerrain = generatedBackground = 0;
 		currentStage = 0;
 		stages = Stage.values();
 	}
@@ -41,7 +43,9 @@ public class LevelGenerator implements Ticked {
 			Rectangle screenRectangle = environment.getScreenRect();
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder)
-				generatedTerrain = spawnStage(rightScreenBorder);
+				generatedTerrain = spawnStage(generatedTerrain);
+			if (generatedBackground <= rightScreenBorder)
+				generatedBackground = spawnBackground(generatedBackground);
 		}
 	}
 
@@ -56,10 +60,9 @@ public class LevelGenerator implements Ticked {
 		Stage stage = stages[currentStage];
 		// Create first floor
 		if (currentStage == 0) {
-			int space = PLGameModel.GAME_WIDTH * 2;
-			Floor startFloor = new Floor("floor", 0, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, stageStart + space,
-					FLOOR_HEIGHT);
-			stageStart += space;
+			int floorLength = PLGameModel.GAME_WIDTH + 800;
+			Floor startFloor = new Floor("floor", 0, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, floorLength, FLOOR_HEIGHT);
+			stageStart = floorLength;
 			createHelper.create(startFloor);
 		}
 		// Create the stage
@@ -75,6 +78,14 @@ public class LevelGenerator implements Ticked {
 			currentStage++;
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
+	}
+
+	private int spawnBackground(int backgroundStart) {
+		Background b = new Background("bg", backgroundStart, 0, 1024, PLGameModel.GAME_HEIGHT);
+		int backgroundEnd = backgroundStart + b.getWidth();
+		createHelper.create(b);
+		System.out.println("Spawned background from " + backgroundStart + " to " + backgroundEnd);
+		return backgroundEnd;
 	}
 
 }

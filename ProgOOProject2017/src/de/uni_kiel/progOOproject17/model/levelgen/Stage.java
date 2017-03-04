@@ -6,7 +6,6 @@ import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.SINGLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE_HOVERING;
 
-import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -59,14 +58,7 @@ public enum Stage {
 		Floor floor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT, stagePos,
 				LevelGenerator.FLOOR_HEIGHT);
 		res.add(floor);
-		// create backgrounds
-		int covered = stageStart;
-		while (covered < stagePos) {
-			Background b = new Background("bg", covered, 0, 1024, PLGameModel.GAME_HEIGHT);
-			covered += b.getWidth();
-			res.add(b);
-		}
-		lastWidth = covered;
+		lastWidth = stagePos;
 		return res;
 	}
 

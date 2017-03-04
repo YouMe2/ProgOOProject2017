@@ -87,7 +87,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 		// create(new Floor("floor", PLGameModel.lhToGam(0,
 		// PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
 
-		create(new Background("background", 0, 0, w, h));
+		// create(new Background("background", 0, 0, w, h));
 
 		// PARTICLE TEST:
 		// Particle particle = new Particle("partTest", 800, 0, 300, 300,
