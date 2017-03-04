@@ -12,7 +12,6 @@ public class Sound {
 	// public static final Sound BOSS_DEATH = new Sound("bossdeath");
 	// public static final Sound CRAFT = new Sound("craft");
 
-	
 	private Clip sound;
 
 	Sound(Clip sound) {
@@ -20,13 +19,11 @@ public class Sound {
 	}
 
 	public void play() {
-		if(sound != null){
+		if (sound != null) {
 			if (sound.isActive())
 				sound.stop();
 			sound.setFramePosition(0);
 			sound.start();
-			
 		}
-		
 	}
 }
