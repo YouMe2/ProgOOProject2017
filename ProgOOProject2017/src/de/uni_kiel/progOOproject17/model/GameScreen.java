@@ -84,7 +84,19 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		this.setLocation(player.getX()-PLGameModel.LHPIXEL_WIDTH*2 ,0);
 		
 		levelGenerator.tick(timestamp);
-		gameElements.forEach(e -> e.tick(timestamp));
+		gameElements.forEach(new Consumer<GameElement>() {
+			
+			public void accept(GameElement e) {
+				
+				e.tick(timestamp);
+				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX()) {
+					e.destroy();
+				}
+				
+				
+			};
+			
+		});
 		
 		
 		gameElements.removeAll(destroyedElements);
