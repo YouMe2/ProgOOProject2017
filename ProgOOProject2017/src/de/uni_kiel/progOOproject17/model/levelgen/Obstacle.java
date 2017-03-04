@@ -9,21 +9,21 @@ import java.awt.Point;
 
 public enum Obstacle {
 
-	SINGLE(100, (x, e, c) -> {
+	SINGLE(100, x -> {
 		Distance velocity = new Distance(-5, 0);
-		Enemy e1 = new Enemy("enemy", new Point(x, 200), e, c);
+		Enemy e1 = new Enemy("enemy", new Point(x, 200));
 		e1.setGravityActive(false);
 		e1.setVelocity(velocity);
 		return new GameElement[] { e1/* , e2, b */ };
-	}), DOUBLE(180, (x, e, c) -> {
+	}), DOUBLE(180, x -> {
 		return new GameElement[] {};
-	}), TRIPLE(250, (x, e, c) -> {
+	}), TRIPLE(250, x -> {
 		return new GameElement[] {};
-	}), HOVERING(100, (x, e, c) -> {
+	}), HOVERING(100, x -> {
 		return new GameElement[] {};
-	}), DOUBLE_HOVERING(180, (x, e, c) -> {
+	}), DOUBLE_HOVERING(180, x -> {
 		return new GameElement[] {};
-	}), TRIPLE_HOVERING(250, (x, e, c) -> {
+	}), TRIPLE_HOVERING(250, x -> {
 		return new GameElement[] {};
 	});
 
@@ -36,7 +36,7 @@ public enum Obstacle {
 	}
 
 	public GameElement[] createNew(int obstacleStart, Environment e, CreationHelper c) {
-		return creator.createNew(obstacleStart, e, c);
+		return creator.createNew(obstacleStart);
 	}
 
 	public int getWidth() {

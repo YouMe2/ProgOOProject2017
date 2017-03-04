@@ -1,13 +1,12 @@
 /**
- * 
+ *
  */
 package de.uni_kiel.progOOproject17.model.abs;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  * @author Yannik Eikmeier
@@ -21,16 +20,11 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 	private String resKey;
 	private int layer;
 
-	public final Environment environment;
-	public final CreationHelper creatHelp;
+	public Environment environment;
+	public CreationHelper creationHelper;
 
-	/**
-	 * 
-	 */
-	public GameElement(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
+	public GameElement(String resKey, int x, int y, int w, int h) {
 		super(x, y, w, h);
-		this.environment = environment;
-		this.creatHelp = creatHelp;
 		setResKey(resKey);
 		setLayer(0);
 	}
@@ -48,9 +42,9 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 		Rectangle rect = getBoundingRect();
 		rect.translate(-p.x, -p.y);
 		return rect;
-		
-//		return getBoundingRect();
-		
+
+		// return getBoundingRect();
+
 	}
 
 	@Override
@@ -67,7 +61,9 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 	}
 
 	@Override
-	public void activate() {
+	public void activate(Environment environment, CreationHelper creationHelper) {
+		this.environment = environment;
+		this.creationHelper = creationHelper;
 		alive = true;
 	}
 
@@ -75,7 +71,7 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 	public void destroy() {
 		if (isAlive()) {
 			alive = false;
-			creatHelp.onDestruction(this);
+			creationHelper.onDestruction(this);
 		}
 	}
 

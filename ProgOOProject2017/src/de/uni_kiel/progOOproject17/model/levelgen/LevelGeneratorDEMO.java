@@ -56,17 +56,17 @@ public class LevelGeneratorDEMO implements Ticked {
 	 */
 	public long spawnRandomSequence() {
 
-		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2), environment, creatHelp);
+		Enemy e = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH, LH_HEIGHT - 2));
 		e.setGravityActive(false);
 		// e.setVelocity(standartVelocity);
 		creatHelp.create(e);
 
-		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3), environment, creatHelp);
+		Enemy e2 = new Enemy("enemy", PLGameModel.lhToGame(LH_WIDTH + 12, LH_HEIGHT - 3));
 		e2.setGravityActive(false);
 		// e2.setVelocity(standartVelocity);
 		creatHelp.create(e2);
 
-		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1), environment, creatHelp);
+		Block b = new Block("floor", lhToGam(LH_WIDTH + 26, LH_HEIGHT - 4, 12, 1));
 		b.setGravityActive(false);
 		// b.setVelocity(standartVelocity);
 		// b.setContinuesVel(standartVelocity); //TODO wie ists besser?

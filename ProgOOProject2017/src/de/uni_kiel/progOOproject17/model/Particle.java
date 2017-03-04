@@ -1,29 +1,29 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 
-public class Particle extends GameElement{
+public class Particle extends GameElement {
 
 	private int counter;
 	private final int dtime;
 	private long lasttime;
 	private final int max;
 
-
-	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max, Environment environment, CreationHelper creatHelp) {
-		super(resKey, max, y, w, h, environment, creatHelp);
+	public Particle(String resKey, int x, int y, int w, int h, int dtime, int max) {
+		super(resKey, max, y, w, h);
 		this.max = max;
 		this.dtime = dtime;
 		setLayer(PARTICLE_LAYER);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
 	 */
 	@Override
 	public String getResourceKey() {
-		
+
 		return super.getResourceKey() + "_" + counter;
 	}
 
@@ -34,16 +34,14 @@ public class Particle extends GameElement{
 			lasttime = timestamp;
 
 		// next
-		if (timestamp - lasttime > dtime) {
+		if (timestamp - lasttime > dtime)
 			if (counter < max - 1) {
 				lasttime = timestamp;
 				counter++;
 
 			} else if (counter == max - 1)
 				destroy();
-		}
 
 	}
-
 
 }

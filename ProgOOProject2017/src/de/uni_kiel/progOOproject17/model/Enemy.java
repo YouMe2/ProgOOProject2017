@@ -1,23 +1,18 @@
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Point;
-
-import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import java.awt.Point;
 
 public class Enemy extends GameEntity {
 
-
-
-	public Enemy(String resKey, Point pos, Environment environment, CreationHelper creatHelp) {
-		this(resKey, pos.x, pos.y, environment, creatHelp);
+	public Enemy(String resKey, Point pos) {
+		this(resKey, pos.x, pos.y);
 	}
-	
-	public Enemy(String resKey, int x, int y, Environment environment, CreationHelper creatHelp) {
-		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, Math.round(PLGameModel.LHPIXEL_HEIGHT * 0.9f), environment, creatHelp);
+
+	public Enemy(String resKey, int x, int y) {
+		super(resKey, x, y, PLGameModel.LHPIXEL_WIDTH * 2, Math.round(PLGameModel.LHPIXEL_HEIGHT * 0.9f));
 		setDeadly(true);
-		
 	}
 
 	@Override
@@ -31,9 +26,10 @@ public class Enemy extends GameEntity {
 		// movement
 		doMovement();
 
-//		if (!getBoundingRect().intersects(new Rectangle(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
-//			// out of game area!!
-//			destroy();
+		// if (!getBoundingRect().intersects(new Rectangle(0, 0,
+		// PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT)))
+		// // out of game area!!
+		// destroy();
 
 	}
 
@@ -41,7 +37,7 @@ public class Enemy extends GameEntity {
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
 		if (obj.isDeadly()) {
-			this.destroy();
+			destroy();
 			obj.addKill();
 		}
 

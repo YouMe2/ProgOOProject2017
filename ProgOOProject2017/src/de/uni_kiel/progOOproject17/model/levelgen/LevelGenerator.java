@@ -37,33 +37,24 @@ public class LevelGenerator implements Ticked {
 			Rectangle screenRectangle = environment.getScreenRect();
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder)
-				generatedTerrain += spawnRandomSequence();
+				generatedTerrain += spawnStage(rightScreenBorder);
 		}
 	}
 
 	/**
 	 * Spawns in a new randomly selected sequence of obstacles for the player to
-	 * master, And returns the time in ms that new sequence will take before a
+	 * master, and returns the time in ms that new sequence will take before a
 	 * new one should be spawned.
 	 *
-	 * @return the time the new sequence will take to run through
+	 * @return the time the new stage will take to run through
 	 */
-	public long spawnRandomSequence() {
-		int stageStart = environment.getScreenRect().x;
+	public long spawnStage(int stageStart) {
 		Stage stage = stages[currentStage];
 		Collection<GameElement> c = stage.create(stageStart, environment, createHelper);
 		for (GameElement element : c)
 			createHelper.create(element);
-		int nextStage = currentStage + 1;
-		if (nextStage < stages.length)
-			currentStage = nextStage;
-
-		// overall list of obstacle collections
-		// stage (random sequence of links to obstacle collections)
-		// collection count within stage
-		// speed depending on total collection count
-		// use last sequence repeatedly
-
+		if (currentStage < stages.length - 1)
+			currentStage++;
 		return stage.getLastWidth();
 	}
 

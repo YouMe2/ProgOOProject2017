@@ -41,17 +41,17 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		levelGenerator = new LevelGenerator(this, this);
 		screenVelocity = new Distance(8, 0);
 
-		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3), this, this);
+		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity.x);
 		create(player);
 
 		levelGenerator.setRunning(true);
 
 		Floor floor = new Floor("floor",
-				PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 50, 1), this, this);
-		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT), this, this);
+				PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH + 50, 1));
+		Floor barier = new Floor(null, PLGameModel.lhToGam(-20, 0, 1, PLGameModel.LH_HEIGHT));
 		barier.setDeadly(true);
-		Background bg = new Background("background", 0, 0, w, h, this, this);
+		Background bg = new Background("background", 0, 0, w, h);
 		create(bg);
 		create(floor);
 		create(barier);
@@ -90,7 +90,6 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 	 */
 	@Override
 	public Viewable[] getViewables() {
-
 		return gameElements.toArray(new Viewable[gameElements.size()]);
 	}
 
@@ -246,7 +245,10 @@ public class GameScreen extends GameCompound implements Environment, CreationHel
 		System.out.println("Created: " + g.getResourceKey());
 
 		createdElements.add(g);
-		g.activate();
+
+		Environment environment = this;
+		CreationHelper creationHelper = this;
+		g.activate(environment, creationHelper);
 	}
 
 	@Override

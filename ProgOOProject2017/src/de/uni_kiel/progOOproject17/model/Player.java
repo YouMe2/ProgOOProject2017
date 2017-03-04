@@ -4,20 +4,15 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-
-import de.uni_kiel.progOOproject17.model.abs.Collidable;
-import de.uni_kiel.progOOproject17.model.abs.Deadly;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
-import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.ModelAction;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
 
 public class Player extends GameEntity {
 
@@ -30,7 +25,7 @@ public class Player extends GameEntity {
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 	private boolean movingLeft = false;
 	private boolean movingRight = false;
-	
+
 	private MoveState currMoveState = MoveState.NORMAL;
 
 	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
@@ -55,57 +50,54 @@ public class Player extends GameEntity {
 		}
 	};
 	public final ModelAction moveLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_LEFT) {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			movingLeft = true;
 			movingRight = false;
-			
+
 		}
 	};
 
 	public final ModelAction moveRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_RIGHT) {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			movingLeft = false;
 			movingRight = true;
-			
+
 		}
 	};
 
 	public final ModelAction moveStopLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPLEFT) {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			movingLeft = false;
-			
+
 		}
 	};
 
 	public final ModelAction moveStopRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT) {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			movingRight= false;
+			movingRight = false;
 		}
 	};
-	
-	
-	
-	
+
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
 	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 4;
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
 	public static final int PLAYER_H_CROUCH = PLGameModel.LHPIXEL_HEIGHT * 1;
 
-	public Player(String resKey, Point pos, Environment environment, CreationHelper creatHelp) {
-		this(resKey, pos.x, pos.y, environment, creatHelp);
+	public Player(String resKey, Point pos) {
+		this(resKey, pos.x, pos.y);
 	}
 
-	public Player(String resKey, int x, int y, Environment environment, CreationHelper creatHelp) {
-		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL, environment, creatHelp);
+	public Player(String resKey, int x, int y) {
+		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 	}
 
 	@Override
@@ -127,9 +119,8 @@ public class Player extends GameEntity {
 
 				ResourceManager.getInstance().getSound("crouch").play();
 				currMoveState = CROUCHING;
-				if (environment.isOnGround(this)) {
+				if (environment.isOnGround(this))
 					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
-				}
 
 				setSize(PLAYER_W, PLAYER_H_CROUCH);
 			}
@@ -150,26 +141,24 @@ public class Player extends GameEntity {
 
 		case JUMP:
 
-			if (currMoveState != MoveState.JUMPING) {
+			if (currMoveState != MoveState.JUMPING)
 				if (environment.isOnGround(this)) {
 					addVelocity(JUMPVELOCITY);
 					currMoveState = MoveState.JUMPING;
 					ResourceManager.getInstance().getSound("jump").play();
 
 				}
-			}
 
 			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
-		
-		if(movingLeft)
-			setVelocity( -playerXVelocity, getVelocity().y);
-		else if(movingRight)
+
+		if (movingLeft)
+			setVelocity(-playerXVelocity, getVelocity().y);
+		else if (movingRight)
 			setVelocity(playerXVelocity, getVelocity().y);
 		else
 			setVelocity(0, getVelocity().y);
-		
 
 		// movement
 		doMovement();
@@ -183,27 +172,19 @@ public class Player extends GameEntity {
 		addStep();
 
 	}
-	
 
 	@Override
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
 
-		if(currMoveState == JUMPING){
-			
-			setVelocity(getVelocity().x, (int)(getVelocity().y*0.7));
-			
-		}
-		
-		
-		if (obj.isDeadly()) {
-			if (damage(1)) {
-				obj.addKill();
-			} else {
-				obj.destroy();
+		if (currMoveState == JUMPING)
+			setVelocity(getVelocity().x, (int) (getVelocity().y * 0.7));
 
-			}
-		}
+		if (obj.isDeadly())
+			if (damage(1))
+				obj.addKill();
+			else
+				obj.destroy();
 
 	}
 
@@ -218,7 +199,7 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creatHelp.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6, environment, creatHelp));
+			creationHelper.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;

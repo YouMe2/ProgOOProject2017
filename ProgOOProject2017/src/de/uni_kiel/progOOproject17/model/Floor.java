@@ -1,26 +1,20 @@
 package de.uni_kiel.progOOproject17.model;
 
-import java.awt.Rectangle;
-
-import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import java.awt.Rectangle;
 
 public class Floor extends GameObject {
 
 	private boolean deadly = false;
 	private int killcounter;
 
-	
-	/**
-	 * 
-	 */
-	public Floor(String resKey, Rectangle rect, Environment environment, CreationHelper creatHelp) {
-		this(resKey, rect.x, rect.y, rect.width, rect.height, environment, creatHelp);
+	public Floor(String resKey, Rectangle rect) {
+		this(resKey, rect.x, rect.y, rect.width, rect.height);
 	}
-	
-	public Floor(String resKey, int x, int y, int w, int h, Environment environment, CreationHelper creatHelp) {
-		super(resKey, x, y, w, h, environment, creatHelp);
+
+	public Floor(String resKey, int x, int y, int w, int h) {
+		super(resKey, x, y, w, h);
 		setLayer(Viewable.FLOOR_LAYER);
 	}
 
@@ -39,6 +33,7 @@ public class Floor extends GameObject {
 		killcounter++;
 	}
 
+	@Override
 	public void setDeadly(boolean deadly) {
 		this.deadly = deadly;
 	}
