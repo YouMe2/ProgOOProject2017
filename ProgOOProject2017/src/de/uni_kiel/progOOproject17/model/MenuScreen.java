@@ -26,6 +26,8 @@ public abstract class MenuScreen extends Screen {
 	
 	private final ImageViewable[] entries;
 	
+	private final ArrayList<Viewable> views = new ArrayList<>();
+	
 	private int selction = 0;
 	
 	
@@ -96,12 +98,17 @@ public abstract class MenuScreen extends Screen {
 			views.add(background);
 		views.addAll(Arrays.asList(entries));
 		views.add(selectionCursor);
+		views.addAll(this.views);
 		
 		return views.toArray(new Viewable[views.size()]);
 	}
 	
 	public void setBackground(String resKey) {
 		this.background = new ImageViewable(resKey, 0, 0, getWidth(), getHeight(), Viewable.BG_LAYER);
+	}
+	
+	public void addViewable(Viewable v) {
+		views.add(v);
 	}
 	
 
