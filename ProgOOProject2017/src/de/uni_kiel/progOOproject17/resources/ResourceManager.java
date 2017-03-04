@@ -70,15 +70,8 @@ public class ResourceManager {
 				"Loading " + resList.length + " sound(s):\n" + Arrays.toString(resList).replaceAll(", ", ",\n\t"));
 		for (File res : resList) {
 			String resKey = generateKeyFromFile(res);
-			try {
-				AudioInputStream inputStream = AudioSystem.getAudioInputStream(res);
-				Clip clip = AudioSystem.getClip();
-				clip.open(inputStream);
-				Sound resource = new Sound(clip);
-				soundResources.put(resKey, resource);
-			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-				e.printStackTrace();
-			}
+			Sound sound = loadSound(resKey);
+			soundResources.put(resKey, sound);
 		}
 	}
 
