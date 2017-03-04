@@ -1,18 +1,18 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class PLGameModel extends TickedBaseModel implements Actionable{
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
+public class PLGameModel extends TickedBaseModel {
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -23,66 +23,62 @@ public class PLGameModel extends TickedBaseModel implements Actionable{
 	public static final int GAME_WIDTH = LH_WIDTH * LHPIXEL_WIDTH; // = 420
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490
 
-	private final HashMap<InputActionKeys, Action> actions = new HashMap<>();
-	
-	
 	public AbstractAction newGame = new AbstractAction() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+
+			setCurrentScreen(new GameScreen(GAME_WIDTH, GAME_HEIGHT, pauseGame, endGame));
+
 		}
 	};
-	
+
 	public AbstractAction pauseGame = new AbstractAction() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			System.out.println("paused");
+			pausedScreen = currentScreen;
+			setCurrentScreen(new PauseScreen(GAME_WIDTH, GAME_HEIGHT, resumeGame, exitGame));
 		}
 	};
-	
+
 	public AbstractAction resumeGame = new AbstractAction() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+
+			setCurrentScreen(pausedScreen);
+			pausedScreen = null;
+
 		}
 	};
-	
+
 	public AbstractAction endGame = new AbstractAction() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			setCurrentScreen(new EndScreen(GAME_WIDTH, GAME_HEIGHT, ((GameScreen) currentScreen).getPlayerStats(),
+					newGame, exitGame));
+
 		}
 	};
-	
+
 	public AbstractAction exitGame = new AbstractAction() {
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+
+			System.exit(0);
+
 		}
 	};
-	
-	
+
+	private Screen pausedScreen;
 	private Screen currentScreen;
-	
 
 	public PLGameModel() {
-
-		// TODO THE SCREENS
-		
-		
-		
-		currentScreen = new GameScreen(GAME_WIDTH, GAME_HEIGHT, pauseGame);
-		copyAllActions(currentScreen);
+		setCurrentScreen(new StartScreen(GAME_WIDTH, GAME_HEIGHT, newGame, exitGame));
 
 	}
 
@@ -100,6 +96,8 @@ public class PLGameModel extends TickedBaseModel implements Actionable{
 
 		ArrayList<Viewable> views = new ArrayList<>();
 
+		if (pausedScreen != null)
+			views.addAll(Arrays.asList(pausedScreen.getViewables()));
 		views.addAll(Arrays.asList(currentScreen.getViewables()));
 
 		return views.toArray(new Viewable[views.size()]);
@@ -112,31 +110,23 @@ public class PLGameModel extends TickedBaseModel implements Actionable{
 
 	}
 
+	private void setCurrentScreen(Screen s) {
+		currentScreen = s;
 
-	
-	public void putAction(InputActionKeys iA, Action action) {
-		actions.put(iA, action);
 	}
 
-	 
-	@Override
-	public Action getAction(InputActionKeys iA) {
-		return actions.get(iA);
-	}
-	
-	
-	@Override
-	public void copyAllActions(Actionable a) {
+	public Action getAction(InputActionKeys key) {
 
-		actions.clear();
-		for (InputActionKeys key : InputActionKeys.values()) {
-			putAction(key, a.getAction(key));
-		}
+		return new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Action a = PLGameModel.this.currentScreen.getAction(key);
+				if (a != null)
+					a.actionPerformed(e);
+
+			}
+		};
 	}
-	
-	
-	
-	
-	
 
 }

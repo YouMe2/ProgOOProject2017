@@ -6,6 +6,7 @@ import java.awt.image.RenderedImage;
 
 import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.Floor;
+import de.uni_kiel.progOOproject17.model.MenuScreen;
 import de.uni_kiel.progOOproject17.model.Particle;
 import de.uni_kiel.progOOproject17.model.Scoreboard;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
@@ -22,7 +23,7 @@ public interface Viewable {
 	/**
 	 * The number of layers there are.
 	 */
-	public static final int LAYERsSIZE = 5; // 0 1 2 3 4;
+	public static final int LAYERsSIZE = 6; // 0 1 2 3 4;
 
 	/**
 	 * The {@link Background} layer.
@@ -44,6 +45,12 @@ public interface Viewable {
 	 * The {@link Particle} layer.
 	 */
 	public static final int PARTICLE_LAYER = 4;
+
+	
+	/**
+	 * The {@link MenuScreen} layer.
+	 */
+	public static final int MENU_LAYER = 4;
 
 	/**
 	 * Returns the resource key of this {@link Viewable} which is used by the
