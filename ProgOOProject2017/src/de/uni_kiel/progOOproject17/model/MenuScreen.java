@@ -48,10 +48,10 @@ public abstract class MenuScreen extends Screen {
 		
 		entries = new ImageViewable[resKeys.length];
 		for (int i = 0; i < actions.length; i++) {
-			entries[i] = new ImageViewable(resKeys[i], new Rectangle((w-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + i*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), ENTRY_WIDTH, ENTRY_HEIGHT), Viewable.ENTITY_LAYER);
+			entries[i] = new ImageViewable(resKeys[i], new Rectangle((w-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + i*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), ENTRY_WIDTH, ENTRY_HEIGHT), Viewable.MENU_LAYER);
 		}
 		
-		selectionCursor = new ImageViewable("pointer", PLGameModel.LHPIXEL_WIDTH*2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), CURSOR_WIDTH, CURSOR_HEIGHT, Viewable.PARTICLE_LAYER);
+		selectionCursor = new ImageViewable("pointer", PLGameModel.LHPIXEL_WIDTH*2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), CURSOR_WIDTH, CURSOR_HEIGHT, Viewable.MENU_LAYER);
 		
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 			
