@@ -7,6 +7,8 @@ import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.SINGLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.Floor;
+import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public enum Stage {
 	FIVE(0, 0, 0),
 	FINAL(0, 0, 0);
 
+	public static final int FLOOR_HEIGHT = 20;
+
 	private final int minSpace;
 	private final int maxSpace;
 	private final int elements;
@@ -39,10 +43,11 @@ public enum Stage {
 		this.possibleObstacles = possibleObstacles;
 	}
 
-	public Collection<GameElement> create(int stagePos, Environment e, CreationHelper c) {
-		System.out.println("stage for " + stagePos + " from\n\t" + Arrays.toString(possibleObstacles));
+	public Collection<GameElement> create(int stageStart, Environment e, CreationHelper c) {
+		System.out.println("stage for " + stageStart + " from\n\t" + Arrays.toString(possibleObstacles));
 		Random r = ThreadLocalRandom.current();
 		ArrayList<GameElement> res = new ArrayList<>();
+		int stagePos = stageStart;
 		while (res.size() < elements) {
 			int obstacle = r.nextInt(possibleObstacles.length);
 			Obstacle o = possibleObstacles[obstacle];
@@ -53,7 +58,9 @@ public enum Stage {
 			System.out.println("w = " + o.getWidth() + ", rnd = " + randomSpace + " -> " + stagePos);
 		}
 		lastWidth = stagePos;
-		System.out.println("STAGE '" + this + "' CREATED, WIDTH = " + lastWidth);
+		Floor floor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, stagePos, FLOOR_HEIGHT);
+		res.add(floor);
+		System.out.println("STAGE '" + this + "' CREATED, WIDTH = " + stagePos);
 		return res;
 	}
 
