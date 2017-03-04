@@ -34,7 +34,7 @@ public abstract class Screen extends GameCompound implements Actionable {
 	
 	
 	@Override
-	public void copyAllActions(Actionable a) {
+	public void forwardAllActions(Actionable a) {
 		actions.clear();
 		
 		for (InputActionKeys key : InputActionKeys.values()) {

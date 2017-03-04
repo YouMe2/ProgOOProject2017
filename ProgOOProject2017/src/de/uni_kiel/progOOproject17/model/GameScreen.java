@@ -29,16 +29,21 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
+<<<<<<< HEAD
 
+=======
+	
+	private final Action endAction;
+>>>>>>> refs/heads/YanniksBranch
 	/**
 	 * @param x
 	 * @param y
 	 * @param w
 	 * @param h
 	 */
-	public GameScreen(int w, int h, Action pauseAction) {
+	public GameScreen(int w, int h, Action pauseAction, Action endAction) {
 		super(w, h);
-
+		this.endAction = endAction;
 		gameElements = new LinkedList<>();
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
@@ -103,6 +108,13 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	 */
 	@Override
 	public void tick(long timestamp) {
+		
+		if(!player.isAlive()) {
+			
+			endAction.actionPerformed(null);
+			
+		}
+		
 
 		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
 
