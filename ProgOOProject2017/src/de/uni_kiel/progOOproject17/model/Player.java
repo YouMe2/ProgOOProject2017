@@ -4,16 +4,15 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
-import java.awt.Point;
-
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import java.awt.Point;
 
-public class Player extends GameEntity implements Stats{
+public class Player extends GameEntity implements Stats {
 
 	private int points = 0;
 
@@ -23,7 +22,6 @@ public class Player extends GameEntity implements Stats{
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
 	private MoveState currMoveState = MoveState.NORMAL;
-
 
 	public static final Distance JUMPVELOCITY = new Distance(0, -22);
 
@@ -39,7 +37,7 @@ public class Player extends GameEntity implements Stats{
 		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 	}
 
-	//TESTWISE
+	// TESTWISE
 	private static int counter = 0;
 
 	@Override
@@ -62,7 +60,6 @@ public class Player extends GameEntity implements Stats{
 			if (currMoveState != CROUCHING) {
 
 				ResourceManager.getInstance().getSound("crouch").play();
-				setResKey(getResourceKey() + "_C");
 				currMoveState = CROUCHING;
 				if (environment.isOnGround(this))
 					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
@@ -78,7 +75,6 @@ public class Player extends GameEntity implements Stats{
 			if (currMoveState == CROUCHING) {
 				currMoveState = NORMAL;
 
-				setResKey(getResourceKey().replace("_C", ""));
 				if (environment.willCollide(this, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
 					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
 				setSize(PLAYER_W, PLAYER_H_NORMAL);
@@ -99,7 +95,6 @@ public class Player extends GameEntity implements Stats{
 			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
-
 
 		// movement
 		doMovement();
@@ -149,6 +144,7 @@ public class Player extends GameEntity implements Stats{
 		return false;
 	}
 
+	@Override
 	public int getPoints() {
 		return points;
 	}
@@ -164,19 +160,28 @@ public class Player extends GameEntity implements Stats{
 		}
 	}
 
+	@Override
 	public int getSteps() {
 		return steps;
 	}
 
+	@Override
 	public int getLifes() {
 		return lifes;
 	}
-	
+
 	/**
-	 * @param currMoveCommand the currMoveCommand to set
+	 * @param currMoveCommand
+	 *            the currMoveCommand to set
 	 */
 	public void setCurrMoveCommand(MoveCommand currMoveCommand) {
 		this.currMoveCommand = currMoveCommand;
+	}
+
+	@Override
+	public String getResourceKey() {
+		String key = super.getResourceKey();
+		return currMoveState == CROUCHING ? key + "_C" : key;
 	}
 
 }
