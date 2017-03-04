@@ -57,16 +57,17 @@ public class ResourceManager {
 		Sound sound = soundResources.get(identifier);
 		if (sound == null) {
 			String resPath = soundsFolder + identifier + ".wav";
-			URL url = thisClass.getResource(resPath);
-			File file = new File(url.getFile());
 			try {
+				URL url = thisClass.getResource(resPath);
+				File file = new File(url.getFile());
 				AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
 				Clip clip = AudioSystem.getClip();
 				clip.open(inputStream);
 				sound = new Sound(clip);
 				soundResources.put(identifier, sound);
-			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException  | NullPointerException e) {
 				e.printStackTrace();
+				return new Sound(null);
 			}
 		}
 		return sound;
