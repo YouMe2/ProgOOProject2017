@@ -28,32 +28,28 @@ public class Player extends GameEntity {
 
 	private MoveState currMoveState = MoveState.NORMAL;
 
-	public final ModelAction moveJUMP = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_JUMP) {
+	public final ModelAction moveJUMP = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_JUMP) {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.JUMP;
 		}
 	};
 
-	public final ModelAction moveSTARTCROUCH = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH) {
+	public final ModelAction moveSTARTCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STARTCROUCH) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.START_CROUCH;
 		}
 	};
-	public final ModelAction moveENDCROUCH = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH) {
+	public final ModelAction moveENDCROUCH = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPCROUCH) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.END_CROUCH;
 		}
 	};
-	public final ModelAction moveLEFT = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_LEFT) {
+	public final ModelAction moveLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_LEFT) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -63,8 +59,7 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public final ModelAction moveRIGHT = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_RIGHT) {
+	public final ModelAction moveRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_RIGHT) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -74,8 +69,7 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public final ModelAction moveStopLEFT = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STOPLEFT) {
+	public final ModelAction moveStopLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPLEFT) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -84,8 +78,7 @@ public class Player extends GameEntity {
 		}
 	};
 
-	public final ModelAction moveStopRIGHT = new ModelAction(
-			PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT) {
+	public final ModelAction moveStopRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT) {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -112,7 +105,7 @@ public class Player extends GameEntity {
 	@Override
 	public void tick(long timestamp) {
 		if (counter++ % 100 == 0)
-			System.out.println("bei " + getX());
+			System.out.println("Player bei " + getX());
 
 		if (!isAlive()) {
 			System.out.println("NON ALIVE ENTITY TICKED!");
@@ -122,46 +115,45 @@ public class Player extends GameEntity {
 		// movement die erste
 		switch (currMoveCommand) {
 
-			case NONE:
-				break;
-			case START_CROUCH:
-				// System.out.println("started chrouching!");
-				if (currMoveState != CROUCHING) {
+		case NONE:
+			break;
+		case START_CROUCH:
+			// System.out.println("started chrouching!");
+			if (currMoveState != CROUCHING) {
 
-					ResourceManager.getInstance().getSound("crouch").play();
-					currMoveState = CROUCHING;
-					if (environment.isOnGround(this))
-						translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
+				ResourceManager.getInstance().getSound("crouch").play();
+				currMoveState = CROUCHING;
+				if (environment.isOnGround(this))
+					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
 
-					setSize(PLAYER_W, PLAYER_H_CROUCH);
+				setSize(PLAYER_W, PLAYER_H_CROUCH);
+			}
+
+			break;
+		case END_CROUCH:
+
+			// System.out.println("stopped crouching");
+
+			if (currMoveState == CROUCHING) {
+				currMoveState = NORMAL;
+				if (environment.willCollide(this, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
+					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
+				setSize(PLAYER_W, PLAYER_H_NORMAL);
+			}
+
+			break;
+
+		case JUMP:
+
+			if (currMoveState != MoveState.JUMPING)
+				if (environment.isOnGround(this)) {
+					addVelocity(JUMPVELOCITY);
+					currMoveState = MoveState.JUMPING;
+					ResourceManager.getInstance().getSound("jump").play();
+
 				}
 
-				break;
-			case END_CROUCH:
-
-				// System.out.println("stopped crouching");
-
-				if (currMoveState == CROUCHING) {
-					currMoveState = NORMAL;
-					if (environment.willCollide(this, new Distance(0,
-							-PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
-						translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
-					setSize(PLAYER_W, PLAYER_H_NORMAL);
-				}
-
-				break;
-
-			case JUMP:
-
-				if (currMoveState != MoveState.JUMPING)
-					if (environment.isOnGround(this)) {
-						addVelocity(JUMPVELOCITY);
-						currMoveState = MoveState.JUMPING;
-						ResourceManager.getInstance().getSound("jump").play();
-
-					}
-
-				break;
+			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
 
@@ -211,8 +203,7 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creationHelper.create(new Particle("playerDeath", getX(), getY(),
-					60, 60, 200, 6));
+			creationHelper.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;

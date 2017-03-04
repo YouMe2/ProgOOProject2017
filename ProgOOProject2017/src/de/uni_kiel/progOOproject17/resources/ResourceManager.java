@@ -1,6 +1,7 @@
 package de.uni_kiel.progOOproject17.resources;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -56,16 +57,15 @@ public class ResourceManager {
 		Sound sound = soundResources.get(identifier);
 		if (sound == null) {
 			String resPath = soundsFolder + identifier + ".wav";
+			URL url = thisClass.getResource(resPath);
+			File file = new File(url.getFile());
 			try {
-				URL url = new URL(resPath);
-				AudioInputStream inputStream = AudioSystem
-						.getAudioInputStream(url);
+				AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
 				Clip clip = AudioSystem.getClip();
 				clip.open(inputStream);
 				sound = new Sound(clip);
 				soundResources.put(identifier, sound);
-			} catch (UnsupportedAudioFileException | IOException
-					| LineUnavailableException e) {
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				e.printStackTrace();
 			}
 		}
