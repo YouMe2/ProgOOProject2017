@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public interface Environment {
+	// FIXME impossible to check for collision when the size changes! (crouching)
 
 	/**
 	 * Checks for all colliding game objects and returns true if there's a

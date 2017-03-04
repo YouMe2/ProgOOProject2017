@@ -38,7 +38,6 @@ public class Distance {
 	public void add(Distance d) {
 		x += d.x;
 		y += d.y;
-
 	}
 
 	public Distance getSignDistance() {

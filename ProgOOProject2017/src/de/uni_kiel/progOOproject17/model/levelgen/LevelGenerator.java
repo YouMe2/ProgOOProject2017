@@ -74,8 +74,9 @@ public class LevelGenerator implements Ticked {
 		}
 		for (GameElement element : c)
 			createHelper.create(element);
-		if (currentStage < stages.length - 1)
-			currentStage++;
+		int nextStage = currentStage + 1;
+		if (nextStage < stages.length)
+			currentStage += nextStage;
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}

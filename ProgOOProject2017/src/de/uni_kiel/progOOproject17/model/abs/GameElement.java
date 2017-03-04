@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.uni_kiel.progOOproject17.model.abs;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
@@ -8,11 +5,6 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-/**
- * @author Yannik Eikmeier
- * @since 03.03.2017
- *
- */
 public abstract class GameElement extends GameComponent implements Viewable, Destroyable {
 
 	private boolean alive = true;
@@ -36,15 +28,11 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 
 	@Override
 	public Rectangle getViewRect() {
-
 		Point p = environment.getScreenRect().getLocation();
 
 		Rectangle rect = getBoundingRect();
 		rect.translate(-p.x, -p.y);
 		return rect;
-
-		// return getBoundingRect();
-
 	}
 
 	@Override

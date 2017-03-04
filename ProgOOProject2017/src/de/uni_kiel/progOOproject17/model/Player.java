@@ -2,6 +2,7 @@ package de.uni_kiel.progOOproject17.model;
 
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
+import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING_AND_CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
 import de.uni_kiel.progOOproject17.model.abs.Distance;
@@ -13,8 +14,6 @@ import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Point;
 
 public class Player extends GameEntity implements Stats {
-
-	// FIXME man darf nicht in den Boden crouchen dürfen
 
 	private int points = 0;
 
@@ -58,57 +57,84 @@ public class Player extends GameEntity implements Stats {
 		case NONE:
 			break;
 		case START_CROUCH:
-			// System.out.println("started chrouching!");
-			if (currMoveState != CROUCHING) {
-
-				ResourceManager.getInstance().getSound("crouch").play();
+			switch (currMoveState) {
+			case NORMAL:
 				currMoveState = CROUCHING;
-				if (environment.isOnGround(this))
-					translate(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL);
-
+				translate(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
 				setSize(PLAYER_W, PLAYER_H_CROUCH);
+				ResourceManager.getInstance().getSound("crouch").play();
+				break;
+			case JUMPING:
+				currMoveState = JUMPING_AND_CROUCHING;
+				setSize(PLAYER_W, PLAYER_H_CROUCH);
+				ResourceManager.getInstance().getSound("crouch").play();
+				break;
+			default:
+				break;
 			}
-
 			break;
 		case END_CROUCH:
-
-			// System.out.println("stopped crouching");
-
-			if (currMoveState == CROUCHING) {
+			Distance crouchingDifference = new Distance(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
+			switch (currMoveState) {
+			case CROUCHING:
 				currMoveState = NORMAL;
-
-				if (environment.willCollide(this, new Distance(0, -PLAYER_H_CROUCH + PLAYER_H_NORMAL)))
+				if (environment.isOnGround(this))
 					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
-				setSize(PLAYER_W, PLAYER_H_NORMAL);
-			}
-
-			break;
-
-		case JUMP:
-
-			if (currMoveState != MoveState.JUMPING)
-				if (environment.isOnGround(this)) {
-					addVelocity(JUMPVELOCITY);
-					currMoveState = MoveState.JUMPING;
-					ResourceManager.getInstance().getSound("jump").play();
-
+				else if (environment.willCollide(this, crouchingDifference)) {
+					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
+					crouchingDifference.multiply(-1.0);
+					maxDistance.add(crouchingDifference);
+					translate(maxDistance);
 				}
-
+				setSize(PLAYER_W, PLAYER_H_NORMAL);
+				break;
+			case JUMPING_AND_CROUCHING:
+				currMoveState = JUMPING;
+				if (environment.willCollide(this, crouchingDifference)) {
+					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
+					crouchingDifference.multiply(-1.0);
+					maxDistance.add(crouchingDifference);
+					translate(maxDistance);
+				}
+				setSize(PLAYER_W, PLAYER_H_NORMAL);
+			default:
+				break;
+			}
+			break;
+		case JUMP:
+			switch (currMoveState) {
+			case NORMAL:
+				if (environment.isOnGround(this)) {
+					currMoveState = JUMPING;
+					addVelocity(JUMPVELOCITY);
+					ResourceManager.getInstance().getSound("jump").play();
+				}
+				break;
+			case CROUCHING:
+				if (environment.isOnGround(this)) {
+					currMoveState = JUMPING_AND_CROUCHING;
+					addVelocity(JUMPVELOCITY);
+					ResourceManager.getInstance().getSound("jump").play();
+				}
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
+		System.out.println(currMoveState);
 
 		// movement
 		doMovement();
 
-		if (currMoveState == JUMPING && getVelocity().y >= 0)
-			currMoveState = NORMAL;
-
-		// points
-		// points++;
+		if (getVelocity().y >= 0)
+			if (currMoveState == JUMPING)
+				currMoveState = NORMAL;
+			else if (currMoveState == JUMPING_AND_CROUCHING)
+				currMoveState = CROUCHING;
 
 		addStep();
-
 	}
 
 	@Override
