@@ -19,11 +19,9 @@ public class Sound {
 	}
 
 	public void play() {
-		if (sound != null) {
-			if (sound.isActive())
-				sound.stop();
-			sound.setFramePosition(0);
-			sound.start();
-		}
+		if (sound.isActive())
+			sound.stop();
+		sound.setFramePosition(0);
+		sound.start();
 	}
 }
