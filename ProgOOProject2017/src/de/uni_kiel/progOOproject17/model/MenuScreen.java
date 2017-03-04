@@ -11,6 +11,7 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -74,6 +75,9 @@ public abstract class MenuScreen extends Screen {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				ResourceManager.getInstance().getSound("pickup").play();
+				
 				actions[selction].actionPerformed(e);
 				
 			}

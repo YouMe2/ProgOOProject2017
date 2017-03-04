@@ -30,6 +30,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
 	private final Action endAction;
+	
+	private long deathtime = -1;
+	
 	/**
 	 * @param x
 	 * @param y
@@ -80,14 +83,13 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 		create(player);
 
-		levelGenerator.setRunning(true);
 
 		// tests below:
 
 		// create(new Floor("floor", PLGameModel.lhToGam(0,
 		// PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
 
-		create(new Background("background", 0, 0, w, h));
+//		create(new Background("background", 0, 0, w, h));
 
 		// PARTICLE TEST:
 		// Particle particle = new Particle("partTest", 800, 0, 300, 300,
@@ -105,10 +107,16 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	public void tick(long timestamp) {
 		
 		if(!player.isAlive()) {
-			
-			endAction.actionPerformed(null);
+			if(deathtime == -1) {
+				deathtime = timestamp;
+			}
+			if(deathtime + 1600 < timestamp) {
+				endAction.actionPerformed(null);
+			}
 			
 		}
+		
+		
 		
 
 		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
@@ -298,7 +306,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 	@Override
 	public void create(GameElement g) {
 
-		System.out.println("Created: " + g.getResourceKey());
+//		System.out.println("Created: " + g.getResourceKey());
 
 		createdElements.add(g);
 
@@ -309,7 +317,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 	@Override
 	public void onDestruction(Destroyable d) {
-		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
+//		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
 
 		destroyedElements.add(d);
 	}

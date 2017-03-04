@@ -1,5 +1,6 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
+import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -16,7 +17,6 @@ public class LevelGenerator implements Ticked {
 	private final Environment environment;
 	private final CreationHelper createHelper;
 
-	private boolean running = false;
 
 	private int generatedTerrain;
 
@@ -31,18 +31,14 @@ public class LevelGenerator implements Ticked {
 		stages = Stage.values();
 	}
 
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
 	@Override
 	public void tick(long timestamp) {
-		if (running) {
+		
 			Rectangle screenRectangle = environment.getScreenRect();
-			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
+			int rightScreenBorder = (int) screenRectangle.getMaxX();
 			if (generatedTerrain <= rightScreenBorder)
 				generatedTerrain = spawnStage(rightScreenBorder);
-		}
+		
 	}
 
 	/**
@@ -59,8 +55,18 @@ public class LevelGenerator implements Ticked {
 			int space = PLGameModel.GAME_WIDTH * 2;
 			Floor startFloor = new Floor("floor", 0, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, stageStart + space,
 					FLOOR_HEIGHT);
-			stageStart += space;
 			createHelper.create(startFloor);
+			
+			int covered = 0;
+			while (covered < space) {
+				Background b = new Background("bg", 0, 0, 1024, PLGameModel.GAME_HEIGHT);
+				covered += b.getWidth();
+				createHelper.create(b);;
+			}
+			
+			stageStart += space;
+			
+			
 		}
 		// Create the stage
 		Collection<GameElement> c;

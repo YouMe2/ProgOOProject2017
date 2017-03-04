@@ -48,7 +48,6 @@ public class Player extends GameEntity implements Stats {
 			System.out.println("Player bei " + getX());
 
 		if (!isAlive()) {
-			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
 		}
 

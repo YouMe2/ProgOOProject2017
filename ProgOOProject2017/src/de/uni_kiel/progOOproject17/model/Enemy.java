@@ -19,7 +19,6 @@ public class Enemy extends GameEntity {
 	public void tick(long timestamp) {
 
 		if (!isAlive()) {
-			System.out.println("NON ALIVE ENTITY TICKED!");
 			return;
 		}
 
