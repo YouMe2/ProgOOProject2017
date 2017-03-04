@@ -1,14 +1,18 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
+import static de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator.FLOOR_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator.FLOOR_POS;
+import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.CENTER;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.DOUBLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.DOUBLE_HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.SINGLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE_HOVERING;
+import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TWO_ON_TOP;
+import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TWO_ON_TOP_HIGH;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
-import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import java.util.ArrayList;
@@ -20,13 +24,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public enum Stage {
 
-	ZERO(100, 500, 10, SINGLE, DOUBLE, HOVERING),
-	ONE(90, 350, 15, SINGLE, DOUBLE, HOVERING, DOUBLE_HOVERING),
-	TWO(80, 300, 20, DOUBLE, DOUBLE_HOVERING, TRIPLE_HOVERING),
-	THREE(0, 0, 0),
-	FOUR(0, 0, 0),
-	FIVE(0, 0, 0),
-	FINAL(0, 0, 0);
+	ZERO(100, 500, 10, SINGLE, HOVERING, DOUBLE_HOVERING),
+	ONE(90, 350, 15, SINGLE, DOUBLE, HOVERING, DOUBLE_HOVERING, TRIPLE_HOVERING),
+	TWO(90, 300, 20, DOUBLE, HOVERING, DOUBLE_HOVERING, TWO_ON_TOP_HIGH),
+	THREE(120, 200, 30, SINGLE, DOUBLE, HOVERING, TWO_ON_TOP),
+	FOUR(105, 130, 20, SINGLE, CENTER, HOVERING),
+	FIVE(120, 150, 30, SINGLE, CENTER, HOVERING, TWO_ON_TOP),
+	FINAL(110, 130, 10, DOUBLE, CENTER, TWO_ON_TOP, TWO_ON_TOP_HIGH);
 
 	private final int minSpace;
 	private final int maxSpace;
@@ -55,8 +59,7 @@ public enum Stage {
 			stagePos += o.getWidth() + randomSpace;
 		}
 		// create floor
-		Floor floor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT, stagePos,
-				LevelGenerator.FLOOR_HEIGHT);
+		Floor floor = new Floor("floor", stageStart, FLOOR_POS, stagePos, FLOOR_HEIGHT);
 		res.add(floor);
 		lastWidth = stagePos;
 		return res;

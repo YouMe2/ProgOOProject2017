@@ -7,7 +7,6 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
 
 public class Main {
 
-	// TODO LevelGenerator
 	// TODO COMMENTS
 	// TODO MENU
 	// TODO ENDSCREEN

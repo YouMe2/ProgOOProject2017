@@ -123,7 +123,6 @@ public class Player extends GameEntity implements Stats {
 			break;
 		}
 		currMoveCommand = MoveCommand.NONE;
-		System.out.println(currMoveState);
 
 		// movement
 		doMovement();

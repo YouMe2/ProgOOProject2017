@@ -10,6 +10,7 @@ package de.uni_kiel.progOOproject17.model;
  */
 public interface Stats {
 	
+	// TODO grant point based on current stage
 	int getPoints();
 	int getSteps();
 	int getLifes();

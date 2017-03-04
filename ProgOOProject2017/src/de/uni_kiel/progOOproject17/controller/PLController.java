@@ -1,14 +1,12 @@
 package de.uni_kiel.progOOproject17.controller;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
 import de.uni_kiel.progOOproject17.model.InputActionKeys;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
 import de.uni_kiel.progOOproject17.view.PLLighthouseView;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
 
 public class PLController extends TickedController {
 
@@ -23,7 +21,6 @@ public class PLController extends TickedController {
 	 */
 	public PLController(PLDektopView view, PLGameModel model) {
 		super(view, view, model, 35);
-
 
 		standardIn.addAction("pressed W", model.getAction(InputActionKeys.P_UP));
 		standardIn.addAction("released W", model.getAction(InputActionKeys.R_UP));
@@ -51,7 +48,7 @@ public class PLController extends TickedController {
 				gametimeSafer = stop();
 			}
 		});
-		
+
 		standardIn.addAction("released E", new AbstractAction() {
 
 			@Override
@@ -59,8 +56,6 @@ public class PLController extends TickedController {
 				start(gametimeSafer);
 			}
 		});
-		
-		//TODO Restart?
 
 	}
 

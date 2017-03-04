@@ -13,6 +13,8 @@ import java.util.Collection;
 public class LevelGenerator implements Ticked {
 
 	public static final int FLOOR_HEIGHT = PLGameModel.lhToGame(0, 1).y;
+	// height for enemies at floor level
+	public static final int FLOOR_POS = PLGameModel.GAME_HEIGHT- LevelGenerator.FLOOR_HEIGHT;
 
 	private final Environment environment;
 	private final CreationHelper createHelper;
@@ -29,7 +31,7 @@ public class LevelGenerator implements Ticked {
 		this.createHelper = createHelper;
 		this.environment = environment;
 		generatedTerrain = generatedBackground = 0;
-		currentStage = 0;
+		currentStage = 5;
 		stages = Stage.values();
 	}
 
@@ -61,7 +63,7 @@ public class LevelGenerator implements Ticked {
 		// Create first floor
 		if (currentStage == 0) {
 			int floorLength = PLGameModel.GAME_WIDTH + 800;
-			Floor startFloor = new Floor("floor", 0, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, floorLength, FLOOR_HEIGHT);
+			Floor startFloor = new Floor("floor", 0, FLOOR_POS, floorLength, FLOOR_HEIGHT);
 			stageStart = floorLength;
 			createHelper.create(startFloor);
 		}
@@ -76,7 +78,7 @@ public class LevelGenerator implements Ticked {
 			createHelper.create(element);
 		int nextStage = currentStage + 1;
 		if (nextStage < stages.length)
-			currentStage += nextStage;
+			currentStage = nextStage;
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}
