@@ -69,7 +69,7 @@ public enum Stage {
 		return res;
 	}
 
-	public int getLastWidth() {
+	public int getLastStageEnd() {
 		return lastWidth;
 	}
 

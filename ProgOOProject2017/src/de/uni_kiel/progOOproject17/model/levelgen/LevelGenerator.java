@@ -23,8 +23,7 @@ public class LevelGenerator implements Ticked {
 	private int currentStage;
 	private Stage[] stages;
 
-	public LevelGenerator(Environment environment,
-			CreationHelper createHelper) {
+	public LevelGenerator(Environment environment, CreationHelper createHelper) {
 		this.createHelper = createHelper;
 		this.environment = environment;
 		generatedTerrain = 0;
@@ -42,7 +41,7 @@ public class LevelGenerator implements Ticked {
 			Rectangle screenRectangle = environment.getScreenRect();
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder)
-				generatedTerrain += spawnStage(rightScreenBorder);
+				generatedTerrain = spawnStage(rightScreenBorder);
 		}
 	}
 
@@ -53,27 +52,27 @@ public class LevelGenerator implements Ticked {
 	 *
 	 * @return the time the new stage will take to run through
 	 */
-	public long spawnStage(int stageStart) {
+	public int spawnStage(int stageStart) {
 		Stage stage = stages[currentStage];
 		if (currentStage == 0) {
 			int space = PLGameModel.GAME_WIDTH * 2;
-			Floor intermediateFloor = new Floor("floor", stageStart,
-					PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, space,
+			Floor intermediateFloor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, space,
 					FLOOR_HEIGHT);
 			stageStart += space;
 			createHelper.create(intermediateFloor);
 		}
 		Collection<GameElement> c;
-		int stageWidth;
+		int stageEnd;
 		synchronized (stage) {
 			c = stage.create(stageStart, environment, createHelper);
-			stageWidth = stage.getLastWidth();
+			stageEnd = stage.getLastStageEnd();
 		}
 		for (GameElement element : c)
 			createHelper.create(element);
 		if (currentStage < stages.length - 1)
 			currentStage++;
-		return stageWidth;
+		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
+		return stageEnd;
 	}
 
 }
