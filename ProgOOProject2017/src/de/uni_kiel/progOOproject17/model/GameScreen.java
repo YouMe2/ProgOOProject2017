@@ -29,12 +29,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
-<<<<<<< HEAD
-
-=======
-	
 	private final Action endAction;
->>>>>>> refs/heads/YanniksBranch
 	/**
 	 * @param x
 	 * @param y
