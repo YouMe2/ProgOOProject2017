@@ -23,8 +23,6 @@ public class Player extends GameEntity implements Stats{
 	private final int playerXVelocity = 10;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
-	private boolean movingLeft = false;
-	private boolean movingRight = false;
 
 	private MoveState currMoveState = MoveState.NORMAL;
 
@@ -47,42 +45,6 @@ public class Player extends GameEntity implements Stats{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currMoveCommand = MoveCommand.END_CROUCH;
-		}
-	};
-	public final ModelAction moveLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_LEFT) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			movingLeft = true;
-			movingRight = false;
-
-		}
-	};
-
-	public final ModelAction moveRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_RIGHT) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			movingLeft = false;
-			movingRight = true;
-
-		}
-	};
-
-	public final ModelAction moveStopLEFT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPLEFT) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			movingLeft = false;
-
-		}
-	};
-
-	public final ModelAction moveStopRIGHT = new ModelAction(PLGameModel.ACTIONKEY_PLAYER_STOPRIGHT) {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			movingRight = false;
 		}
 	};
 
@@ -160,12 +122,6 @@ public class Player extends GameEntity implements Stats{
 		}
 		currMoveCommand = MoveCommand.NONE;
 
-		if (movingLeft)
-			setVelocity(-playerXVelocity, getVelocity().y);
-		else if (movingRight)
-			setVelocity(playerXVelocity, getVelocity().y);
-		else
-			setVelocity(0, getVelocity().y);
 
 		// movement
 		doMovement();
