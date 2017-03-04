@@ -6,6 +6,7 @@ import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.HOVERING;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.SINGLE;
 import static de.uni_kiel.progOOproject17.model.levelgen.Obstacle.TRIPLE_HOVERING;
 
+import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
@@ -34,38 +35,38 @@ public enum Stage {
 	private final Obstacle[] possibleObstacles;
 	private int lastWidth = -1;
 
-	private Stage(int minSpace, int maxSpace, int elements,
-			Obstacle... possibleObstacles) {
+	private Stage(int minSpace, int maxSpace, int elements, Obstacle... possibleObstacles) {
 		this.minSpace = minSpace;
 		this.maxSpace = maxSpace;
 		this.elements = elements;
 		this.possibleObstacles = possibleObstacles;
 	}
 
-	public Collection<GameElement> create(int stageStart, Environment e,
-			CreationHelper c) {
-		System.out.println("stage for " + stageStart + " from\n\t"
-				+ Arrays.toString(possibleObstacles));
+	public Collection<GameElement> create(int stageStart, Environment e, CreationHelper c) {
 		Random r = ThreadLocalRandom.current();
 		ArrayList<GameElement> res = new ArrayList<>();
 		int stagePos = stageStart;
+		// create obstacles
 		while (res.size() < elements) {
 			int obstacle = r.nextInt(possibleObstacles.length);
 			Obstacle o = possibleObstacles[obstacle];
-			List<GameElement> obstacleElements = Arrays
-					.asList(o.createNew(stagePos, e, c));
+			List<GameElement> obstacleElements = Arrays.asList(o.createNew(stagePos, e, c));
 			int randomSpace = minSpace + r.nextInt(maxSpace - minSpace);
 			res.addAll(obstacleElements);
 			stagePos += o.getWidth() + randomSpace;
-			// System.out.println("w = " + o.getWidth() + ", rnd = " +
-			// randomSpace + " -> " + stagePos);
 		}
-		lastWidth = stagePos;
-		Floor floor = new Floor("floor", stageStart,
-				PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT, stagePos,
+		// create floor
+		Floor floor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT, stagePos,
 				LevelGenerator.FLOOR_HEIGHT);
 		res.add(floor);
-		System.out.println("STAGE '" + this + "' CREATED, WIDTH = " + stagePos);
+		// create backgrounds
+		int covered = stageStart;
+		while (covered < stagePos) {
+			Background b = new Background("bg", covered, 0, 1024, PLGameModel.GAME_HEIGHT);
+			covered += b.getWidth();
+			res.add(b);
+		}
+		lastWidth = covered;
 		return res;
 	}
 

@@ -54,13 +54,15 @@ public class LevelGenerator implements Ticked {
 	 */
 	public int spawnStage(int stageStart) {
 		Stage stage = stages[currentStage];
+		// Create first floor
 		if (currentStage == 0) {
 			int space = PLGameModel.GAME_WIDTH * 2;
-			Floor intermediateFloor = new Floor("floor", stageStart, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, space,
+			Floor startFloor = new Floor("floor", 0, PLGameModel.GAME_HEIGHT - FLOOR_HEIGHT, stageStart + space,
 					FLOOR_HEIGHT);
 			stageStart += space;
-			createHelper.create(intermediateFloor);
+			createHelper.create(startFloor);
 		}
+		// Create the stage
 		Collection<GameElement> c;
 		int stageEnd;
 		synchronized (stage) {

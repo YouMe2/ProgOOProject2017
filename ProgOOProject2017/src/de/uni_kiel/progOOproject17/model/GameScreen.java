@@ -4,7 +4,6 @@ import de.uni_kiel.progOOproject17.model.abs.Collidable;
 import de.uni_kiel.progOOproject17.model.abs.Destroyable;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameCompound;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.function.Consumer;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
@@ -31,7 +29,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
-	
 
 	/**
 	 * @param x
@@ -87,7 +84,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 
 		// tests below:
 
-		create(new Floor("floor", PLGameModel.lhToGam(0, PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
+		// create(new Floor("floor", PLGameModel.lhToGam(0,
+		// PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
 
 		create(new Background("background", 0, 0, w, h));
 
@@ -111,12 +109,12 @@ public class GameScreen extends Screen implements Environment, CreationHelper {
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
 
+			@Override
 			public void accept(GameElement e) {
 
 				e.tick(timestamp);
-				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX()) {
+				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX())
 					e.destroy();
-				}
 
 			};
 

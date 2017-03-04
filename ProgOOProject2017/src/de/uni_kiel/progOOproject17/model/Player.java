@@ -14,6 +14,8 @@ import java.awt.Point;
 
 public class Player extends GameEntity implements Stats {
 
+	// FIXME man darf nicht in den Boden crouchen dürfen
+
 	private int points = 0;
 
 	private int steps;
