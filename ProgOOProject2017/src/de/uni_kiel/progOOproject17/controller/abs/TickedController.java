@@ -11,14 +11,12 @@ import de.uni_kiel.progOOproject17.view.abs.OutputView;
  * model every tick and renders the view in a smart way. In particular this
  * guarantees the same program behavior on nearly every machine independently of
  * the speed to the gpu or cpu.
- * 
+ *
  * @see #start(long)
  * @see #stop()
  * @see #getFps()
  * @see #getTps()
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ *
  *
  */
 public abstract class TickedController extends AbstractController implements Runnable, Ticked {
@@ -37,7 +35,7 @@ public abstract class TickedController extends AbstractController implements Run
 	 * Constructs a new {@link TickedController} with out set as the
 	 * {@link #standardOut}, in set as {@link #standardIn}, model set as
 	 * {@link #model} and the ticklength in ms.
-	 * 
+	 *
 	 * @param out
 	 *            The {@link #standardOut}
 	 * @param in
@@ -56,7 +54,7 @@ public abstract class TickedController extends AbstractController implements Run
 	 * Constructs a new {@link TickedController} with out set as the
 	 * {@link #standardOut}, in set as {@link #standardIn}, model set as
 	 * {@link #model} and a standart tickspeed of 20ms.
-	 * 
+	 *
 	 * @param out
 	 *            The {@link #standardOut}
 	 * @param in
@@ -111,9 +109,8 @@ public abstract class TickedController extends AbstractController implements Run
 				secTimer = 0;
 				frames = 0;
 				ticks = 0;
-				if (printTpsFps) {
+				if (printTpsFps)
 					System.out.println("Running at: " + tps + " tps and " + fps + " fps.");
-				}
 
 			}
 
@@ -122,13 +119,13 @@ public abstract class TickedController extends AbstractController implements Run
 
 	/**
 	 * Starts the ticked program loop with the given timestamp.
-	 * 
+	 *
 	 * @param timestamp
 	 *            The timestamp for the program to start with
 	 */
 	public void start(long timestamp) {
 		if (thread == null) {
-			this.gametime = timestamp;
+			gametime = timestamp;
 			thread = new Thread(this);
 			running = true;
 			timestamp = 0;
@@ -138,7 +135,7 @@ public abstract class TickedController extends AbstractController implements Run
 
 	/**
 	 * Stops the program loop and return the timestamp of the programm.
-	 * 
+	 *
 	 * @return The timestamp
 	 */
 	public long stop() {
@@ -172,7 +169,7 @@ public abstract class TickedController extends AbstractController implements Run
 	/**
 	 * Enables or disables this controller to print out the fps und tps every
 	 * second.
-	 * 
+	 *
 	 * @param enable
 	 */
 	public void setEnableTpsFpsPrint(boolean enable) {
@@ -181,7 +178,7 @@ public abstract class TickedController extends AbstractController implements Run
 
 	/**
 	 * Returns the {@link TickedBaseModel} of this {@link TickedController}.
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.controller.abs.AbstractController#getModel()
 	 */
 	@Override

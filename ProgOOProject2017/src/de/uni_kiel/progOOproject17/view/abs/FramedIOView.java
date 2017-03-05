@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Set;
-
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
@@ -14,16 +13,13 @@ import javax.swing.JPanel;
 
 /**
  * This class provides a {@link JFrame} which holds an {@link InputView} in as
- * well as a {@link MappedKeyInputView} and a {@link OutputView}.
- * This class builds a basic Frame which can easily be modified by the subclass.
- * 
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ * well as a {@link MappedKeyInputView} and a {@link OutputView}. This class
+ * builds a basic Frame which can easily be modified by the subclass.
+ *
+ *
  *
  */
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {
-
 
 	private MappedKeyInputView in;
 

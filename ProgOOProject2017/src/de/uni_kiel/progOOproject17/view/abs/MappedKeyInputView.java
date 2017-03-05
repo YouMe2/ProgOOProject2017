@@ -8,11 +8,9 @@ import javax.swing.KeyStroke;
 /**
  * This class provides the useful functionality of combining an {@link InputMap}
  * and and {@link ActionMap} for key inputs into an {@link InputView}.
- * 
+ *
  * @see KeyStroke#getKeyStroke(String)
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ *
  *
  */
 public class MappedKeyInputView implements InputView {
@@ -24,7 +22,7 @@ public class MappedKeyInputView implements InputView {
 	/**
 	 * Creates a new {@link MappedKeyInputView} with the specified
 	 * {@link InputMap} and {@link ActionMap}.
-	 * 
+	 *
 	 * @param inMap
 	 *            the {@link InputMap}
 	 * @param aMap
@@ -39,7 +37,7 @@ public class MappedKeyInputView implements InputView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.view.abs.InputView#addAction(java.lang.
 	 * String, javax.swing.Action)
 	 */
@@ -52,7 +50,7 @@ public class MappedKeyInputView implements InputView {
 
 	/**
 	 * Adds a Keyaction to this {@link InputView}.
-	 * 
+	 *
 	 * @param key
 	 *            The {@link KeyStroke} for the action
 	 * @param action
@@ -68,7 +66,7 @@ public class MappedKeyInputView implements InputView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.view.abs.InputView#setEnabeled(boolean)
 	 */
 	@Override
@@ -85,7 +83,7 @@ public class MappedKeyInputView implements InputView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * de.uni_kiel.progOOproject17.view.abs.InputView#setEnabeled(java.lang.
 	 * String, boolean)
@@ -102,7 +100,7 @@ public class MappedKeyInputView implements InputView {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * de.uni_kiel.progOOproject17.view.abs.InputView#addActionMap(javax.swing.
 	 * ActionMap)

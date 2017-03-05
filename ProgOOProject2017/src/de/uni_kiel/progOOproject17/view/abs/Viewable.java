@@ -1,8 +1,4 @@
-
 package de.uni_kiel.progOOproject17.view.abs;
-
-import java.awt.Rectangle;
-import java.awt.image.RenderedImage;
 
 import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.Floor;
@@ -10,12 +6,12 @@ import de.uni_kiel.progOOproject17.model.MenuScreen;
 import de.uni_kiel.progOOproject17.model.Particle;
 import de.uni_kiel.progOOproject17.model.Scoreboard;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
+import java.awt.Rectangle;
 
 /**
- * This interface needs to be implemented by anything to be rendered by any {@link OutputView}.
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ * This interface needs to be implemented by anything to be rendered by any
+ * {@link OutputView}.
+ *
  *
  */
 public interface Viewable {
@@ -46,7 +42,6 @@ public interface Viewable {
 	 */
 	public static final int PARTICLE_LAYER = 4;
 
-	
 	/**
 	 * The {@link MenuScreen} layer.
 	 */
@@ -56,7 +51,7 @@ public interface Viewable {
 	 * Returns the resource key of this {@link Viewable} which is used by the
 	 * {@link OutputView} to determine how this {@link Viewable} will be
 	 * rendered.
-	 * 
+	 *
 	 * @return the resource key
 	 */
 	public String getResourceKey();
@@ -64,21 +59,21 @@ public interface Viewable {
 	/**
 	 * Returns the {@link Rectangle} in which this {@link Viewable} needs to be
 	 * rendered.
-	 * 
+	 *
 	 * @return the {@link Rectangle}
 	 */
 	public Rectangle getViewRect();
 
 	/**
 	 * Retruns the layer on which this {@link Viewable} needs to be redered.
-	 * 
+	 *
 	 * @see #LAYERsSIZE
 	 * @see #BG_LAYER
 	 * @see #SB_LAYER
 	 * @see #FLOOR_LAYER
 	 * @see #ENTITY_LAYER
 	 * @see #PARTICLE_LAYER
-	 * 
+	 *
 	 * @return the layer.
 	 */
 	public int getLayer();

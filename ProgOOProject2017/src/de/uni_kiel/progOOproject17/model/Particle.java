@@ -18,7 +18,7 @@ public class Particle extends GameElement {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
 	 */
 	@Override

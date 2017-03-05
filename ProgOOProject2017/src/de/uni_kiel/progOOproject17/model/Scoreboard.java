@@ -28,17 +28,13 @@ public class Scoreboard extends GameCompound {
 		stepsDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
 				Math.round(LHPIXEL_HEIGHT * 0.8f), Viewable.SB_LAYER);
 
-		for (int i = 0; i < pointsDisplay.length; i++) {
+		for (int i = 0; i < pointsDisplay.length; i++)
 			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (16 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
 					LHPIXEL_HEIGHT, Viewable.SB_LAYER);
 
-		}
-
-		for (int i = 0; i < lifesDisplay.length; i++) {
+		for (int i = 0; i < lifesDisplay.length; i++)
 			lifesDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
 					LHPIXEL_HEIGHT, Viewable.SB_LAYER);
-
-		}
 
 	}
 
@@ -48,27 +44,21 @@ public class Scoreboard extends GameCompound {
 		stepsDisplay.setSize((int) (stats.getProgress() * PLGameModel.GAME_WIDTH), stepsDisplay.getHeight());
 
 		int p = stats.getPoints();
-		if (p > pointsDisplay.length) {
+		if (p > pointsDisplay.length)
 			p = pointsDisplay.length;
-		}
-		for (int i = 0; i < p; i++) {
+		for (int i = 0; i < p; i++)
 			pointsDisplay[i].setResKey(pointsKey);
-		}
-		for (int i = p; i < pointsDisplay.length; i++) {
+		for (int i = p; i < pointsDisplay.length; i++)
 			pointsDisplay[i].setResKey(null);
-		}
 
 		int l = stats.getLifes();
-		if (l > lifesDisplay.length) {
+		if (l > lifesDisplay.length)
 			l = lifesDisplay.length;
-		}
 
-		for (int i = 0; i < l; i++) {
+		for (int i = 0; i < l; i++)
 			lifesDisplay[i].setResKey(lifesKey);
-		}
-		for (int i = l; i < lifesDisplay.length; i++) {
+		for (int i = l; i < lifesDisplay.length; i++)
 			lifesDisplay[i].setResKey(null);
-		}
 
 	}
 

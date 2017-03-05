@@ -1,19 +1,16 @@
 package de.uni_kiel.progOOproject17.controller.abs;
 
-import java.util.Vector;
-
 import de.uni_kiel.progOOproject17.model.abs.AbstractBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.InputView;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import java.util.Vector;
 
 /**
  * This class provides the functionality of the most abstract controller an the
  * MVC structure, built on {@link InputView}, {@link OutputView},
  * {@link Viewable} and {@link AbstractBaseModel}.
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ *
  *
  */
 public abstract class AbstractController {
@@ -39,7 +36,7 @@ public abstract class AbstractController {
 	 * Constructs a new {@link AbstractController} with out set as the
 	 * {@link #standardOut}, in set as {@link #standardIn} and model set as
 	 * {@link #model}.
-	 * 
+	 *
 	 * @param out
 	 *            the {@link #standardOut}
 	 * @param in
@@ -57,7 +54,7 @@ public abstract class AbstractController {
 
 	/**
 	 * Adds a new {@link OutputView} to this controller.
-	 * 
+	 *
 	 * @param out
 	 *            the new {@link OutputView}
 	 */
@@ -67,7 +64,7 @@ public abstract class AbstractController {
 
 	/**
 	 * Adds a new {@link InputView} to this controller.
-	 * 
+	 *
 	 * @param in
 	 */
 	public void addInputView(InputView in) {
@@ -76,7 +73,7 @@ public abstract class AbstractController {
 
 	/**
 	 * Enables or disables all actions in all {@link InputView}s.
-	 * 
+	 *
 	 * @param enabeled
 	 */
 	public void setEnabledAll(boolean enabeled) {
@@ -91,7 +88,7 @@ public abstract class AbstractController {
 	/**
 	 * Enabeles or disables the action specifyed by the actionkey in all
 	 * {@link InputView}s.
-	 * 
+	 *
 	 * @param actionKey
 	 *            the key specifying the action.
 	 * @param enabeled
@@ -107,7 +104,7 @@ public abstract class AbstractController {
 
 	/**
 	 * Renders all {@link InputView}s.
-	 * 
+	 *
 	 */
 	public void renderAllViews() {
 		synchronized (outs) {
@@ -122,14 +119,14 @@ public abstract class AbstractController {
 
 	/**
 	 * Returns the {@link AbstractBaseModel} of this controller.
-	 * 
+	 *
 	 * @return the model
 	 */
 	public abstract AbstractBaseModel getModel();
 
 	/**
 	 * Returns the specific {@link OutputView} with the index i.
-	 * 
+	 *
 	 * @param i
 	 *            the index
 	 * @return the {@link OutputView} at position i
@@ -137,10 +134,10 @@ public abstract class AbstractController {
 	public OutputView getOutputView(int i) {
 		return outs.get(i);
 	}
-	
+
 	/**
 	 * Returns the specific {@link InputView} with the index i.
-	 * 
+	 *
 	 * @param i
 	 *            the index
 	 * @return the {@link InputView} at position i

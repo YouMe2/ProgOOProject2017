@@ -1,16 +1,14 @@
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-
-import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class PLGameModel extends TickedBaseModel {
 
@@ -121,7 +119,7 @@ public class PLGameModel extends TickedBaseModel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Action a = PLGameModel.this.currentScreen.getAction(key);
+				Action a = currentScreen.getAction(key);
 				if (a != null)
 					a.actionPerformed(e);
 

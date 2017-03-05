@@ -5,18 +5,17 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
  * This class serves as the most abstract BaseModel for the MVC structure.
- * 
+ *
  * @see #getViewables()
- * 
- * @author Yannik Eikmeier
- * @since 03.03.2017
+ *
  *
  */
 public abstract class AbstractBaseModel {
 
 	/**
-	 * Returns all the {@link Viewable}s this model need to be rendered by some {@link OutputView}.
-	 * 
+	 * Returns all the {@link Viewable}s this model need to be rendered by some
+	 * {@link OutputView}.
+	 *
 	 * @return
 	 */
 	public abstract Viewable[] getViewables();

@@ -12,13 +12,11 @@ public class Main {
 	// TODO ENDSCREEN
 
 	public static void main(String[] args) {
-		
+
 		ResourceManager.getInstance().init();
 
-		new PLController(
-				new PLDektopView(
-						"Project Lighthouze - Yannik Eikmeier und Steffen Trog"),
-				new PLGameModel()).start(0);
+		new PLController(new PLDektopView("Project Lighthouze - Yannik Eikmeier und Steffen Trog"), new PLGameModel())
+				.start(0);
 
 	}
 

@@ -1,24 +1,13 @@
-/**
- * 
- */
 package de.uni_kiel.progOOproject17.model;
 
+import de.uni_kiel.progOOproject17.model.abs.Distance;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import de.uni_kiel.progOOproject17.model.abs.Distance;
-import de.uni_kiel.progOOproject17.model.abs.GameComponent;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
+public class ImageViewable implements Viewable {
 
-/**
- * @author Yannik Eikmeier
- * @since 03.03.2017
- *
- */
-public class ImageViewable  implements Viewable{
-
-	
 	private String resKey;
 	private int layer;
 	private Rectangle rect;
@@ -26,15 +15,16 @@ public class ImageViewable  implements Viewable{
 	public ImageViewable(String resKey, int x, int y, int w, int h, int layer) {
 		this(resKey, new Rectangle(x, y, w, h), layer);
 	}
-	
+
 	public ImageViewable(String resKey, Rectangle rect, int layer) {
 		this.resKey = resKey;
 		this.rect = rect;
 		this.layer = layer;
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getResourceKey()
 	 */
 	@Override
@@ -42,7 +32,9 @@ public class ImageViewable  implements Viewable{
 		return resKey;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getViewRect()
 	 */
 	@Override
@@ -50,15 +42,15 @@ public class ImageViewable  implements Viewable{
 		return rect;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getLayer()
 	 */
 	@Override
 	public int getLayer() {
 		return layer;
 	}
-
-
 
 	public void setLocation(int x, int y) {
 		rect.setLocation(x, y);
@@ -120,9 +112,8 @@ public class ImageViewable  implements Viewable{
 	 * @param pointsKey
 	 */
 	public void setResKey(String key) {
-		this.resKey = key;
-		
+		resKey = key;
+
 	}
-	
-	
+
 }

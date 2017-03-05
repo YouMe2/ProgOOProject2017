@@ -16,7 +16,7 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.model.abs.Deadly#setDeadly(boolean)
 	 */
 	@Override
@@ -32,7 +32,7 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.uni_kiel.progOOproject17.model.abs.Deadly#getKills()
 	 */
 	@Override

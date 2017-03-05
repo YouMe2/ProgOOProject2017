@@ -1,14 +1,13 @@
 package de.uni_kiel.progOOproject17.view;
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
-
 import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class PLDektopView extends FramedIOView {
 
@@ -19,7 +18,7 @@ public class PLDektopView extends FramedIOView {
 		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, false);
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 		res = ResourceManager.getInstance();
-//		setResizable(false);
+		// setResizable(false);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class PLDektopView extends FramedIOView {
 
 				Rectangle rect = v.getViewRect();
 				String key = v.getResourceKey();
-				if( key != null)
+				if (key != null)
 					gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
 
 			});

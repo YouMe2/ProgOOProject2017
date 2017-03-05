@@ -1,5 +1,11 @@
 package de.uni_kiel.progOOproject17.view;
 
+import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
+import de.uni_kiel.progOOproject17.lighthouse.LighthouseUtil;
+import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -7,17 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
-
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
-
-import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
-import de.uni_kiel.progOOproject17.lighthouse.LighthouseUtil;
-import de.uni_kiel.progOOproject17.model.PLGameModel;
-import de.uni_kiel.progOOproject17.resources.ResourceManager;
-import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public class PLLighthouseView extends FramedIOView {
 
@@ -38,7 +36,6 @@ public class PLLighthouseView extends FramedIOView {
 			}
 		}
 	};
-	
 
 	/**
 	 * @param title
@@ -54,7 +51,6 @@ public class PLLighthouseView extends FramedIOView {
 
 		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
-		
 		lhNetwork = new LighthouseNetwork();
 
 		connect.actionPerformed(null);
@@ -62,7 +58,7 @@ public class PLLighthouseView extends FramedIOView {
 		JMenuBar menuBar = new JMenuBar();
 		JButton button = new JButton(connect);
 		menuBar.add(button);
-		this.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 
 		pack();
 	}
@@ -78,8 +74,9 @@ public class PLLighthouseView extends FramedIOView {
 
 				Rectangle rect = v.getViewRect();
 				String key = v.getResourceKey();
-				if( key != null)
-//					gr.drawImage(res.getImage(key+ "-low"), rect.x, rect.y, rect.width, rect.height, null);
+				if (key != null)
+					// gr.drawImage(res.getImage(key+ "-low"), rect.x, rect.y,
+					// rect.width, rect.height, null);
 					gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
 			});
 
