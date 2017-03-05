@@ -35,7 +35,7 @@ public abstract class MenuScreen extends Screen {
 	public static final int ENTRY_WIDTH = PLGameModel.LHPIXEL_WIDTH * 8;
 	public static final int ENTRY_HEIGHT = PLGameModel.LHPIXEL_HEIGHT*4;
 	
-	public static final int CURSOR_WIDTH = PLGameModel.LHPIXEL_WIDTH * 6;
+	public static final int CURSOR_WIDTH = PLGameModel.LHPIXEL_WIDTH * 8;
 	public static final int CURSOR_HEIGHT = PLGameModel.LHPIXEL_HEIGHT*4;
 	
 	
@@ -49,10 +49,10 @@ public abstract class MenuScreen extends Screen {
 		
 		entries = new ImageViewable[resKeys.length];
 		for (int i = 0; i < actions.length; i++) {
-			entries[i] = new ImageViewable(resKeys[i], new Rectangle((w-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + i*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), ENTRY_WIDTH, ENTRY_HEIGHT), Viewable.MENU_LAYER);
+			entries[i] = new ImageViewable(resKeys[i], (getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + i*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), ENTRY_WIDTH, ENTRY_HEIGHT, Viewable.MENU_LAYER);
 		}
 		
-		selectionCursor = new ImageViewable("pointer", PLGameModel.LHPIXEL_WIDTH*2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), CURSOR_WIDTH, CURSOR_HEIGHT, Viewable.MENU_LAYER);
+		selectionCursor = new ImageViewable("selection", (getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), CURSOR_WIDTH, CURSOR_HEIGHT, Viewable.MENU2_LAYER);
 		
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 			
@@ -88,7 +88,7 @@ public abstract class MenuScreen extends Screen {
 	@Override
 	public void tick(long timestamp) {
 		
-		selectionCursor.setLocation(PLGameModel.LHPIXEL_WIDTH*2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT));
+		selectionCursor.setLocation((getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT));
 		
 	}
 
