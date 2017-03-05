@@ -2,22 +2,32 @@ package de.uni_kiel.progOOproject17.resources;
 
 import javax.sound.sampled.Clip;
 
+/**
+ * A class representing a sound in the game.
+ *
+ */
 public class Sound {
 
-	// public static final Sound PING = new Sound("pickup");
-	// public static final Sound PLAYER_HURT = new Sound("playerhurt");
-	// public static final Sound PLAYER_DEATH = new Sound("death");
-	// public static final Sound MONSTER_HURT = new Sound("monsterhurt");
-	// public static final Sound TEST = new Sound("test");
-	// public static final Sound BOSS_DEATH = new Sound("bossdeath");
-	// public static final Sound CRAFT = new Sound("craft");
-
+	/**
+	 * A {@link Clip} to be played.
+	 */
 	private Clip sound;
 
+	/**
+	 * Creates a new sound based on the given <code>Clip</code>.
+	 *
+	 * @param sound
+	 *            the <code>Clip</code> to be played
+	 */
 	Sound(Clip sound) {
 		this.sound = sound;
 	}
 
+	/**
+	 * Plays the sound asynchronously in the background. If is is still playing
+	 * from a previous call of this method, the playing will be interrupted and
+	 * restarted.
+	 */
 	public void play() {
 		if (sound.isActive())
 			sound.stop();
