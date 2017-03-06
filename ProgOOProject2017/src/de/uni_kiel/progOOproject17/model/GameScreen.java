@@ -25,15 +25,14 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final int screenVelocity = (int)(PLGameModel.LHPIXEL_WIDTH * 0.5);
+	private final int screenVelocity = (int) (PLGameModel.LHPIXEL_WIDTH * 0.5);
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
 	private final Action endAction;
 
-	
 	private long deathtime = -1;
-	
+
 	/**
 	 * @param x
 	 * @param y
@@ -91,7 +90,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		create(player);
 
-
 		// tests below:
 
 		// create(new Floor("floor", PLGameModel.lhToGam(0,
@@ -115,20 +113,14 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	public void tick(long timestamp) {
 
 		if (!player.isAlive())
-		
-		if(!player.isAlive()) {
-			if(deathtime == -1) {
-				deathtime = timestamp;
+
+			if (!player.isAlive()) {
+				if (deathtime == -1)
+					deathtime = timestamp;
+				if (deathtime + 1600 < timestamp)
+					endAction.actionPerformed(null);
+
 			}
-			if(deathtime + 1600 < timestamp) {
-				endAction.actionPerformed(null);
-			}
-			
-			
-		}
-		
-		
-		
 
 		this.setLocation((int) (player.getX() - PLGameModel.LHPIXEL_WIDTH * 2.5), 0);
 
@@ -313,7 +305,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	@Override
 	public void create(GameElement g) {
 
-//		System.out.println("Created: " + g.getResourceKey());
+		// System.out.println("Created: " + g.getResourceKey());
 
 		createdElements.add(g);
 
@@ -324,7 +316,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	@Override
 	public void onDestruction(Destroyable d) {
-//		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
+		// System.out.println("Destroyed: " + ((GameElement)
+		// d).getResourceKey());
 
 		destroyedElements.add(d);
 	}
@@ -348,7 +341,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	@Override
 	public int getPoints() {
-		return levelGenerator.getCurrentStage() - 1;
+		return Math.max(levelGenerator.getCurrentStage() - 1, 0);
 	}
 
 	@Override
