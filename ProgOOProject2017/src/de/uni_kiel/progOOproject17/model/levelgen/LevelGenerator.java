@@ -21,7 +21,6 @@ public class LevelGenerator implements Ticked {
 	private final CreationHelper createHelper;
 	private Runnable stageSpawnListener;
 
-	private boolean running = false;
 
 	private int lastGeneratedTerrain;
 	private int generatedTerrain;
@@ -39,13 +38,9 @@ public class LevelGenerator implements Ticked {
 		stages = Stage.values();
 	}
 
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
 	@Override
 	public void tick(long timestamp) {
-		if (running) {
+		
 			Rectangle screenRectangle = environment.getScreenRect();
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder) {
@@ -55,7 +50,8 @@ public class LevelGenerator implements Ticked {
 			if (generatedBackground <= rightScreenBorder)
 				generatedBackground = spawnBackground(generatedBackground);
 		}
-	}
+
+	
 
 	/**
 	 * Spawns in a new randomly selected sequence of obstacles for the player to
@@ -71,6 +67,7 @@ public class LevelGenerator implements Ticked {
 			int floorLength = PLGameModel.GAME_WIDTH + 800;
 			Floor startFloor = new Floor("floor", 0, FLOOR_POS, floorLength, FLOOR_HEIGHT);
 			stageStart = floorLength;
+
 			createHelper.create(startFloor);
 		} else
 			// TODO PARTICLE HERE

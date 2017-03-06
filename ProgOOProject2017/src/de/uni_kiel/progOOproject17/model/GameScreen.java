@@ -31,6 +31,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private LevelGenerator levelGenerator;
 	private final Action endAction;
 
+	
+	private long deathtime = -1;
+	
 	/**
 	 * @param x
 	 * @param y
@@ -44,7 +47,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		player = new Player("player", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
@@ -88,7 +91,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		create(player);
 
-		levelGenerator.setRunning(true);
 
 		// tests below:
 
@@ -113,7 +115,20 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	public void tick(long timestamp) {
 
 		if (!player.isAlive())
-			endAction.actionPerformed(null);
+		
+		if(!player.isAlive()) {
+			if(deathtime == -1) {
+				deathtime = timestamp;
+			}
+			if(deathtime + 1600 < timestamp) {
+				endAction.actionPerformed(null);
+			}
+			
+			
+		}
+		
+		
+		
 
 		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
 

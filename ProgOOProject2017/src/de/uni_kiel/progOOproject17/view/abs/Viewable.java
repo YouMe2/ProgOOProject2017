@@ -19,7 +19,7 @@ public interface Viewable {
 	/**
 	 * The number of layers there are.
 	 */
-	public static final int LAYERsSIZE = 6; // 0 1 2 3 4;
+	public static final int LAYERsSIZE = 7; // 0 1 2 3 4;
 
 	/**
 	 * The {@link Background} layer.
@@ -45,7 +45,10 @@ public interface Viewable {
 	/**
 	 * The {@link MenuScreen} layer.
 	 */
-	public static final int MENU_LAYER = 4;
+	public static final int MENU_LAYER = 5;
+	
+	
+	public static final int MENU2_LAYER = 6;
 
 	/**
 	 * Returns the resource key of this {@link Viewable} which is used by the
