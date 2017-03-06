@@ -27,7 +27,7 @@ public enum Obstacle {
 	}), DOUBLE(LHPIXEL_WIDTH * 6, x -> {
 		// creates two enemies next to each other on floor level
 		int distance = LHPIXEL_WIDTH;
-		Enemy e0 = new Enemy("enemy", new Point(x, FLOOR_POS));
+		Enemy e0 = new Enemy("enemy", new Point(LHPIXEL_WIDTH * 2 + x, FLOOR_POS));
 		e0.translate(0, -e0.getHeight());
 		e0.setGravityActive(true);
 		Enemy e1 = new Enemy("enemy", new Point(LHPIXEL_WIDTH * 2 + x + e0.getWidth() + distance, FLOOR_POS));

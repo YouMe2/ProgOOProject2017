@@ -58,6 +58,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		// For an explanation, see SOF,
 		// http://stackoverflow.com/a/30360878/4453823
 		levelGenerator = new LevelGenerator(this, this, player::addPoint);
+		levelGenerator.setRunning(true);
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 

@@ -12,7 +12,7 @@ import java.awt.Rectangle;
 import java.util.Collection;
 
 /**
- * The <code>LevelGenerator</code> class is responstible for generating two
+ * The <code>LevelGenerator</code> class is responsible for generating two
  * major game elements:
  * <ol>
  * <li>Background images</li>
