@@ -313,7 +313,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	@Override
 	public void create(GameElement g) {
 
-		System.out.println("Created: " + g.getResourceKey());
+//		System.out.println("Created: " + g.getResourceKey());
 
 		createdElements.add(g);
 
@@ -324,7 +324,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	@Override
 	public void onDestruction(Destroyable d) {
-		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
+//		System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
 
 		destroyedElements.add(d);
 	}

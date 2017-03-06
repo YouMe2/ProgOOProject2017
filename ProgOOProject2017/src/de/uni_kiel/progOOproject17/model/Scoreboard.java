@@ -15,21 +15,24 @@ public class Scoreboard extends GameCompound {
 
 	private ImageViewable stepsDisplay;
 
-	private ImageViewable[] pointsDisplay = new ImageViewable[4];
+	private ImageViewable[] pointsDisplay;
 	private String pointsKey = "point";
 
-	private ImageViewable[] lifesDisplay = new ImageViewable[4];
+	private ImageViewable[] lifesDisplay;
 	private String lifesKey = "life";
 
 	public Scoreboard(Stats stats) {
 		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 		this.stats = stats;
+		
+		pointsDisplay = new ImageViewable[GAME_WIDTH/(LHPIXEL_WIDTH*3)];
+		lifesDisplay = new ImageViewable[GAME_WIDTH/(LHPIXEL_WIDTH*3)];
 
 		stepsDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
 				Math.round(LHPIXEL_HEIGHT * 0.8f), Viewable.SB_LAYER);
 
 		for (int i = 0; i < pointsDisplay.length; i++)
-			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (16 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
+			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT*2, LHPIXEL_WIDTH * 2,
 					LHPIXEL_HEIGHT, Viewable.SB_LAYER);
 
 		for (int i = 0; i < lifesDisplay.length; i++)

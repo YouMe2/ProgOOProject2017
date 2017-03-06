@@ -71,7 +71,7 @@ public class LevelGenerator implements Ticked {
 			createHelper.create(startFloor);
 		} else
 			// TODO PARTICLE HERE
-			ResourceManager.getInstance().getSound("pickup").play();
+			ResourceManager.getInstance().getSound("bossdeath").play();
 		// Create the stage
 		Collection<GameElement> c;
 		int stageEnd;

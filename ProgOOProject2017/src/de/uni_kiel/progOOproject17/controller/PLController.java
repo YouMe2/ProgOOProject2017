@@ -21,6 +21,7 @@ public class PLController extends TickedController {
 	 */
 	public PLController(PLDektopView view, PLGameModel model) {
 		super(view, view, model, 35);
+//		super(view, view, model, 300);
 
 		standardIn.addAction("pressed W", model.getAction(InputActionKeys.P_UP));
 		standardIn.addAction("released W", model.getAction(InputActionKeys.R_UP));
