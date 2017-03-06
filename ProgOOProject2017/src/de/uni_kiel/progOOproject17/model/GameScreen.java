@@ -130,7 +130,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		
 		
 
-		this.setLocation(player.getX() - PLGameModel.LHPIXEL_WIDTH * 2, 0);
+		this.setLocation((int) (player.getX() - PLGameModel.LHPIXEL_WIDTH * 2.5), 0);
 
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
