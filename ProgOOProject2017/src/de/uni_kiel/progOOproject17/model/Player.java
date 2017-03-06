@@ -23,7 +23,7 @@ public class Player extends GameEntity {
 
 	private MoveState currMoveState = MoveState.NORMAL;
 
-	public static final Distance JUMPVELOCITY = new Distance(0, -22);
+	public static final Distance JUMPVELOCITY = new Distance(0, -(int)(PLGameModel.LHPIXEL_HEIGHT*0.6));
 	//
 	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * 4;
 	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * 2;
@@ -159,7 +159,7 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creationHelper.create(new Particle("playerDeath", getX(), getY(), 60, 60, 200, 6));
+			creationHelper.create(new Particle("playerDeath", getX(), getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;

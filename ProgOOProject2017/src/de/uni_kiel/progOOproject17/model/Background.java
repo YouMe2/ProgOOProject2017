@@ -11,7 +11,6 @@ public class Background extends GameElement {
 
 	@Override
 	public void tick(long timestamp) {
-		// TODO animatedBG?
 	}
 
 }

@@ -25,7 +25,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final int screenVelocity = 8;
+	private final int screenVelocity = (int)(PLGameModel.LHPIXEL_WIDTH * 0.5);
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
