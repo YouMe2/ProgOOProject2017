@@ -16,44 +16,44 @@ import java.awt.Point;
  */
 public enum Obstacle {
 
-	SINGLE(30, x -> {
+	SINGLE(LHPIXEL_WIDTH*4, x -> {
 		// creates a single enemy on floor level
-		Enemy e = new Enemy("enemy", new Point(x, FLOOR_POS));
+		Enemy e = new Enemy("enemy", new Point(LHPIXEL_WIDTH*2+x, FLOOR_POS));
 		e.translate(0, -e.getHeight());
 		e.setGravityActive(true);
 		return new GameElement[] { e };
-	}), DOUBLE(70, x -> {
+	}), DOUBLE(LHPIXEL_WIDTH*6, x -> {
 		// creates two enemies next to each other on floor level
-		int distance = 10;
+		int distance = LHPIXEL_WIDTH;
 		Enemy e0 = new Enemy("enemy", new Point(x, FLOOR_POS));
 		e0.translate(0, -e0.getHeight());
 		e0.setGravityActive(true);
-		Enemy e1 = new Enemy("enemy", new Point(x + e0.getWidth() + distance, FLOOR_POS));
+		Enemy e1 = new Enemy("enemy", new Point(LHPIXEL_WIDTH*2+x + e0.getWidth() + distance, FLOOR_POS));
 		e1.translate(0, -e1.getHeight());
 		e1.setGravityActive(true);
 		return new GameElement[] { e0, e1 };
-	}), HOVERING(30, x -> {
+	}), HOVERING(LHPIXEL_WIDTH*8, x -> {
 		// creates a single enemy hovering above the floor
-		int hoveringHeight = 50;
-		Enemy e = new Enemy("enemy", new Point(x, FLOOR_POS));
+		int hoveringHeight = (int)(LHPIXEL_HEIGHT*1.1);
+		Enemy e = new Enemy("enemy", new Point(LHPIXEL_WIDTH*2+x, FLOOR_POS));
 		e.translate(0, -e.getHeight() - hoveringHeight);
 		e.setGravityActive(false);
 		return new GameElement[] { e };
-	}), DOUBLE_HOVERING(75, x -> {
+	}), DOUBLE_HOVERING(LHPIXEL_WIDTH*10, x -> {
 		// creates two enemies next to each other hovering above the floor
-		int distance = 15;
-		int hoveringHeight = 50;
-		Enemy e0 = new Enemy("enemy", new Point(x, FLOOR_POS));
+		int distance = (int)(LHPIXEL_WIDTH*1.0);
+		int hoveringHeight = (int)(LHPIXEL_HEIGHT*1.1);
+		Enemy e0 = new Enemy("enemy", new Point(LHPIXEL_WIDTH*2+x, FLOOR_POS));
 		e0.translate(0, -e0.getHeight() - hoveringHeight);
 		e0.setGravityActive(false);
-		Enemy e1 = new Enemy("enemy", new Point(x + e0.getWidth() + distance, FLOOR_POS));
+		Enemy e1 = new Enemy("enemy", new Point(LHPIXEL_WIDTH*2+x + e0.getWidth() + distance, FLOOR_POS));
 		e1.translate(0, -e1.getHeight() - hoveringHeight);
 		e1.setGravityActive(false);
 		return new GameElement[] { e0, e1 };
-	}), TRIPLE_HOVERING(250, x -> {
+	}), TRIPLE_HOVERING(LHPIXEL_WIDTH*20, x -> {
 		// creates three enemies next to each other hovering above the floor
-		int distance = 15;
-		int hoveringHeight = 50;
+		int distance = (int)(LHPIXEL_WIDTH*1.0);
+		int hoveringHeight = (int)(LHPIXEL_HEIGHT*1.1);
 		Enemy e0 = new Enemy("enemy", new Point(x, FLOOR_POS));
 		e0.translate(0, -e0.getHeight() - hoveringHeight);
 		e0.setGravityActive(false);
@@ -64,13 +64,13 @@ public enum Obstacle {
 		e2.translate(0, -e1.getHeight() - hoveringHeight);
 		e2.setGravityActive(false);
 		return new GameElement[] { e0, e1, e2 };
-	}), TWO_ON_TOP(80, x -> {
+	}), TWO_ON_TOP(LHPIXEL_WIDTH*16, x -> {
 		// Creates two enemies on top of each other, one on the floor, the other
 		// hovering above. The player has to crouch in the air to master this
 		// obstacle safely.
-		int hoveringHeightUpper = 70;
-		int hoveringHeightLower = 10;
-		int spaceBefore = 50;
+		int hoveringHeightUpper = (int)(LHPIXEL_HEIGHT*2);
+		int hoveringHeightLower = (int)(LHPIXEL_HEIGHT*1.1);
+		int spaceBefore = (int)(LHPIXEL_HEIGHT*2.5);
 		Enemy e0 = new Enemy("enemy", new Point(x + spaceBefore, FLOOR_POS));
 		e0.translate(0, -e0.getHeight() - hoveringHeightLower);
 		e0.setGravityActive(false);
@@ -78,12 +78,12 @@ public enum Obstacle {
 		e1.translate(0, -e1.getHeight() - hoveringHeightUpper);
 		e1.setGravityActive(false);
 		return new GameElement[] { e0, e1 };
-	}), TWO_ON_TOP_HIGH(30, x -> {
+	}), TWO_ON_TOP_HIGH(LHPIXEL_WIDTH*6, x -> {
 		// Creates two hovering enemies on top of each other. This obstacle can
 		// easily be confused with the one before, TWO_ON_TOP.
-		int hoveringHeightUpper = 100;
-		int hoveringHeightLower = 50;
-		int spaceBefore = 50;
+		int hoveringHeightUpper = (int)(LHPIXEL_HEIGHT*3);
+		int hoveringHeightLower = (int)(LHPIXEL_HEIGHT*1.1);
+		int spaceBefore = (int)(LHPIXEL_HEIGHT*2.5);
 		Enemy e0 = new Enemy("enemy", new Point(x + spaceBefore, FLOOR_POS));
 		e0.translate(0, -e0.getHeight() - hoveringHeightLower);
 		e0.setGravityActive(false);
@@ -91,10 +91,10 @@ public enum Obstacle {
 		e1.translate(0, -e1.getHeight() - hoveringHeightUpper);
 		e1.setGravityActive(false);
 		return new GameElement[] { e0, e1 };
-	}), CENTER(70, x -> {
+	}), CENTER(LHPIXEL_WIDTH*9, x -> {
 		// Creates an enemy hovering a little bit above the ground so the player
 		// has to decide quickly whether to crouch or to jump.
-		int spaceBefore = 20;
+		int spaceBefore = (int)(LHPIXEL_WIDTH*1);
 		int hoveringHeight = 25;
 		Enemy e = new Enemy("enemy", new Point(x + spaceBefore, FLOOR_POS));
 		e.translate(0, -e.getHeight() - hoveringHeight);

@@ -8,8 +8,6 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
 public class Main {
 
 	// TODO COMMENTS
-	// TODO MENU
-	// TODO ENDSCREEN
 
 	public static void main(String[] args) {
 
