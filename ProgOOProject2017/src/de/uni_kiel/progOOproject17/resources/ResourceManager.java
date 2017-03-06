@@ -112,7 +112,7 @@ public class ResourceManager {
 		// -> no list of files available
 		// -> lazy loading required
 		if (resList == null) {
-			System.out.println("Couldn't preload images. Expect slight delays during the game.");
+			System.out.println("Couldn't preload sounds. Expect slight delays during the game.");
 			res = false;
 		} else {
 			System.out.println("Loading " + resList.length + " sound(s):");
