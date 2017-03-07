@@ -25,7 +25,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final int screenVelocity = (int)(PLGameModel.LHPIXEL_WIDTH * 0.5);
+	private int screenVelocity = (int)(PLGameModel.LHPIXEL_WIDTH * 0.5);
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
@@ -58,7 +58,16 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		// http://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.13.3
 		// For an explanation, see SOF,
 		// http://stackoverflow.com/a/30360878/4453823
-		levelGenerator = new LevelGenerator(this, this, player::addPoint);
+		levelGenerator = new LevelGenerator(this, this, new Runnable() {
+			
+			@Override
+			public void run() {
+				player.addPoint();
+				//speed up :D
+				screenVelocity *= 1.25;
+				player.setPermaXVel(screenVelocity);
+			}
+		});
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 
@@ -348,7 +357,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	@Override
 	public int getPoints() {
-		return levelGenerator.getCurrentStage() - 1;
+		return player.getPoints();
+//		return levelGenerator.getCurrentStage() - 1;
 	}
 
 	@Override

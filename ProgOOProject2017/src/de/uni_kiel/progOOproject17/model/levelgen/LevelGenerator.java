@@ -21,7 +21,6 @@ public class LevelGenerator implements Ticked {
 	private final CreationHelper createHelper;
 	private Runnable stageSpawnListener;
 
-
 	private int lastGeneratedTerrain;
 	private int generatedTerrain;
 	private int generatedBackground;
@@ -40,18 +39,16 @@ public class LevelGenerator implements Ticked {
 
 	@Override
 	public void tick(long timestamp) {
-		
-			Rectangle screenRectangle = environment.getScreenRect();
-			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
-			if (generatedTerrain <= rightScreenBorder) {
-				lastGeneratedTerrain = generatedTerrain;
-				generatedTerrain = spawnStage(generatedTerrain);
-			}
-			if (generatedBackground <= rightScreenBorder)
-				generatedBackground = spawnBackground(generatedBackground);
-		}
 
-	
+		Rectangle screenRectangle = environment.getScreenRect();
+		int rightScreenBorder = screenRectangle.x + screenRectangle.width;
+		if (generatedTerrain <= rightScreenBorder) {
+			lastGeneratedTerrain = generatedTerrain;
+			generatedTerrain = spawnStage(generatedTerrain);
+		}
+		if (generatedBackground <= rightScreenBorder)
+			generatedBackground = spawnBackground(generatedBackground);
+	}
 
 	/**
 	 * Spawns in a new randomly selected sequence of obstacles for the player to
@@ -69,9 +66,12 @@ public class LevelGenerator implements Ticked {
 			stageStart = floorLength;
 
 			createHelper.create(startFloor);
-		} else
+		} else {
 			// TODO PARTICLE HERE
 			ResourceManager.getInstance().getSound("bossdeath").play();
+			stageSpawnListener.run();
+			
+		}
 		// Create the stage
 		Collection<GameElement> c;
 		int stageEnd;
@@ -84,7 +84,6 @@ public class LevelGenerator implements Ticked {
 		int nextStage = currentStage + 1;
 		if (nextStage < stages.length)
 			currentStage = nextStage;
-		stageSpawnListener.run();
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}

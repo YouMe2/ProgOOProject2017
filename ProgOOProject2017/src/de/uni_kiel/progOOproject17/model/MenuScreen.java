@@ -21,11 +21,11 @@ public abstract class MenuScreen extends Screen {
 
 	private int selction = 0;
 
-	public static final int ENTRY_WIDTH = PLGameModel.LHPIXEL_WIDTH * 8;
-	public static final int ENTRY_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 4;
+	public static final int ENTRY_WIDTH = PLGameModel.LHPIXEL_WIDTH * 6;
+	public static final int ENTRY_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 3;
 
-	public static final int CURSOR_WIDTH = PLGameModel.LHPIXEL_WIDTH * 8;
-	public static final int CURSOR_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 4;
+	public static final int CURSOR_WIDTH = PLGameModel.LHPIXEL_WIDTH * 6;
+	public static final int CURSOR_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 3;
 
 	/**
 	 * @param w
