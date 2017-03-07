@@ -8,6 +8,7 @@ import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
+import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private int screenVelocity = (int) (PLGameModel.LHPIXEL_WIDTH * 0.5);
+	private int screenVelocity = Integer.valueOf(GameProperties.getInstance().getProperty("startVelocity"));
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
@@ -46,7 +47,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player(GameProperties.getInstance().getProperty("playerResKey"), PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
@@ -63,7 +64,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 			public void run() {
 				player.addPoint();
 				//speed up :D
-				screenVelocity *= 1.25;
+				screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
 				player.setPermaXVel(screenVelocity);
 			}
 		});

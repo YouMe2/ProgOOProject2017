@@ -3,6 +3,8 @@ package de.uni_kiel.progOOproject17.controller;
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
 import de.uni_kiel.progOOproject17.model.InputActionKeys;
 import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
 import de.uni_kiel.progOOproject17.view.PLLighthouseView;
 import java.awt.event.ActionEvent;
@@ -20,7 +22,7 @@ public class PLController extends TickedController {
 	 * @param model
 	 */
 	public PLController(PLDektopView view, PLGameModel model) {
-		super(view, view, model, 35);
+		super(view, view, model, Integer.valueOf(GameProperties.getInstance().getProperty("tickLength")));
 //		super(view, view, model, 300);
 
 		standardIn.addAction("pressed W", model.getAction(InputActionKeys.P_UP));
