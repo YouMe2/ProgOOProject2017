@@ -14,6 +14,13 @@ import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Point;
 
+/**
+ * This class represents a {@link GameEntity} that acts as the {@link Player}.
+ * The player has a certain number of lifes and points. The player can be
+ * interacted with view setting a {@link MoveCommand}.
+ * 
+ *
+ */
 public class Player extends GameEntity {
 
 	private int points = 0;
@@ -24,27 +31,65 @@ public class Player extends GameEntity {
 
 	private MoveState currMoveState = MoveState.NORMAL;
 
-	public static final Distance JUMPVELOCITY = new Distance(0, Integer.valueOf(GameProperties.getInstance().getProperty("jumpVelocity")));
-	
-	public static final int PLAYER_W = PLGameModel.LHPIXEL_WIDTH * Integer.valueOf(GameProperties.getInstance().getProperty("playerW"));
-	public static final int PLAYER_H_NORMAL = PLGameModel.LHPIXEL_HEIGHT * Integer.valueOf(GameProperties.getInstance().getProperty("playerH"));
+	/**
+	 * The velocity the player will gain when starting to jump.
+	 */
+	public static final Distance JUMPVELOCITY = new Distance(0,
+			Integer.valueOf(GameProperties.getInstance().getProperty("jumpVelocity")));
+
+	/**
+	 * The player width
+	 */
+	public static final int PLAYER_W = PLBaseModel.LHPIXEL_WIDTH
+			* Integer.valueOf(GameProperties.getInstance().getProperty("playerW"));
+	/**
+	 * The player height when normal
+	 */
+	public static final int PLAYER_H_NORMAL = PLBaseModel.LHPIXEL_HEIGHT
+			* Integer.valueOf(GameProperties.getInstance().getProperty("playerH"));
+	/**
+	 * The player height when crouch
+	 */
 	public static final int PLAYER_H_CROUCH = PLAYER_H_NORMAL / 2;
 
+	/**
+	 * Constructs a new Player.
+	 * 
+	 * @param resKey
+	 *            the resource key
+	 * @param pos
+	 *            the position
+	 */
 	public Player(String resKey, Point pos) {
 		this(resKey, pos.x, pos.y);
 	}
 
+	/**
+	 * Constructs a new Player
+	 * 
+	 * @param resKey
+	 *            the resource key
+	 * @param x
+	 *            the x coord
+	 * @param y
+	 *            the y coord
+	 */
 	public Player(String resKey, int x, int y) {
 		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 	}
 
 	// TESTWISE
-	private static int counter = 0;
+	// private static int counter = 0;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
+	 */
 	@Override
 	public void tick(long timestamp) {
-		if (counter++ % 100 == 0)
-			System.out.println("Player bei " + getX());
+		// if (counter++ % 100 == 0)
+		// System.out.println("Player bei " + getX());
 
 		if (!isAlive()) {
 			return;
@@ -134,6 +179,12 @@ public class Player extends GameEntity {
 				currMoveState = CROUCHING;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.uni_kiel.progOOproject17.model.abs.GameEntity#onContactWith(de.
+	 * uni_kiel.progOOproject17.model.abs.GameObject)
+	 */
 	@Override
 	public void onContactWith(GameObject obj) {
 		assert !obj.equals(this);
@@ -149,6 +200,13 @@ public class Player extends GameEntity {
 
 	}
 
+	/**
+	 * Damages the player.
+	 * 
+	 * @param dmg
+	 *            the damage to be done
+	 * @return true only if this damage killed the palyer
+	 */
 	public boolean damage(int dmg) {
 
 		if (!isAlive())
@@ -160,7 +218,8 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creationHelper.create(new Particle("playerDeath", getX(), getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
+			creationHelper
+					.create(new Particle("playerDeath", getX(), getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;
@@ -169,20 +228,31 @@ public class Player extends GameEntity {
 		return false;
 	}
 
+	/**
+	 * Adds a point to the player
+	 */
 	public void addPoint() {
-//		System.out.println(getResourceKey());
+		// System.out.println(getResourceKey());
 		points++;
 	}
 
+	/**
+	 * @return the points
+	 */
 	public int getPoints() {
 		return points;
 	}
 
+	/**
+	 * @return the current lifes
+	 */
 	public int getLifes() {
 		return lifes;
 	}
 
 	/**
+	 * Sets a new {@link MoveCommand}.
+	 * 
 	 * @param currMoveCommand
 	 *            the currMoveCommand to set
 	 */
@@ -190,6 +260,9 @@ public class Player extends GameEntity {
 		this.currMoveCommand = currMoveCommand;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
+	 */
 	@Override
 	public String getResourceKey() {
 		String key = super.getResourceKey();

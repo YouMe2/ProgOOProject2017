@@ -1,7 +1,7 @@
 package de.uni_kiel.progOOproject17.model.levelgen;
 
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_HEIGHT;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLBaseModel.LHPIXEL_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.PLBaseModel.LHPIXEL_WIDTH;
 import static de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator.*;
 
 import de.uni_kiel.progOOproject17.model.Enemy;

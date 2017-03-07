@@ -10,7 +10,13 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class PLGameModel extends TickedBaseModel {
+/**
+ * This class represents the Base of the model of this MVC structure.
+ * It controlles all the {@link Screen}s and redirects the input actions.
+ * TODO
+ *
+ */
+public class PLBaseModel extends TickedBaseModel {
 
 	public static final int LH_WIDTH = 28;
 	public static final int LH_HEIGHT = 14;
@@ -23,6 +29,11 @@ public class PLGameModel extends TickedBaseModel {
 
 	public AbstractAction newGame = new AbstractAction() {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -42763394711236754L;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -33,15 +44,24 @@ public class PLGameModel extends TickedBaseModel {
 
 	public AbstractAction pauseGame = new AbstractAction() {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5887420044511791287L;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("paused");
 			pausedScreen = currentScreen;
 			setCurrentScreen(new PauseScreen(GAME_WIDTH, GAME_HEIGHT, resumeGame, exitGame));
 		}
 	};
 
 	public AbstractAction resumeGame = new AbstractAction() {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8495282146520468156L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -54,6 +74,11 @@ public class PLGameModel extends TickedBaseModel {
 
 	public AbstractAction endGame = new AbstractAction() {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8224197960021665769L;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			setCurrentScreen(new EndScreen(GAME_WIDTH, GAME_HEIGHT, ((GameScreen) currentScreen).getPlayerStats(),
@@ -63,6 +88,11 @@ public class PLGameModel extends TickedBaseModel {
 	};
 
 	public AbstractAction exitGame = new AbstractAction() {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7904181445578765754L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -75,7 +105,7 @@ public class PLGameModel extends TickedBaseModel {
 	private Screen pausedScreen;
 	private Screen currentScreen;
 
-	public PLGameModel() {
+	public PLBaseModel() {
 		setCurrentScreen(new StartScreen(GAME_WIDTH, GAME_HEIGHT, newGame, exitGame));
 
 	}
@@ -116,6 +146,11 @@ public class PLGameModel extends TickedBaseModel {
 	public Action getAction(InputActionKeys key) {
 
 		return new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 7564159631540256039L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {

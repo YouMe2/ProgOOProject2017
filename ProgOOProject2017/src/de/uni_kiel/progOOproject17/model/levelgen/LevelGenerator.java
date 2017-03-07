@@ -3,7 +3,7 @@ package de.uni_kiel.progOOproject17.model.levelgen;
 import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
 import de.uni_kiel.progOOproject17.model.Floor;
-import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.model.PLBaseModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
@@ -36,11 +36,11 @@ public class LevelGenerator implements Ticked {
 	 * The height of the generated floor, supposed to be equivalent to the
 	 * height of one window on the skyscraper.
 	 */
-	public static final int FLOOR_HEIGHT = PLGameModel.lhToGame(0, 1).y;
+	public static final int FLOOR_HEIGHT = PLBaseModel.lhToGame(0, 1).y;
 	/**
 	 * The position of the floor.
 	 */
-	public static final int FLOOR_POS = PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT;
+	public static final int FLOOR_POS = PLBaseModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT;
 
 	/**
 	 * The standard reskey for the enemys.
@@ -151,7 +151,7 @@ public class LevelGenerator implements Ticked {
 		Stage stage = stages[currentStage];
 		// Create first floor
 		if (currentStage == 0) {
-			int floorLength = PLGameModel.GAME_WIDTH + 800;
+			int floorLength = PLBaseModel.GAME_WIDTH + 800;
 			Floor startFloor = new Floor("floor", 0, FLOOR_POS, floorLength, FLOOR_HEIGHT);
 			stageStart = floorLength;
 			createHelper.create(startFloor);
@@ -174,7 +174,7 @@ public class LevelGenerator implements Ticked {
 		if (nextStage < stages.length)
 			currentStage = nextStage;
 		
-		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
+//		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}
 
@@ -187,10 +187,10 @@ public class LevelGenerator implements Ticked {
 	 * @return the width of the generated background
 	 */
 	private int spawnBackground(int backgroundStart) {
-		Background b = new Background("bg", backgroundStart, 0, 1024, PLGameModel.GAME_HEIGHT);
+		Background b = new Background("bg", backgroundStart, 0, 1024, PLBaseModel.GAME_HEIGHT);
 		int backgroundEnd = backgroundStart + b.getWidth();
 		createHelper.create(b);
-		System.out.println("Spawned background from " + backgroundStart + " to " + backgroundEnd);
+//		System.out.println("Spawned background from " + backgroundStart + " to " + backgroundEnd);
 		return backgroundEnd;
 	}
 

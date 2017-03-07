@@ -2,7 +2,7 @@ package de.uni_kiel.progOOproject17.view;
 
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseUtil;
-import de.uni_kiel.progOOproject17.model.PLGameModel;
+import de.uni_kiel.progOOproject17.model.PLBaseModel;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
@@ -47,9 +47,9 @@ public class PLLighthouseView extends FramedIOView {
 	 * @param port
 	 */
 	public PLLighthouseView(String title) {
-		super(title, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, true);
+		super(title, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, true);
 
-		img = new BufferedImage(PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
+		img = new BufferedImage(PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
 		lhNetwork = new LighthouseNetwork();
 
@@ -67,7 +67,7 @@ public class PLLighthouseView extends FramedIOView {
 	public void render(Viewable[] viewables) {
 
 		final Graphics gr = img.getGraphics();
-		gr.clearRect(0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT);
+		gr.clearRect(0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT);
 		for (int i = 0; i < Viewable.LAYERsSIZE; i++) {
 			final int layer = i;
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
@@ -83,7 +83,7 @@ public class PLLighthouseView extends FramedIOView {
 
 		gr.dispose();
 
-		Image i = img.getScaledInstance(PLGameModel.LH_WIDTH, PLGameModel.LH_HEIGHT, Image.SCALE_AREA_AVERAGING);
+		Image i = img.getScaledInstance(PLBaseModel.LH_WIDTH, PLBaseModel.LH_HEIGHT, Image.SCALE_AREA_AVERAGING);
 		Graphics gr2;
 		if (connected) {
 
@@ -103,7 +103,7 @@ public class PLLighthouseView extends FramedIOView {
 		}
 
 		gr2 = centerPane.getGraphics();
-		gr2.drawImage(i, 0, 0, PLGameModel.GAME_WIDTH, PLGameModel.GAME_HEIGHT, null);
+		gr2.drawImage(i, 0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, null);
 		gr2.dispose();
 
 	}

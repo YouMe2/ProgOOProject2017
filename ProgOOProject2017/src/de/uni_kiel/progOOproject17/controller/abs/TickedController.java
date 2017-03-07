@@ -66,6 +66,9 @@ public abstract class TickedController extends AbstractController implements Run
 		super(out, in, model);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 
@@ -174,6 +177,16 @@ public abstract class TickedController extends AbstractController implements Run
 	 */
 	public void setEnableTpsFpsPrint(boolean enable) {
 		printTpsFps = enable;
+	}
+	
+	/**
+	 * Toggels this controller to print out the fps und tps every
+	 * second.
+	 *
+	 * @param enable
+	 */
+	public void toggelEnableTpsFpsPrint() {
+		printTpsFps = !printTpsFps;
 	}
 
 	/**

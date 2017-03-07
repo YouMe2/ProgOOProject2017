@@ -5,8 +5,21 @@ import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.Raster;
 
+/**
+ *
+ * This class provides the {@link #imageToByteArray(BufferedImage)} method.
+ *
+ */
 public class LighthouseUtil {
 
+	/**
+	 * returns a byte[] containing the color info from the {@link BufferedImage}
+	 * img, which fulfills the specification made by the
+	 * {@link LighthouseNetwork}.
+	 * 
+	 * @param img The img to convert
+	 * @return the byte array containing the color values
+	 */
 	public static byte[] imageToByteArray(BufferedImage img) {
 		if (img.getType() != BufferedImage.TYPE_3BYTE_BGR)
 			throw new IllegalArgumentException("Invalid image type");

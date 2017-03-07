@@ -6,16 +6,37 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+/**
+ * This class serves as a simple implementation on the {@link Viewable} interface.
+ *
+ */
 public class ImageViewable implements Viewable {
 
 	private String resKey;
 	private int layer;
 	private Rectangle rect;
 
+	/**
+	 * Constructs a new {@link ImageViewable}.
+	 * 
+	 * @param resKey the resource key
+	 * @param x the x coord
+	 * @param y the y coord 
+	 * @param w the width
+	 * @param h the height
+	 * @param layer the layer
+	 */
 	public ImageViewable(String resKey, int x, int y, int w, int h, int layer) {
 		this(resKey, new Rectangle(x, y, w, h), layer);
 	}
 
+	/**
+	 * Constructs a new {@link ImageViewable}.
+	 * 
+	 * @param resKey the resource key
+	 * @param rect the {@link Rectangle} 
+	 * @param layer the layer
+	 */
 	public ImageViewable(String resKey, Rectangle rect, int layer) {
 		this.resKey = resKey;
 		this.rect = rect;
@@ -52,26 +73,58 @@ public class ImageViewable implements Viewable {
 		return layer;
 	}
 
+	/**
+	 * sets the location
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void setLocation(int x, int y) {
 		rect.setLocation(x, y);
 	}
 
+	/**
+	 * sets the location
+	 * @param p
+	 */
 	public void setLocation(Point p) {
 		setLocation(p.x, p.y);
 	}
 
+	/**
+	 * translates the location
+	 * 
+	 * @param dx
+	 * @param dy
+	 */
 	public void translate(int dx, int dy) {
 		rect.translate(dx, dy);
 	}
 
+	/**
+	 * translates the location
+	 * 
+	 * @param dis the {@link Distance}
+	 */
 	public void translate(Distance dis) {
 		translate(dis.x, dis.y);
 	}
 
+	/**
+	 * sets the size
+	 * 
+	 * @param w
+	 * @param h
+	 */
 	public void setSize(int w, int h) {
 		rect.setSize(w, h);
 	}
 
+	/**
+	 * sets the size
+	 * 
+	 * @param d the {@link Dimension}
+	 */
 	public void setSize(Dimension d) {
 		rect.setSize(d);
 	}
@@ -90,6 +143,9 @@ public class ImageViewable implements Viewable {
 		return rect.y;
 	}
 
+	/**
+	 * @return the position
+	 */
 	public Point getPosition() {
 		return rect.getLocation();
 	}

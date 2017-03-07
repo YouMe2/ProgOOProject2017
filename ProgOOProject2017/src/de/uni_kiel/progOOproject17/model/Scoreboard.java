@@ -1,8 +1,8 @@
 package de.uni_kiel.progOOproject17.model;
 
-import static de.uni_kiel.progOOproject17.model.PLGameModel.GAME_WIDTH;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_HEIGHT;
-import static de.uni_kiel.progOOproject17.model.PLGameModel.LHPIXEL_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLBaseModel.GAME_WIDTH;
+import static de.uni_kiel.progOOproject17.model.PLBaseModel.LHPIXEL_HEIGHT;
+import static de.uni_kiel.progOOproject17.model.PLBaseModel.LHPIXEL_WIDTH;
 
 import de.uni_kiel.progOOproject17.model.abs.GameCompound;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
@@ -44,7 +44,7 @@ public class Scoreboard extends GameCompound {
 	@Override
 	public void tick(long timestamp) {
 
-		stepsDisplay.setSize((int) (stats.getProgress() * PLGameModel.GAME_WIDTH), stepsDisplay.getHeight());
+		stepsDisplay.setSize((int) (stats.getProgress() * PLBaseModel.GAME_WIDTH), stepsDisplay.getHeight());
 
 		int p = stats.getPoints();
 		if (p > pointsDisplay.length)

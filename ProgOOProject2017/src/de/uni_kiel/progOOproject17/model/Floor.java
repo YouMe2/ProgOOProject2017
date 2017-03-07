@@ -1,41 +1,48 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Rectangle;
 
+import de.uni_kiel.progOOproject17.model.abs.Environment;
+import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
+/**
+ * This class represents a {@link GameObject} that serves as a Floor.
+ *
+ */
 public class Floor extends GameObject {
 
-	private boolean deadly = false;
-	private int killcounter;
-
+	/**
+	 * Constructs a new Floor.
+	 * Which will not be active until it is activated by the {@link #activate(Environment, CreationHelper)} method.
+	 * 
+	 * @param resKey the resource key
+	 * @param rect the {@link Rectangle} specifying the position and size
+	 */
 	public Floor(String resKey, Rectangle rect) {
 		this(resKey, rect.x, rect.y, rect.width, rect.height);
 	}
 
+	/**
+	 * Constructs a new Floor.
+	 * Which will not be active until it is activated by the {@link #activate(Environment, CreationHelper)} method.
+	 * 
+	 * @param resKey the resource key
+	 * @param x the x coord
+	 * @param y the y coord
+	 * @param w the width
+	 * @param h the height
+	 */
 	public Floor(String resKey, int x, int y, int w, int h) {
 		super(resKey, x, y, w, h);
 		setLayer(Viewable.FLOOR_LAYER);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
+	 */
 	@Override
 	public void tick(long timestamp) {
-		// nothing here so far
-	}
-
-	@Override
-	public boolean isDeadly() {
-		return deadly;
-	}
-
-	@Override
-	public void addKill() {
-		killcounter++;
-	}
-
-	@Override
-	public void setDeadly(boolean deadly) {
-		this.deadly = deadly;
 	}
 
 }

@@ -1,5 +1,15 @@
 package de.uni_kiel.progOOproject17.model;
 
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.function.Consumer;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
 import de.uni_kiel.progOOproject17.model.abs.Collidable;
 import de.uni_kiel.progOOproject17.model.abs.Destroyable;
 import de.uni_kiel.progOOproject17.model.abs.Distance;
@@ -10,15 +20,12 @@ import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.function.Consumer;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
+/**
+ * This class represents a {@link Screen} that serves as the environment for the
+ * game. It holds all the {@link GameElement}s, the {@link Scoreboard} and the
+ * {@link LevelGenerator}, as well as the relevant actions for the player.
+ */
 public class GameScreen extends Screen implements Environment, CreationHelper, Stats {
 
 	private final LinkedList<GameElement> gameElements;
@@ -35,10 +42,18 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private long deathtime = -1;
 
 	/**
-	 * @param x
-	 * @param y
+	 * Constructs a new {@link GameScreen} which essentially constructs a fully
+	 * new game. Creates a {@link Player}. Starts the {@link LevelGenerator} and
+	 * initializes the player actions.
+	 * 
 	 * @param w
+	 *            the width
 	 * @param h
+	 *            the height
+	 * @param pauseAction
+	 *            the action for when the game is paused
+	 * @param endAction
+	 *            the action for when the game ended (Player died)
 	 */
 	public GameScreen(int w, int h, Action pauseAction, Action endAction) {
 		super(w, h);
@@ -48,7 +63,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		createdElements = new LinkedList<>();
 
 		player = new Player(GameProperties.getInstance().getProperty("playerResKey"),
-				PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+				PLBaseModel.lhToGame(3, PLBaseModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
@@ -64,6 +79,11 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2653404899012756232L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				player.setCurrMoveCommand(MoveCommand.JUMP);
@@ -73,6 +93,11 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		putAction(InputActionKeys.P_DOWN, new AbstractAction() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -5121077967094929482L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				player.setCurrMoveCommand(MoveCommand.START_CROUCH);
@@ -81,6 +106,11 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		});
 
 		putAction(InputActionKeys.R_DOWN, new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8089055634210864468L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -125,7 +155,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 			}
 
-		this.setLocation((int) (player.getX() - PLGameModel.LHPIXEL_WIDTH * 2.5), 0);
+		this.setLocation((int) (player.getX() - PLBaseModel.LHPIXEL_WIDTH * 2.5), 0);
 
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
@@ -163,10 +193,18 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return views.toArray(new Viewable[views.size()]);
 	}
 
+	/**
+	 * Returns the {@link Stats} of the player.
+	 * 
+	 * @return the {@link Stats} of the player
+	 */
 	public Stats getPlayerStats() {
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#willCollide(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
+	 */
 	@Override
 	public boolean willCollide(Collidable obj, Distance dist) {
 		Rectangle rect = obj.getBoundingRect();
@@ -180,6 +218,14 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return false;
 	}
 
+	/**
+	 * Returns true of false whether the two {@link Collidable}s will collide after o1 moves for d1.
+	 * 
+	 * @param o1 the 1st {@link Collidable}
+	 * @param d1 the {@link Distance} o1 will move
+	 * @param o2 the 2nd {@link Collidable}
+	 * @return whether o1 will collide with o2 after moving d1
+	 */
 	private boolean willCollide(Collidable o1, Distance d1, Collidable o2) {
 		if (o1 == o2)
 			return false;
@@ -190,6 +236,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return rect.intersects(o2.getBoundingRect());
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#getCollisionDistance(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
+	 */
 	@Override
 	public Distance getCollisionDistance(Collidable obj, Distance maxDist) {
 
@@ -231,6 +280,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#getCollObjects(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
+	 */
 	@Override
 	public ArrayList<Collidable> getCollObjects(Collidable obj, Distance dist) {
 
@@ -247,6 +299,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return collObjts;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#contacts(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Collidable)
+	 */
 	@Override
 	public boolean contacts(Collidable o1, Collidable o2) {
 
@@ -258,6 +313,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return rect.intersects(o2.getBoundingRect());
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#isOnGround(de.uni_kiel.progOOproject17.model.abs.Collidable)
+	 */
 	@Override
 	public boolean isOnGround(Collidable obj) {
 		Rectangle rect = obj.getBoundingRect();
@@ -275,6 +333,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#forEachCollision(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance, java.util.function.Consumer)
+	 */
 	@Override
 	public void forEachCollision(Collidable obj, Distance dist, Consumer<GameObject> consumer) {
 		synchronized (gameElements) {
@@ -289,6 +350,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#forEachContact(de.uni_kiel.progOOproject17.model.abs.Collidable, java.util.function.Consumer)
+	 */
 	@Override
 	public void forEachContact(Collidable obj, Consumer<GameObject> consumer) {
 
@@ -305,6 +369,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.ElementCreator#create(de.uni_kiel.progOOproject17.model.abs.GameElement)
+	 */
 	@Override
 	public void create(GameElement g) {
 
@@ -337,16 +404,25 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return getBoundingRect();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.Stats#getProgress()
+	 */
 	@Override
 	public double getProgress() {
 		return levelGenerator.getProgressOf(player.getX());
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.Stats#getPoints()
+	 */
 	@Override
 	public int getPoints() {
 		return player.getPoints();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.Stats#getLifes()
+	 */
 	@Override
 	public int getLifes() {
 		return player.getLifes();

@@ -1,14 +1,20 @@
 package de.uni_kiel.progOOproject17.model;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
+/**
+ * This class serves as a abstract implementation of a {@link Screen} forming a
+ * simple menu.
+ * 
+ */
 public abstract class MenuScreen extends Screen {
 
 	private ImageViewable background;
@@ -17,33 +23,50 @@ public abstract class MenuScreen extends Screen {
 
 	private final ImageViewable[] entries;
 
-	private final ArrayList<Viewable> views = new ArrayList<>();
+	private final ArrayList<Viewable> externalViews = new ArrayList<>();
 
 	private int selction = 0;
 
-	public static final int ENTRY_WIDTH = PLGameModel.LHPIXEL_WIDTH * 6;
-	public static final int ENTRY_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 3;
+	public static final int ENTRY_WIDTH = PLBaseModel.LHPIXEL_WIDTH * 6;
+	public static final int ENTRY_HEIGHT = PLBaseModel.LHPIXEL_HEIGHT * 3;
 
-	public static final int CURSOR_WIDTH = PLGameModel.LHPIXEL_WIDTH * 6;
-	public static final int CURSOR_HEIGHT = PLGameModel.LHPIXEL_HEIGHT * 3;
+	public static final int CURSOR_WIDTH = PLBaseModel.LHPIXEL_WIDTH * 6;
+	public static final int CURSOR_HEIGHT = PLBaseModel.LHPIXEL_HEIGHT * 3;
 
 	/**
+	 * Constructs a new {@link MenuScreen} with entries specified by the resKeys
+	 * and actions.
+	 * 
 	 * @param w
+	 *            the width
 	 * @param h
+	 *            the height
+	 * @param resKeys
+	 *            the resource keys for the entries
+	 * @param actions
+	 *            the {@link Action}s for the entries
 	 */
 	public MenuScreen(int w, int h, String[] resKeys, Action[] actions) {
 		super(w, h);
 
 		entries = new ImageViewable[resKeys.length];
-		
 
 		for (int i = 0; i < actions.length; i++) {
-			entries[i] = new ImageViewable(resKeys[i], (getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + i*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), ENTRY_WIDTH, ENTRY_HEIGHT, Viewable.MENU_LAYER);
+			entries[i] = new ImageViewable(resKeys[i], (getWidth() - ENTRY_WIDTH) / 2,
+					4 * PLBaseModel.LHPIXEL_HEIGHT + i * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT), ENTRY_WIDTH,
+					ENTRY_HEIGHT, Viewable.MENU_LAYER);
 		}
-		
-		selectionCursor = new ImageViewable("selection", (getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT), CURSOR_WIDTH, CURSOR_HEIGHT, Viewable.MENU2_LAYER);
-		
+
+		selectionCursor = new ImageViewable("selection", (getWidth() - ENTRY_WIDTH) / 2,
+				4 * PLBaseModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT), CURSOR_WIDTH,
+				CURSOR_HEIGHT, Viewable.MENU2_LAYER);
+
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 6301899874617795350L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -52,6 +75,11 @@ public abstract class MenuScreen extends Screen {
 			}
 		});
 		putAction(InputActionKeys.P_DOWN, new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6205517745963454529L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -62,28 +90,39 @@ public abstract class MenuScreen extends Screen {
 		});
 		putAction(InputActionKeys.P_SELECT, new AbstractAction() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6503123616124181745L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				ResourceManager.getInstance().getSound("pickup").play();
-				
+
 				actions[selction].actionPerformed(e);
 
 			}
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
+	 */
 	@Override
 	public void tick(long timestamp) {
 
-		selectionCursor.setLocation(PLGameModel.LHPIXEL_WIDTH * 2,
-				4 * PLGameModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLGameModel.LHPIXEL_HEIGHT));
+		selectionCursor.setLocation(PLBaseModel.LHPIXEL_WIDTH * 2,
+				4 * PLBaseModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT));
 
-		
-		selectionCursor.setLocation((getWidth()-ENTRY_WIDTH)/2, 4*PLGameModel.LHPIXEL_HEIGHT + selction*(ENTRY_HEIGHT+PLGameModel.LHPIXEL_HEIGHT));
-		
+		selectionCursor.setLocation((getWidth() - ENTRY_WIDTH) / 2,
+				4 * PLBaseModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT));
+
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.GameCompound#getViewables()
+	 */
 	@Override
 	public Viewable[] getViewables() {
 		ArrayList<Viewable> views = new ArrayList<>();
@@ -92,17 +131,27 @@ public abstract class MenuScreen extends Screen {
 			views.add(background);
 		views.addAll(Arrays.asList(entries));
 		views.add(selectionCursor);
-		views.addAll(this.views);
+		views.addAll(this.externalViews);
 
 		return views.toArray(new Viewable[views.size()]);
 	}
 
+	/**
+	 * Sets a background.
+	 * 
+	 * @param resKey the resource key of the bg
+	 */
 	public void setBackground(String resKey) {
 		background = new ImageViewable(resKey, 0, 0, getWidth(), getHeight(), Viewable.BG_LAYER);
 	}
 
+	/**
+	 * Adds a {@link Viewable} to the {@link MenuScreen}.
+	 * 
+	 * @param v the {@link Viewable} to be added
+	 */
 	public void addViewable(Viewable v) {
-		views.add(v);
+		externalViews.add(v);
 	}
 
 }
