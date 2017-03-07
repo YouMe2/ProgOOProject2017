@@ -47,21 +47,19 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		player = new Player(GameProperties.getInstance().getProperty("playerResKey"), PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player(GameProperties.getInstance().getProperty("playerResKey"),
+				PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
-	
-		levelGenerator = new LevelGenerator(this, this, () ->  {
-			
-			@Override
-			public void run() {
-				player.addPoint();
-				//speed up :D
-				screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
-				player.setPermaXVel(screenVelocity);
-			});
-		
+		levelGenerator = new LevelGenerator(this, this, () -> {
+
+			player.addPoint();
+			// speed up :D
+			screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
+			player.setPermaXVel(screenVelocity);
+		});
+
 		levelGenerator.setRunning(true);
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
