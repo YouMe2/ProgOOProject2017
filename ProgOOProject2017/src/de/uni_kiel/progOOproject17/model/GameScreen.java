@@ -18,14 +18,15 @@ import java.util.function.Consumer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class GameScreen extends Screen implements Environment, CreationHelper, Stats {
+public class GameScreen extends Screen
+		implements Environment, CreationHelper, Stats {
 
 	private final LinkedList<GameElement> gameElements;
 	private final LinkedList<GameElement> createdElements;
 	private final LinkedList<Destroyable> destroyedElements;
 
 	private final Player player;
-	private final int screenVelocity = (int) (PLGameModel.LHPIXEL_WIDTH * 0.5);
+	private int screenVelocity = (int) (PLGameModel.LHPIXEL_WIDTH * 0.5);
 
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
@@ -46,18 +47,17 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		player = new Player("cat", PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
+		player = new Player("cat",
+				PLGameModel.lhToGame(3, PLGameModel.LH_HEIGHT - 3));
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
-		// Note to self: player reference must be final for player::addPoint,
-		// otherwise an anonymous interface is required!
-		// See the end of chapter 15.13.3, Run-Time Evaluation of Method
-		// References, in the Java specification,
-		// http://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.13.3
-		// For an explanation, see SOF,
-		// http://stackoverflow.com/a/30360878/4453823
-		levelGenerator = new LevelGenerator(this, this, player::addPoint);
+		levelGenerator = new LevelGenerator(this, this, () -> {
+			player.addPoint();
+			// speed up :D
+			screenVelocity *= 1.25;
+			player.setPermaXVel(screenVelocity);
+		});
 		levelGenerator.setRunning(true);
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
@@ -107,7 +107,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
 	 */
 	@Override
@@ -123,7 +122,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 			}
 
-		this.setLocation((int) (player.getX() - PLGameModel.LHPIXEL_WIDTH * 2.5), 0);
+		this.setLocation(
+				(int) (player.getX() - PLGameModel.LHPIXEL_WIDTH * 2.5), 0);
 
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
@@ -150,7 +150,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see de.uni_kiel.progOOproject17.model.abs.GameCompound#getViewables()
 	 */
 	@Override
@@ -274,7 +273,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	}
 
 	@Override
-	public void forEachCollision(Collidable obj, Distance dist, Consumer<GameObject> consumer) {
+	public void forEachCollision(Collidable obj, Distance dist,
+			Consumer<GameObject> consumer) {
 		synchronized (gameElements) {
 			for (GameElement o : gameElements)
 
@@ -325,7 +325,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	/*
 	 * (non-Javadoc)
-	 *
 	 * @see
 	 * de.uni_kiel.progOOproject17.model.abs.Environment#getScreenShiftDistance(
 	 * )
@@ -342,7 +341,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 	@Override
 	public int getPoints() {
-		return Math.max(levelGenerator.getCurrentStage() - 1, 0);
+		return player.getPoints();
 	}
 
 	@Override
