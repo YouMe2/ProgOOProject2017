@@ -7,6 +7,7 @@ import de.uni_kiel.progOOproject17.model.PLGameModel;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.Ticked;
+import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Rectangle;
 import java.util.Collection;
@@ -41,6 +42,11 @@ public class LevelGenerator implements Ticked {
 	 */
 	public static final int FLOOR_POS = PLGameModel.GAME_HEIGHT - LevelGenerator.FLOOR_HEIGHT;
 
+	/**
+	 * The standard reskey for the enemys.
+	 */
+	public static final String ENEMYRESKEY = GameProperties.getInstance().getProperty("enemyResKey");
+	
 	/**
 	 * The environment to figure out where the screen rect is positioned.
 	 */
