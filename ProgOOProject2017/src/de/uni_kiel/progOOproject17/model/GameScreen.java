@@ -51,14 +51,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
-		// Note to self: player reference must be final for player::addPoint,
-		// otherwise an anonymous interface is required!
-		// See the end of chapter 15.13.3, Run-Time Evaluation of Method
-		// References, in the Java specification,
-		// http://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.13.3
-		// For an explanation, see SOF,
-		// http://stackoverflow.com/a/30360878/4453823
-		levelGenerator = new LevelGenerator(this, this, new Runnable() {
+	
+		levelGenerator = new LevelGenerator(this, this, () ->  {
 			
 			@Override
 			public void run() {
@@ -66,8 +60,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 				//speed up :D
 				screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
 				player.setPermaXVel(screenVelocity);
-			}
-		});
+			});
+		
 		levelGenerator.setRunning(true);
 
 		putAction(InputActionKeys.P_UP, new AbstractAction() {
