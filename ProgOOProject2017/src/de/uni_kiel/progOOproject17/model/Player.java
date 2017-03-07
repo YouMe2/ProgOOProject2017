@@ -17,7 +17,7 @@ public class Player extends GameEntity {
 
 	private int points = 0;
 
-	private int lifes = 8;
+	private int lifes = 9;
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
@@ -169,7 +169,7 @@ public class Player extends GameEntity {
 	}
 
 	public void addPoint() {
-		System.out.println(getResourceKey());
+//		System.out.println(getResourceKey());
 		points++;
 	}
 

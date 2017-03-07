@@ -149,9 +149,12 @@ public class LevelGenerator implements Ticked {
 			Floor startFloor = new Floor("floor", 0, FLOOR_POS, floorLength, FLOOR_HEIGHT);
 			stageStart = floorLength;
 			createHelper.create(startFloor);
-		} else
+		} else {
 			// TODO PARTICLE HERE
 			ResourceManager.getInstance().getSound("bossdeath").play();
+			if (stageSpawnListener != null)
+				stageSpawnListener.run();
+		}
 		// Create the stage
 		Collection<GameElement> c;
 		int stageEnd;
@@ -164,8 +167,7 @@ public class LevelGenerator implements Ticked {
 		int nextStage = currentStage + 1;
 		if (nextStage < stages.length)
 			currentStage = nextStage;
-		if (stageSpawnListener != null)
-			stageSpawnListener.run();
+		
 		System.out.println("Spawned stage " + stage + " from " + stageStart + " to " + stageEnd);
 		return stageEnd;
 	}
