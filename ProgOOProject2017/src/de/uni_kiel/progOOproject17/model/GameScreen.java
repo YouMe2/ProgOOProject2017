@@ -20,6 +20,7 @@ import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.Screen;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -69,13 +70,13 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		scoreboard = new Scoreboard(getPlayerStats());
 
 		levelGenerator = new LevelGenerator(this, this, () -> {
-
 			player.addPoint();
 			player.addLife();
 			
 			// speed up :D
 			screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
 			player.setPermaXVel(screenVelocity);
+			ResourceManager.getInstance().getSound("speedup").play();
 		});
 
 		levelGenerator.setRunning(true);

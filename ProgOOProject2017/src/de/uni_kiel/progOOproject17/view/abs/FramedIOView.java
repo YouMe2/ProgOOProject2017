@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Set;
+
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JButton;
@@ -21,24 +22,43 @@ import javax.swing.JPanel;
  */
 public abstract class FramedIOView extends JFrame implements InputView, OutputView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2996189965279903424L;
+
 	private MappedKeyInputView in;
 
-	protected JPanel centerPane;
+	/**
+	 * The {@link JPanel} being the contentPane of this frame.
+	 */
+	protected JPanel contentPane;
 
 	private HashMap<String, JButton> buttons = new HashMap<>();
 
+	/**
+	 * Constructs a new {@link FramedIOView}.
+	 * 
+	 * @param title
+	 *            the title
+	 * @param w
+	 *            the width of the centerPane
+	 * @param h
+	 *            the height of the centerPane
+	 * @param resizeable
+	 *            whether the frame should be resizeable
+	 */
 	public FramedIOView(String title, int w, int h, boolean resizeable) {
 		super(title);
 
 		in = new MappedKeyInputView();
-		centerPane = new JPanel(true);
-		centerPane.setPreferredSize(new Dimension(w, h));
-		in.initMaps(centerPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW), centerPane.getActionMap());
+		contentPane = new JPanel(true);
+		contentPane.setPreferredSize(new Dimension(w, h));
+		in.initMaps(contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW), contentPane.getActionMap());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
-		// this.add(centerPane, BorderLayout.CENTER);
-		setContentPane(centerPane);
+		setContentPane(contentPane);
 
 		setResizable(resizeable);
 		setVisible(true);
@@ -46,27 +66,49 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Adds a {@link JButton} b to the {@link JComponent} comp with the given
+	 * constraints. And makes this button available for the internal
+	 * {@link Action} handling.
+	 * 
+	 * @param b
+	 *            the {@link JButton}
+	 * @param comp
+	 *            the {@link JComponent}
+	 * @param constraints
+	 *            the constraints object
+	 */
 	public void addJButton(JButton b, JComponent comp, Object constraints) {
 		if (b == null || comp == null)
 			return;
 		comp.add(b, constraints);
 		buttons.put(b.getName(), b);
-		assert buttons.containsKey("TEST") : "button not added??";
 
 	}
 
+	/**
+	 * Adds the action to the Input view, so that it will be performed when an
+	 * event occurs that need to be specified by the String key. For example a
+	 * keystroke or the name of a button.
+	 * 
+	 * @see de.uni_kiel.progOOproject17.view.abs.InputView#addAction(java.lang.String,
+	 *      javax.swing.Action)
+	 */
 	@Override
 	public void addAction(String key, Action action) {
 
 		if (buttons.get(key) != null)
 			buttons.get(key).addActionListener(action);
-		// .setAction(action);
 		else
 			in.addAction(key, action);
 	}
 
 	/*
-	 * currently only for key events!
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.uni_kiel.progOOproject17.view.abs.InputView#addActionMap(javax.swing.
+	 * ActionMap)
 	 */
 	@Override
 	public void addActionMap(ActionMap actionMap) {
@@ -74,6 +116,11 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see de.uni_kiel.progOOproject17.view.abs.InputView#setEnabeled(boolean)
+	 */
 	@Override
 	public void setEnabeled(boolean enabeled) {
 
@@ -83,6 +130,9 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 		in.setEnabeled(enabeled);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.InputView#setEnabeled(java.lang.String, boolean)
+	 */
 	@Override
 	public void setEnabeled(String key, boolean enabeled) {
 

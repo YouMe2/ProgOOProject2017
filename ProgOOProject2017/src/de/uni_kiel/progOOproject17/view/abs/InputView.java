@@ -8,7 +8,7 @@ public interface InputView {
 
 	/**
 	 * Adds the action to the Input view, so that it will be performed when an
-	 * event occurs that need to be specifyed by the String key. For example a
+	 * event occurs that need to be specified by the String key. For example a
 	 * keystroke.
 	 *
 	 * @see KeyStroke#getKeyStroke(String)

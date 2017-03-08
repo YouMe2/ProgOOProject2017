@@ -3,8 +3,11 @@ package de.uni_kiel.progOOproject17.view;
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseNetwork;
 import de.uni_kiel.progOOproject17.lighthouse.LighthouseUtil;
 import de.uni_kiel.progOOproject17.model.PLBaseModel;
+import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
+import de.uni_kiel.progOOproject17.view.abs.InputView;
+import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -14,37 +17,57 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 
+/**
+ * This class represents the lighthouse-connection-part of the view of this MVC structure.
+ * It combines an {@link InputView} and an {@link OutputView}.
+ * 
+ */
 public class PLLighthouseView extends FramedIOView {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6700588951586487858L;
 
 	private BufferedImage img;
 
 	private LighthouseNetwork lhNetwork;
 	private ResourceManager res = ResourceManager.getInstance();
+	private String lowAppendix = GameProperties.getInstance().getProperty("lowResKeyAppendix");
 
 	private boolean connected;
+	/**
+	 * An {@link Action} that when executed tries to connect the {@link #lhNetwork} to the lighthouse server.
+	 */
 	public final AbstractAction connect = new AbstractAction("Connect") {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3562882691277162294L;
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
 				lhNetwork.connect();
 				connected = true;
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				System.err.println("Connection failed!");
+				connected = false;
 			}
 		}
 	};
 
+
+
+	
 	/**
-	 * @param title
-	 * @param w
-	 *            w of the img
-	 * @param h
-	 *            h of the img
-	 * @param host
-	 * @param port
+	 * Constructs a new {@link PLLighthouseView}.
+	 * 
+	 * @param title the title
 	 */
 	public PLLighthouseView(String title) {
 		super(title, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, true);
@@ -63,6 +86,9 @@ public class PLLighthouseView extends FramedIOView {
 		pack();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.OutputView#render(de.uni_kiel.progOOproject17.view.abs.Viewable[])
+	 */
 	@Override
 	public void render(Viewable[] viewables) {
 
@@ -75,8 +101,7 @@ public class PLLighthouseView extends FramedIOView {
 				Rectangle rect = v.getViewRect();
 				String key = v.getResourceKey();
 				if (key != null)
-					 gr.drawImage(res.getImage(key+ "-low"), rect.x, rect.y, rect.width, rect.height, null);
-//					gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
+					 gr.drawImage(res.getImage(key+ lowAppendix), rect.x, rect.y, rect.width, rect.height, null);
 			});
 
 		}
@@ -102,7 +127,7 @@ public class PLLighthouseView extends FramedIOView {
 			}
 		}
 
-		gr2 = centerPane.getGraphics();
+		gr2 = contentPane.getGraphics();
 		gr2.drawImage(i, 0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, null);
 		gr2.dispose();
 

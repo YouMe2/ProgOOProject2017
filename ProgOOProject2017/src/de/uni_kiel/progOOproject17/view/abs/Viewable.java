@@ -43,11 +43,13 @@ public interface Viewable {
 	public static final int PARTICLE_LAYER = 4;
 
 	/**
-	 * The {@link MenuScreen} layer.
+	 * The 1st {@link MenuScreen} layer.
 	 */
 	public static final int MENU_LAYER = 5;
 	
-	
+	/**
+	 * The 2nd {@link MenuScreen} layer.
+	 */
 	public static final int MENU2_LAYER = 6;
 
 	/**

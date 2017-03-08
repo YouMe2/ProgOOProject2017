@@ -1,19 +1,36 @@
 package de.uni_kiel.progOOproject17.view;
 
-import de.uni_kiel.progOOproject17.model.PLBaseModel;
-import de.uni_kiel.progOOproject17.resources.ResourceManager;
-import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import de.uni_kiel.progOOproject17.model.PLBaseModel;
+import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
+import de.uni_kiel.progOOproject17.view.abs.InputView;
+import de.uni_kiel.progOOproject17.view.abs.OutputView;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
+/**
+ * This class represents the desktop-only-part of the view of this MVC structure.
+ * It combines an {@link InputView} and an {@link OutputView}.
+ * 
+ */
 public class PLDektopView extends FramedIOView {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2350129042863402099L;
 	private BufferedImage img;
 	private ResourceManager res = ResourceManager.getInstance();
 
+	/**
+	 * Constructs a new {@link PLDektopView}.
+	 * 
+	 * @param title the title
+	 */
 	public PLDektopView(String title) {
 		super(title, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, false);
 		img = new BufferedImage(PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
@@ -21,6 +38,9 @@ public class PLDektopView extends FramedIOView {
 		// setResizable(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.OutputView#render(de.uni_kiel.progOOproject17.view.abs.Viewable[])
+	 */
 	@Override
 	public void render(Viewable[] viewables) {
 
@@ -41,7 +61,7 @@ public class PLDektopView extends FramedIOView {
 		}
 
 		gr.dispose();
-		Graphics gr2 = centerPane.getGraphics();
+		Graphics gr2 = contentPane.getGraphics();
 		gr2.drawImage(img, 0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, null);
 		gr2.dispose();
 
