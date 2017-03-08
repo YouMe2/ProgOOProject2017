@@ -19,8 +19,12 @@ import de.uni_kiel.progOOproject17.view.PLDektopView;
  * TODO description of class hierarchy
  * TODO update type hierarchy
  * <p>
- * <img src="model_class_hierarchy.png" title="Class hierarchy of the model" alt
- * ="Class hierarchy of the model" width="800" height="355">
+ * 
+ * <img src="mvc_class_hierarchy.png" title="MVC Class hierarchy" alt
+ * ="MVC Class hierarchy" width="800" height="235">
+ * <img src="model_class_hierarchy.png" title="Class hierarchy in the model" alt
+ * ="Class hierarchy in the model" width="800" height="360">
+ *
  *
  */
 public class Main {
