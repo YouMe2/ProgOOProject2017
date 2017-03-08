@@ -70,6 +70,8 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		levelGenerator = new LevelGenerator(this, this, () -> {
 
 			player.addPoint();
+			player.addLife();
+			
 			// speed up :D
 			screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
 			player.setPermaXVel(screenVelocity);
@@ -122,18 +124,6 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		putAction(InputActionKeys.P_SELECT, pauseAction);
 
 		create(player);
-
-		// tests below:
-
-		// create(new Floor("floor", PLGameModel.lhToGam(0,
-		// PLGameModel.LH_HEIGHT - 1, PLGameModel.LH_WIDTH, 1)));
-
-		// create(new Background("background", 0, 0, w, h));
-
-		// PARTICLE TEST:
-		// Particle particle = new Particle("partTest", 800, 0, 300, 300,
-		// 1000,4);
-		// create(particle);
 
 	}
 

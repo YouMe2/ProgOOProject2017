@@ -97,7 +97,7 @@ public enum Obstacle {
 		// Creates an enemy hovering a little bit above the ground so the player
 		// has to decide quickly whether to crouch or to jump.
 		int spaceBefore = LHPIXEL_WIDTH * 1;
-		int hoveringHeight = 25;
+		int hoveringHeight = 15;
 		Enemy e = new Enemy(ENEMYRESKEY, new Point(x + spaceBefore, FLOOR_POS));
 		e.translate(0, -e.getHeight() - hoveringHeight);
 		e.setGravityActive(false);

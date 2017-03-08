@@ -25,7 +25,9 @@ public class Player extends GameEntity {
 
 	private int points = 0;
 
-	private int lifes = Integer.valueOf(GameProperties.getInstance().getProperty("playerLifes"));
+	private final int maxLifes = 9;
+	
+	private int lifes = Math.min(Integer.valueOf(GameProperties.getInstance().getProperty("playerLifes")), maxLifes);
 
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
@@ -267,6 +269,14 @@ public class Player extends GameEntity {
 	public String getResourceKey() {
 		String key = super.getResourceKey();
 		return (currMoveState == CROUCHING || currMoveState == MoveState.JUMPING_AND_CROUCHING) ? key + "_C" : key;
+	}
+
+	/**
+	 * Adds a life to the player;
+	 */
+	public void addLife() {
+		lifes = Math.min(maxLifes, lifes+1);
+		
 	}
 
 }
