@@ -14,6 +14,8 @@ import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import java.awt.Point;
 
+import org.omg.CORBA.Current;
+
 /**
  * This class represents a {@link GameEntity} that acts as the {@link Player}.
  * The player has a certain number of lifes and points. The player can be
@@ -23,14 +25,29 @@ import java.awt.Point;
  */
 public class Player extends GameEntity {
 
+	/**
+	 * The number of points the player scored.
+	 */
 	private int points = 0;
 
+	/**
+	 * The max lifes the player can have
+	 */
 	private final int maxLifes = 9;
 	
+	/**
+	 * The current number of lifes
+	 */
 	private int lifes = Math.min(Integer.valueOf(GameProperties.getInstance().getProperty("playerLifes")), maxLifes);
 
+	/**
+	 * The current {@link MoveCommand} which will be evaluated by the tick() method
+	 */
 	private MoveCommand currMoveCommand = MoveCommand.NONE;
 
+	/**
+	 * The current {@link MoveState} of the player
+	 */
 	private MoveState currMoveState = MoveState.NORMAL;
 
 	/**

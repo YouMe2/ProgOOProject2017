@@ -7,6 +7,7 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.uni_kiel.progOOproject17.model.abs.Screen;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -61,7 +62,7 @@ public abstract class MenuScreen extends Screen {
 				4 * PLBaseModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT), CURSOR_WIDTH,
 				CURSOR_HEIGHT, Viewable.MENU2_LAYER);
 
-		putAction(InputActionKeys.P_UP, new AbstractAction() {
+		putAction(InputActionKey.P_UP, new AbstractAction() {
 
 			/**
 			 * 
@@ -74,7 +75,7 @@ public abstract class MenuScreen extends Screen {
 
 			}
 		});
-		putAction(InputActionKeys.P_DOWN, new AbstractAction() {
+		putAction(InputActionKey.P_DOWN, new AbstractAction() {
 
 			/**
 			 * 
@@ -88,7 +89,7 @@ public abstract class MenuScreen extends Screen {
 
 			}
 		});
-		putAction(InputActionKeys.P_SELECT, new AbstractAction() {
+		putAction(InputActionKey.P_SELECT, new AbstractAction() {
 
 			/**
 			 * 

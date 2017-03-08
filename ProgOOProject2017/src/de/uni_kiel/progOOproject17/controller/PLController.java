@@ -1,7 +1,7 @@
 package de.uni_kiel.progOOproject17.controller;
 
 import de.uni_kiel.progOOproject17.controller.abs.TickedController;
-import de.uni_kiel.progOOproject17.model.InputActionKeys;
+import de.uni_kiel.progOOproject17.model.InputActionKey;
 import de.uni_kiel.progOOproject17.model.PLBaseModel;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.view.PLDektopView;
@@ -11,14 +11,17 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 /**
- * This class represents the controller of this MVC stucture and therefore the
- * access point to the whole Game it self. It is the intermediary between all
- * the Views, Inputs and Outputs and the model. Creating an object of this
- * controller requires a {@link PLDektopView} and a {@link PLBaseModel}. After
- * creation the controller awaits a call of the {@link #start(long)} method
- * which will start the ticked gamecycle. It can also be stoped with the
- * {@link #stop()} method and then restarted with again with the
- * {@link #start(long)} method.
+ * This class represents the controller of this MVC structure and therefore the
+ * access point to the whole program it self. This class is the most powerful in
+ * the whole Program structure followed by the {@link PLBaseModel}.
+ * 
+ * It is the intermediary between all the Views, which are split into inputs and
+ * outputs, and the model, which itself contains a massively branched structure.
+ * The creation of an {@link PLController} requires a {@link PLDektopView}
+ * and a {@link PLBaseModel}. After creation the controller awaits a call of the
+ * {@link #start(long)} method which will start the ticked gamecycle. It can
+ * also be stooped with the {@link #stop()} method and then restarted with again
+ * with the {@link #start(long)} method.
  *
  */
 public class PLController extends TickedController {
@@ -55,13 +58,16 @@ public class PLController extends TickedController {
 	public PLController(PLDektopView view, PLBaseModel model) {
 		super(view, view, model, Integer.valueOf(GameProperties.getInstance().getProperty("tickLength")));
 
-		standardIn.addAction("pressed W", model.getAction(InputActionKeys.P_UP));
-		standardIn.addAction("released W", model.getAction(InputActionKeys.R_UP));
-		standardIn.addAction("pressed S", model.getAction(InputActionKeys.P_DOWN));
-		standardIn.addAction("released S", model.getAction(InputActionKeys.R_DOWN));
-		standardIn.addAction("pressed SPACE", model.getAction(InputActionKeys.P_SELECT));
-		standardIn.addAction("released SPACE", model.getAction(InputActionKeys.R_SELECT));
+		// standard Game Actions:
+		standardIn.addAction("pressed W", model.getAction(InputActionKey.P_UP));
+		standardIn.addAction("released W", model.getAction(InputActionKey.R_UP));
+		standardIn.addAction("pressed S", model.getAction(InputActionKey.P_DOWN));
+		standardIn.addAction("released S", model.getAction(InputActionKey.R_DOWN));
+		standardIn.addAction("pressed SPACE", model.getAction(InputActionKey.P_SELECT));
+		standardIn.addAction("released SPACE", model.getAction(InputActionKey.R_SELECT));
 
+		
+		// LH Action
 		standardIn.addAction("pressed F", new AbstractAction() {
 
 			/**
@@ -79,6 +85,8 @@ public class PLController extends TickedController {
 
 		});
 
+		
+		// debugging actions
 		standardIn.addAction("pressed E", new AbstractAction() {
 
 			/**
@@ -136,8 +144,11 @@ public class PLController extends TickedController {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.controller.abs.TickedController#getModel()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.uni_kiel.progOOproject17.controller.abs.TickedController#getModel()
 	 */
 	@Override
 	public PLBaseModel getModel() {

@@ -17,6 +17,7 @@ import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
+import de.uni_kiel.progOOproject17.model.abs.Screen;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
@@ -79,7 +80,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		levelGenerator.setRunning(true);
 
-		putAction(InputActionKeys.P_UP, new AbstractAction() {
+		putAction(InputActionKey.P_UP, new AbstractAction() {
 
 			/**
 			 * 
@@ -93,7 +94,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 			}
 		});
 
-		putAction(InputActionKeys.P_DOWN, new AbstractAction() {
+		putAction(InputActionKey.P_DOWN, new AbstractAction() {
 
 			/**
 			 * 
@@ -107,7 +108,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 			}
 		});
 
-		putAction(InputActionKeys.R_DOWN, new AbstractAction() {
+		putAction(InputActionKey.R_DOWN, new AbstractAction() {
 
 			/**
 			 * 
@@ -121,7 +122,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 			}
 		});
 
-		putAction(InputActionKeys.P_SELECT, pauseAction);
+		putAction(InputActionKey.P_SELECT, pauseAction);
 
 		create(player);
 

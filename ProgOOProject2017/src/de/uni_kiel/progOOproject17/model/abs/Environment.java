@@ -4,9 +4,16 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+/**
+ * This interface represents some functionality the {@link Environment} the
+ * {@link GameObject} are living in, which manly are collision detection methods.
+ * 
+ */
 public interface Environment {
 	// FIXME impossible to check for collision when the size changes!
 	// (crouching)
+	// FIXME no collision detected when the moved Distance jumps over an other
+	// Collidable
 
 	/**
 	 * Checks for all colliding game objects and returns true if there's a

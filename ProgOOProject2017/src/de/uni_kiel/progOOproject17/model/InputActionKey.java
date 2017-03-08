@@ -5,7 +5,7 @@ package de.uni_kiel.progOOproject17.model;
  * 
  * 
  */
-public enum InputActionKeys {
+public enum InputActionKey {
 
 	/**
 	 * pressed UP

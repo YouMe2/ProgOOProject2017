@@ -9,31 +9,54 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class represents a {@link GameCompound} that acts as a Scoreboard. The
+ * {@link Scoreboard} can display the three values given by the {@link Stats}
+ * interface.
+ *
+ */
 public class Scoreboard extends GameCompound {
 
+	/**
+	 * The stats this {@link Scoreboard} shows.
+	 */
 	private final Stats stats;
 
-	private ImageViewable stepsDisplay;
+	/**
+	 * The {@link Viewable} that make up the display for the progress
+	 */
+	private ImageViewable progressDisplay;
 
+	/**
+	 * The {@link Viewable}s that make up the display for the points
+	 */
 	private ImageViewable[] pointsDisplay;
 	private String pointsKey = "point";
 
+	/**
+	 * The {@link Viewable}s that make up the display for the lifes
+	 */
 	private ImageViewable[] lifesDisplay;
 	private String lifesKey = "life";
 
+	/**
+	 * Constructs a new {@link Scoreboard} which when being ticked will display the {@link Stats} in stats.
+	 * 
+	 * @param stats the {@link Stats} to display
+	 */
 	public Scoreboard(Stats stats) {
 		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 		this.stats = stats;
-		
-		pointsDisplay = new ImageViewable[GAME_WIDTH/(LHPIXEL_WIDTH*3)];
-		lifesDisplay = new ImageViewable[GAME_WIDTH/(LHPIXEL_WIDTH*3)];
 
-		stepsDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
+		pointsDisplay = new ImageViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
+		lifesDisplay = new ImageViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
+
+		progressDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
 				Math.round(LHPIXEL_HEIGHT * 0.8f), Viewable.SB_LAYER);
 
 		for (int i = 0; i < pointsDisplay.length; i++)
-			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT*2, LHPIXEL_WIDTH * 2,
-					LHPIXEL_HEIGHT, Viewable.SB_LAYER);
+			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT * 2,
+					LHPIXEL_WIDTH * 2, LHPIXEL_HEIGHT, Viewable.SB_LAYER);
 
 		for (int i = 0; i < lifesDisplay.length; i++)
 			lifesDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
@@ -41,10 +64,13 @@ public class Scoreboard extends GameCompound {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
+	 */
 	@Override
 	public void tick(long timestamp) {
 
-		stepsDisplay.setSize((int) (stats.getProgress() * PLBaseModel.GAME_WIDTH), stepsDisplay.getHeight());
+		progressDisplay.setSize((int) (stats.getProgress() * PLBaseModel.GAME_WIDTH), progressDisplay.getHeight());
 
 		int p = stats.getPoints();
 		if (p > pointsDisplay.length)
@@ -65,11 +91,14 @@ public class Scoreboard extends GameCompound {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.GameCompound#getViewables()
+	 */
 	@Override
 	public Viewable[] getViewables() {
 
 		ArrayList<Viewable> views = new ArrayList<>();
-		views.add(stepsDisplay);
+		views.add(progressDisplay);
 		views.addAll(Arrays.asList(pointsDisplay));
 		views.addAll(Arrays.asList(lifesDisplay));
 

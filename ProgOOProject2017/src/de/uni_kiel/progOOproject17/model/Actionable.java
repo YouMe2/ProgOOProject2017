@@ -4,7 +4,7 @@ import javax.swing.Action;
 
 /**
  * This interface will be implemented by anything that will react to some
- * forwarded InputAction specified by a member of {@link InputActionKeys}.
+ * forwarded InputAction specified by a member of {@link InputActionKey}.
  * 
  */
 public interface Actionable {
@@ -16,17 +16,17 @@ public interface Actionable {
 	 *            the key which determines the action
 	 * @return the corresponding action
 	 */
-	public Action getAction(InputActionKeys iAkey);
+	public Action getAction(InputActionKey iAkey);
 
 	/**
-	 * Puts a action for a specific member of {@link InputActionKeys}.
+	 * Puts a action for a specific member of {@link InputActionKey}.
 	 * 
 	 * @param iAkey
-	 *            the {@link InputActionKeys}
+	 *            the {@link InputActionKey}
 	 * @param action
 	 *            the action
 	 */
-	public void putAction(InputActionKeys iAkey, Action action);
+	public void putAction(InputActionKey iAkey, Action action);
 
 	/**
 	 * Forwards all actions to this {@link Actionable} from the

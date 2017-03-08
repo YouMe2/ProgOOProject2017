@@ -16,7 +16,7 @@ public abstract class AbstractBaseModel {
 	 * Returns all the {@link Viewable}s this model need to be rendered by some
 	 * {@link OutputView}.
 	 *
-	 * @return
+	 * @return all the {@link Viewable}s this model provides
 	 */
 	public abstract Viewable[] getViewables();
 

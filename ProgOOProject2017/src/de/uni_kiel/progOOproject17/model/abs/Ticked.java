@@ -12,7 +12,7 @@ package de.uni_kiel.progOOproject17.model.abs;
 public interface Ticked {
 
 	/**
-	 * Tickes (or Updates) this Object.
+	 * Ticks (or Updates) this object.
 	 *
 	 * @param timestamp
 	 *            The program time in ms on which the tick is executed.
