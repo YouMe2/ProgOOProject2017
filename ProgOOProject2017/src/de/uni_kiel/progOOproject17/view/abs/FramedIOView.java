@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 /**
  * This class provides a {@link JFrame} which holds an {@link InputView} in as
- * well as a {@link MappedKeyInputView} and a {@link OutputView}. This class
+ * well as a {@link MappedKeyInput} and a {@link OutputView}. This class
  * builds a basic Frame which can easily be modified by the subclass.
  *
  *
@@ -27,7 +27,7 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 	 */
 	private static final long serialVersionUID = -2996189965279903424L;
 
-	private MappedKeyInputView in;
+	private MappedKeyInput in;
 
 	/**
 	 * The {@link JPanel} being the contentPane of this frame.
@@ -51,7 +51,7 @@ public abstract class FramedIOView extends JFrame implements InputView, OutputVi
 	public FramedIOView(String title, int w, int h, boolean resizeable) {
 		super(title);
 
-		in = new MappedKeyInputView();
+		in = new MappedKeyInput();
 		contentPane = new JPanel(true);
 		contentPane.setPreferredSize(new Dimension(w, h));
 		in.initMaps(contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW), contentPane.getActionMap());

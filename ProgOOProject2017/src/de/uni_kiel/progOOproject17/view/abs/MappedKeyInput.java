@@ -13,14 +13,14 @@ import javax.swing.KeyStroke;
  *
  *
  */
-public class MappedKeyInputView implements InputView {
+public class MappedKeyInput implements InputView {
 
 	private InputMap inMap;
 	private ActionMap aMap;
 	private boolean enabeled = false;
 
 	/**
-	 * Creates a new {@link MappedKeyInputView} with the specified
+	 * Creates a new {@link MappedKeyInput} with the specified
 	 * {@link InputMap} and {@link ActionMap}.
 	 *
 	 * @param inMap
