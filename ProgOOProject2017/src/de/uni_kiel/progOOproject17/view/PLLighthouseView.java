@@ -55,7 +55,8 @@ public class PLLighthouseView extends FramedIOView {
 				lhNetwork.connect();
 				connected = true;
 			} catch (IOException ex) {
-				System.err.println("Connection failed!");
+				ex.printStackTrace();
+//				System.err.println("Connection failed!");
 				connected = false;
 			}
 		}
@@ -74,7 +75,7 @@ public class PLLighthouseView extends FramedIOView {
 
 		img = new BufferedImage(PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
 
-		lhNetwork = new LighthouseNetwork();
+		lhNetwork = new LighthouseNetwork("3", "3MW9-A1LL-L1D8-QQX4");
 
 		connect.actionPerformed(null);
 

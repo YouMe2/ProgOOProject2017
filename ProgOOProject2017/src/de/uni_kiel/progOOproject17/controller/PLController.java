@@ -59,10 +59,10 @@ public class PLController extends TickedController {
 		super(view, view, model, Integer.valueOf(GameProperties.getInstance().getProperty("tickLength")));
 
 		// standard Game Actions:
-		standardIn.addAction("pressed W", model.getAction(InputActionKey.P_UP));
-		standardIn.addAction("released W", model.getAction(InputActionKey.R_UP));
-		standardIn.addAction("pressed S", model.getAction(InputActionKey.P_DOWN));
-		standardIn.addAction("released S", model.getAction(InputActionKey.R_DOWN));
+		standardIn.addAction("pressed S", model.getAction(InputActionKey.P_UP));
+		standardIn.addAction("released S", model.getAction(InputActionKey.R_UP));
+		standardIn.addAction("pressed D", model.getAction(InputActionKey.P_DOWN));
+		standardIn.addAction("released D", model.getAction(InputActionKey.R_DOWN));
 		standardIn.addAction("pressed SPACE", model.getAction(InputActionKey.P_SELECT));
 		standardIn.addAction("released SPACE", model.getAction(InputActionKey.R_SELECT));
 
