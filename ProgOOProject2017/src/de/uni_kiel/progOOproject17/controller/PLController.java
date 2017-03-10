@@ -15,7 +15,7 @@ import javax.swing.AbstractAction;
  * access point to the whole program it self. This class is the most powerful in
  * the whole Program structure followed by the {@link PLBaseModel}.
  * 
- * It is the intermediary between all the Views, which are split into inputs and
+ * It is the intermediary between all the views, which are split into inputs and
  * outputs, and the model, which itself contains a massively branched structure.
  * The creation of an {@link PLController} requires a {@link PLDektopView}
  * and a {@link PLBaseModel}. After creation the controller awaits a call of the
