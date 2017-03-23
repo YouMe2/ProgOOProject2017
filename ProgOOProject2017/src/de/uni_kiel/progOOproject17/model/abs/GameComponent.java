@@ -25,6 +25,16 @@ public abstract class GameComponent implements Ticked {
 	public GameComponent(int x, int y, int w, int h) {
 		rect = new Rectangle(x, y, w, h);
 	}
+	
+	/**
+	 * Constructs a new GameComponent at the given position with no size.
+	 * 
+	 * @param x the x coord
+	 * @param y the y coord
+	 */
+	public GameComponent(int x, int y) {
+		rect = new Rectangle(x, y, 0, 0);
+	}
 
 	/**
 	 * Sets the location to (x,y).

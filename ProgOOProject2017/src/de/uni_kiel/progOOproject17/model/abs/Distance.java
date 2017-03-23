@@ -42,17 +42,17 @@ public class Distance {
 
 	/**
 	 * @return the absolute length of the {@link Distance}
-	 * @see #getSqLenghth()
+	 * @see #getSqLength()
 	 */
 	public double getLength() {
-		return Math.sqrt(getSqLenghth());
+		return Math.sqrt(getSqLength());
 	}
 
 	/**
 	 * @return the square of the absolute length of the {@link Distance}
 	 */
-	public int getSqLenghth() {
-		return x * x + y * y;
+	public int getSqLength() {
+		return dotProduct(this);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Distance {
 	 * 
 	 * @param factor
 	 */
-	public void multiply(double factor) {
+	public void scale(double factor) {
 		x *= factor;
 		y *= factor;
 	}
@@ -71,9 +71,18 @@ public class Distance {
 	 * 
 	 * @param dis
 	 */
-	public void multiply(Distance dis) {
+	public void scale(Distance dis) {
 		x *= dis.x;
 		y *= dis.y;
+	}
+	
+	/**
+	 * Calcualtes the dot product of the two {@link Distance}s as vectors.
+	 * @param dis
+	 * @return the dot product of this and dis
+	 */
+	public int dotProduct(Distance dis) {
+		return x * dis.x + y * dis.y;
 	}
 
 	/**

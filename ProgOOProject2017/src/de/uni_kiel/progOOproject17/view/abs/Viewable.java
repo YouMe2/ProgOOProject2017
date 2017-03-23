@@ -1,12 +1,13 @@
 package de.uni_kiel.progOOproject17.view.abs;
 
+import java.awt.Rectangle;
+
 import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.MenuScreen;
 import de.uni_kiel.progOOproject17.model.Particle;
 import de.uni_kiel.progOOproject17.model.Scoreboard;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
-import java.awt.Rectangle;
 
 /**
  * This interface needs to be implemented by anything to be rendered by any
@@ -26,7 +27,7 @@ public interface Viewable {
 	 */
 	public static final int BG_LAYER = 0;
 	/**
-	 * The {@link Scoreboard} layder.
+	 * The {@link Scoreboard} layer.
 	 */
 	public static final int SB_LAYER = 1;
 	/**
@@ -41,12 +42,10 @@ public interface Viewable {
 	 * The {@link Particle} layer.
 	 */
 	public static final int PARTICLE_LAYER = 4;
-
 	/**
 	 * The 1st {@link MenuScreen} layer.
 	 */
 	public static final int MENU_LAYER = 5;
-	
 	/**
 	 * The 2nd {@link MenuScreen} layer.
 	 */
@@ -56,6 +55,7 @@ public interface Viewable {
 	 * Returns the resource key of this {@link Viewable} which is used by the
 	 * {@link OutputView} to determine how this {@link Viewable} will be
 	 * rendered.
+	 * Or {@code null} if this {@link Viewable} does not provide a resourcekey.
 	 *
 	 * @return the resource key
 	 */
@@ -68,7 +68,7 @@ public interface Viewable {
 	 * @return the {@link Rectangle}
 	 */
 	public Rectangle getViewRect();
-
+	
 	/**
 	 * Retruns the layer on which this {@link Viewable} needs to be redered.
 	 *
@@ -78,6 +78,8 @@ public interface Viewable {
 	 * @see #FLOOR_LAYER
 	 * @see #ENTITY_LAYER
 	 * @see #PARTICLE_LAYER
+	 * @see #MENU_LAYER
+	 * @see #MENU2_LAYER
 	 *
 	 * @return the layer.
 	 */

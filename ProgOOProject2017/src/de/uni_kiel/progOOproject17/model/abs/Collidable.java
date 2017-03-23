@@ -1,7 +1,5 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import java.awt.Rectangle;
-
 /**
  * This interface implies that instances of this it are
  * {@link Collidable} and therefore must have a bounding rect other
@@ -10,10 +8,10 @@ import java.awt.Rectangle;
 public interface Collidable {
 
 	/**
-	 * Returns the bounding {@link Rectangle} of this {@link Collidable}.
+	 * Returns the {@link Hitbox} of this {@link Collidable}.
 	 * 
-	 * @return the bounding {@link Rectangle}
+	 * @return the {@link Hitbox}
 	 */
-	public Rectangle getBoundingRect();
+	public Hitbox getHitbox();
 
 }

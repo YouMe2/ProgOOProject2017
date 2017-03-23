@@ -33,10 +33,9 @@ public class Particle extends GameElement {
 	 *            the length of the counter
 	 */
 	public Particle(String resKey, int x, int y, int w, int h, int dtime, int lenghth) {
-		super(resKey, x, y, w, h);
+		super(resKey, x, y, w, h, PARTICLE_LAYER);
 		this.max = lenghth;
 		this.dtime = dtime;
-		setLayer(PARTICLE_LAYER);
 	}
 
 	/**

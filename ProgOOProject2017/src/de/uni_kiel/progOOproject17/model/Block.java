@@ -2,6 +2,8 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.Hitbox;
+
 import java.awt.Rectangle;
 
 /**
@@ -10,16 +12,6 @@ import java.awt.Rectangle;
  */
 public class Block extends GameEntity {
 
-	/**
-	 * Constructs a new Block.
-	 * Which will not be active until it is activated by the {@link #activate(Environment, CreationHelper)} method.
-	 * 
-	 * @param resKey the resource key
-	 * @param rect the {@link Rectangle} specifying the position and size
-	 */
-	public Block(String resKey, Rectangle rect) {
-		this(resKey, rect.x, rect.y, rect.width, rect.height);
-	}
 
 	/**
 	 * Constructs a new Block.
@@ -31,8 +23,8 @@ public class Block extends GameEntity {
 	 * @param w the width
 	 * @param h the height
 	 */
-	public Block(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
+	public Block(Hitbox hitbox) {
+		super(hitbox);
 		setGravityActive(false);
 	}
 

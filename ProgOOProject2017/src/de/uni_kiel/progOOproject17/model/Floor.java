@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.Hitbox;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -34,8 +35,9 @@ public class Floor extends GameObject {
 	 * @param h the height
 	 */
 	public Floor(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
-		setLayer(Viewable.FLOOR_LAYER);
+		super(new Hitbox.RectHitbox(x, y, w, h));
+//		super(resKey, Hitbox.newHitbox(Hitbox.Types.RECT, x, y, w, h)); // or like this
+		setView(resKey, x, y, w, h, FLOOR_LAYER);
 	}
 
 	/* (non-Javadoc)

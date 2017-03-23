@@ -2,6 +2,7 @@ package de.uni_kiel.progOOproject17.model.abs;
 
 import javax.swing.text.html.parser.Entity;
 
+import de.uni_kiel.progOOproject17.model.ImageViewable;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -37,10 +38,18 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	 * @param h
 	 *            the heigt
 	 */
-	public GameEntity(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
+	public GameEntity(Hitbox hitbox) {
+		this(hitbox, null);
+	}
+
+	public GameEntity(Hitbox hitbox, String resKey, int x, int y, int w, int h) {
+		this(hitbox, new ImageViewable(resKey, x, y, w, h, ENTITY_LAYER));
+	}
+
+	private GameEntity(Hitbox hitbox, ImageViewable view) {
+		super(hitbox);
+		setView(view);
 		velocity = new Distance(0, 0);
-		setLayer(ENTITY_LAYER);
 	}
 
 	/*
@@ -49,6 +58,7 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	 * @see de.uni_kiel.progOOproject17.model.abs.Gravitational#applyGravity()
 	 */
 	@Override
+
 	public void applyGravity() {
 		velocity.add(GRAVITY_ACCELERATION);
 
@@ -137,19 +147,34 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	public void doMovement() {
 		if (permaMoveX)
 			setVelocity(permaXVel, getVelocity().y);
+		if (permaMoveY)
+			setVelocity(getVelocity().x, permaYVel);
 		if (gravity)
 			applyGravity();
 		Distance collDist = environment.getCollisionDistance(this, getVelocity());
-		translate(collDist);
+		move(collDist);
 		setVelocity(collDist);
 		environment.forEachContact(this, t -> onContactWith(t));
 	}
+	
+	public void move(Distance d){	
+		getHitbox().translate(d);
+		if (getView() != null)
+			getView().translate(d);
+	}
+	
+	public void move(int dx, int dy){	
+		move(new Distance(dx, dy));
+	}
+	
+	
 
 	/**
 	 * This method will be called every time this {@link GameEntity} made direct
 	 * contact with an other {@link GameObject}.
 	 * 
-	 * @param obj the {@link GameObject} this is in contact with
+	 * @param obj
+	 *            the {@link GameObject} this is in contact with
 	 */
 	public abstract void onContactWith(GameObject obj);
 

@@ -101,6 +101,8 @@ public interface Environment {
 	 */
 	public void forEachContact(Collidable obj, Consumer<GameObject> consumer);
 
+	
+
 	/**
 	 * * Gets the position of the game screen.
 	 *

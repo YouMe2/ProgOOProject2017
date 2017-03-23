@@ -16,6 +16,7 @@ import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.Environment;
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.Hitbox;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.Screen;
 import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
@@ -28,7 +29,7 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  * game. It holds all the {@link GameElement}s, the {@link Scoreboard} and the
  * {@link LevelGenerator}, as well as the relevant actions for the player.
  */
-public class GameScreen extends Screen implements Environment, CreationHelper, Stats {
+public class GameScreen extends Screen implements Stats {
 
 	private final LinkedList<GameElement> gameElements;
 	private final LinkedList<GameElement> createdElements;
@@ -40,6 +41,239 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	private Scoreboard scoreboard;
 	private LevelGenerator levelGenerator;
 	private final Action endAction;
+
+	private final Rectangle inGameScreenBoarder;
+	
+	private Environment environment = new Environment() {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Environment#willCollide(de.
+		 * uni_kiel.progOOproject17.model.abs.Collidable,
+		 * de.uni_kiel.progOOproject17.model.abs.Distance)
+		 */
+		@Override
+		public boolean willCollide(Collidable coll, Distance dist) {
+			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(dist);
+			synchronized (gameElements) {
+				for (GameElement e : gameElements)
+					if (e instanceof Collidable)
+						if (!e.equals(coll) && tHitbox.intersects(((Collidable) e).getHitbox()))
+							return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Returns true of false whether the two {@link Collidable}s will
+		 * collide after o1 moves for d1.
+		 * 
+		 * @param o1
+		 *            the 1st {@link Collidable}
+		 * @param d1
+		 *            the {@link Distance} o1 will move
+		 * @param o2
+		 *            the 2nd {@link Collidable}
+		 * @return whether o1 will collide with o2 after moving d1
+		 */
+		private boolean willCollide(Collidable c1, Distance d1, Collidable c2) {
+			if (c1 == c2)
+				return false;
+
+			Hitbox tHitbox = c1.getHitbox().getCloneTranslate(d1);
+			return c2.getHitbox().intersects(tHitbox);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Environment#
+		 * getCollisionDistance(de.uni_kiel.progOOproject17.model.abs.
+		 * Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
+		 */
+		@Override
+		public Distance getCollisionDistance(Collidable coll, Distance maxDist) {
+
+			if (maxDist.x == 0 && maxDist.y == 0)
+				return maxDist;
+
+			ArrayList<Collidable> collObjts = getCollObjects(coll, maxDist);
+
+			if (collObjts.isEmpty())
+				return new Distance(maxDist);
+
+			// sonst:
+
+			Distance signD = maxDist.getSignDistance();
+			Distance absDist = maxDist.getAbsDistance();
+			Distance currBestDist = new Distance(0, 0);
+
+			for (int dx = absDist.x; dx >= 0; dx--)
+				nextPos: for (int dy = absDist.y; dy >= 0; dy--) {
+
+					// für jede mögliche position:
+					Distance dist = new Distance(dx, dy);
+					dist.scale(signD);
+
+					for (Collidable c : collObjts)
+						// wenn collision mit nur einem anderen object ->
+						// nächtse
+						if (willCollide(coll, dist, c))
+							continue nextPos;
+
+					// sonst: eine mögliche Distance gefunden!
+
+					if (dist.getSqLength() > currBestDist.getSqLength())
+						// und sie ist besser!
+						currBestDist = dist;
+
+				}
+
+			return currBestDist;
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Environment#getCollObjects(de.
+		 * uni_kiel.progOOproject17.model.abs.Collidable,
+		 * de.uni_kiel.progOOproject17.model.abs.Distance)
+		 */
+		@Override
+		public ArrayList<Collidable> getCollObjects(Collidable coll, Distance dist) {
+
+			ArrayList<Collidable> collObjts = new ArrayList<>();
+
+			synchronized (gameElements) {
+				for (GameElement e : gameElements)
+					if (e instanceof Collidable) {
+						Collidable c = (Collidable) e;
+						if (willCollide(coll, dist, c))
+							collObjts.add(c);
+					}
+			}
+			return collObjts;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Environment#contacts(de.
+		 * uni_kiel.progOOproject17.model.abs.Collidable,
+		 * de.uni_kiel.progOOproject17.model.abs.Collidable)
+		 */
+		@Override
+		public boolean contacts(Collidable c1, Collidable c2) {
+			if (c1 == c2)
+				return false;
+			return c1.getHitbox().contacts(c2.getHitbox());
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Environment#isOnGround(de.
+		 * uni_kiel.progOOproject17.model.abs.Collidable)
+		 */
+		@Override
+		public boolean isOnGround(Collidable coll) {
+			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(new Distance(0, 1));
+			synchronized (gameElements) {
+				for (GameElement e : gameElements)
+					if (e instanceof Collidable) {
+						Collidable c = (Collidable) e;
+						if (!c.equals(coll) && c.getHitbox().intersects(tHitbox))
+							return true;
+
+					}
+			}
+
+			return false;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Environment#forEachCollision(de
+		 * .uni_kiel.progOOproject17.model.abs.Collidable,
+		 * de.uni_kiel.progOOproject17.model.abs.Distance,
+		 * java.util.function.Consumer)
+		 */
+		@Override
+		public void forEachCollision(Collidable coll, Distance dist, Consumer<GameObject> consumer) {
+			synchronized (gameElements) {
+				for (GameElement e : gameElements)
+
+					if (e instanceof GameObject) {
+						GameObject o = (GameObject) e;
+						if (willCollide(coll, dist, o))
+							consumer.accept(o);
+
+					}
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Environment#forEachContact(de.
+		 * uni_kiel.progOOproject17.model.abs.Collidable,
+		 * java.util.function.Consumer)
+		 */
+		@Override
+		public void forEachContact(Collidable coll, Consumer<GameObject> consumer) {
+
+			synchronized (gameElements) {
+
+				for (GameElement e : gameElements)
+
+					if (e instanceof GameObject) {
+						GameObject o = (GameObject) e;
+						if (contacts(coll, o))
+							consumer.accept(o);
+					}
+			}
+		}
+
+		@Override
+		public Rectangle getScreenRect() {
+			return inGameScreenBoarder;
+		}
+
+	};
+
+	private CreationHelper creatHelp = new CreationHelper() {
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.ElementCreator#create(de.
+		 * uni_kiel.progOOproject17.model.abs.GameElement)
+		 */
+		@Override
+		public void create(GameElement g) {
+
+			// System.out.println("Created: " + g.getResourceKey());
+
+			createdElements.add(g);
+			g.getView().setRelativeAnchor(inGameScreenBoarder);
+			g.activate(environment, this);
+		}
+
+		@Override
+		public void onDestruction(Destroyable d) {
+			// System.out.println("Destroyed: " + ((GameElement)
+			// d).getResourceKey());
+
+			destroyedElements.add(d);
+		}
+
+	};
 
 	private long deathtime = -1;
 
@@ -59,6 +293,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 	 */
 	public GameScreen(int w, int h, Action pauseAction, Action endAction) {
 		super(w, h);
+		this.inGameScreenBoarder = new Rectangle(0, 0, w, h);
 		this.endAction = endAction;
 		gameElements = new LinkedList<>();
 		destroyedElements = new LinkedList<>();
@@ -69,10 +304,10 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		player.setPermaXVel(screenVelocity);
 		scoreboard = new Scoreboard(getPlayerStats());
 
-		levelGenerator = new LevelGenerator(this, this, () -> {
+		levelGenerator = new LevelGenerator(environment, creatHelp, () -> {
 			player.addPoint();
 			player.addLife();
-			
+
 			// speed up :D
 			screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
 			player.setPermaXVel(screenVelocity);
@@ -125,7 +360,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 		putAction(InputActionKey.P_SELECT, pauseAction);
 
-		create(player);
+		creatHelp.create(player);
 
 	}
 
@@ -147,7 +382,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 
 			}
 
-		this.setLocation((int) (player.getX() - PLBaseModel.LHPIXEL_WIDTH * 2.5), 0);
+		inGameScreenBoarder.setLocation((int) (player.getHitbox().getX() - PLBaseModel.LHPIXEL_WIDTH * 2.5), 0);
 
 		levelGenerator.tick(timestamp);
 		gameElements.forEach(new Consumer<GameElement>() {
@@ -156,7 +391,7 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 			public void accept(GameElement e) {
 
 				e.tick(timestamp);
-				if (e.getBoundingRect().getMaxX() < GameScreen.this.getX())
+				if (e.getView().getViewRect().getMaxX() < GameScreen.this.getX())
 					e.destroy();
 
 			};
@@ -194,217 +429,19 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return this;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#willCollide(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
-	 */
-	@Override
-	public boolean willCollide(Collidable obj, Distance dist) {
-		Rectangle rect = obj.getBoundingRect();
-		rect.translate(dist.x, dist.y);
-		synchronized (gameElements) {
-			for (GameElement o : gameElements)
-				if (o instanceof Collidable)
-					if (rect.intersects(o.getBoundingRect()) && !o.equals(obj))
-						return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true of false whether the two {@link Collidable}s will collide after o1 moves for d1.
-	 * 
-	 * @param o1 the 1st {@link Collidable}
-	 * @param d1 the {@link Distance} o1 will move
-	 * @param o2 the 2nd {@link Collidable}
-	 * @return whether o1 will collide with o2 after moving d1
-	 */
-	private boolean willCollide(Collidable o1, Distance d1, Collidable o2) {
-		if (o1 == o2)
-			return false;
-
-		Rectangle rect = o1.getBoundingRect();
-		rect.translate(d1.x, d1.y);
-
-		return rect.intersects(o2.getBoundingRect());
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#getCollisionDistance(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
-	 */
-	@Override
-	public Distance getCollisionDistance(Collidable obj, Distance maxDist) {
-
-		if (maxDist.x == 0 && maxDist.y == 0)
-			return maxDist;
-
-		ArrayList<Collidable> collObjts = getCollObjects(obj, maxDist);
-
-		if (collObjts.isEmpty())
-			return new Distance(maxDist);
-
-		// sonst:
-
-		Distance signD = maxDist.getSignDistance();
-		Distance absDist = maxDist.getAbsDistance();
-		Distance currBestDist = new Distance(0, 0);
-
-		for (int dx = absDist.x; dx >= 0; dx--)
-			nextPos: for (int dy = absDist.y; dy >= 0; dy--) {
-
-				// für jede mögliche position:
-				Distance dist = new Distance(dx, dy);
-				dist.multiply(signD);
-
-				for (Collidable o : collObjts)
-					// wenn collision mit nur einem anderen object -> nächtse
-					if (willCollide(obj, dist, o))
-						continue nextPos;
-
-				// sonst: eine mögliche Distance gefunden!
-
-				if (dist.getSqLenghth() > currBestDist.getSqLenghth())
-					// und sie ist besser!
-					currBestDist = dist;
-
-			}
-
-		return currBestDist;
-
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#getCollObjects(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance)
-	 */
-	@Override
-	public ArrayList<Collidable> getCollObjects(Collidable obj, Distance dist) {
-
-		ArrayList<Collidable> collObjts = new ArrayList<>();
-
-		synchronized (gameElements) {
-			for (GameElement o : gameElements)
-				if (o instanceof Collidable) {
-					Collidable c = (Collidable) o;
-					if (willCollide(obj, dist, c))
-						collObjts.add(c);
-				}
-		}
-		return collObjts;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#contacts(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Collidable)
-	 */
-	@Override
-	public boolean contacts(Collidable o1, Collidable o2) {
-
-		if (o1 == o2)
-			return false;
-		Rectangle rect = o1.getBoundingRect();
-		rect.grow(1, 1);
-
-		return rect.intersects(o2.getBoundingRect());
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#isOnGround(de.uni_kiel.progOOproject17.model.abs.Collidable)
-	 */
-	@Override
-	public boolean isOnGround(Collidable obj) {
-		Rectangle rect = obj.getBoundingRect();
-		rect.translate(0, 1);
-		synchronized (gameElements) {
-			for (GameElement e : gameElements)
-				if (e instanceof Collidable) {
-					Collidable c = (Collidable) e;
-					if (rect.intersects(c.getBoundingRect()) && !c.equals(obj))
-						return true;
-
-				}
-		}
-
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#forEachCollision(de.uni_kiel.progOOproject17.model.abs.Collidable, de.uni_kiel.progOOproject17.model.abs.Distance, java.util.function.Consumer)
-	 */
-	@Override
-	public void forEachCollision(Collidable obj, Distance dist, Consumer<GameObject> consumer) {
-		synchronized (gameElements) {
-			for (GameElement o : gameElements)
-
-				if (o instanceof GameObject) {
-					GameObject c = (GameObject) o;
-					if (willCollide(obj, dist, c))
-						consumer.accept(c);
-
-				}
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Environment#forEachContact(de.uni_kiel.progOOproject17.model.abs.Collidable, java.util.function.Consumer)
-	 */
-	@Override
-	public void forEachContact(Collidable obj, Consumer<GameObject> consumer) {
-
-		synchronized (gameElements) {
-
-			for (GameElement o : gameElements)
-
-				if (o instanceof Collidable) {
-
-					Collidable c = (Collidable) o;
-					if (contacts(obj, c))
-						consumer.accept((GameObject) c);
-				}
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.ElementCreator#create(de.uni_kiel.progOOproject17.model.abs.GameElement)
-	 */
-	@Override
-	public void create(GameElement g) {
-
-		// System.out.println("Created: " + g.getResourceKey());
-
-		createdElements.add(g);
-
-		Environment environment = this;
-		CreationHelper creationHelper = this;
-		g.activate(environment, creationHelper);
-	}
-
-	@Override
-	public void onDestruction(Destroyable d) {
-		// System.out.println("Destroyed: " + ((GameElement)
-		// d).getResourceKey());
-
-		destroyedElements.add(d);
-	}
-
 	/*
 	 * (non-Javadoc)
-	 *
-	 * @see
-	 * de.uni_kiel.progOOproject17.model.abs.Environment#getScreenShiftDistance(
-	 * )
-	 */
-	@Override
-	public Rectangle getScreenRect() {
-		return getBoundingRect();
-	}
-
-	/* (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.Stats#getProgress()
 	 */
 	@Override
 	public double getProgress() {
-		return levelGenerator.getProgressOf(player.getX());
+		return levelGenerator.getProgressOf(player.getHitbox().getX());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.Stats#getPoints()
 	 */
 	@Override
@@ -412,7 +449,9 @@ public class GameScreen extends Screen implements Environment, CreationHelper, S
 		return player.getPoints();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.Stats#getLifes()
 	 */
 	@Override

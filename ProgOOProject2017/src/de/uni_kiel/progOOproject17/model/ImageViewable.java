@@ -15,6 +15,7 @@ public class ImageViewable implements Viewable {
 	private String resKey;
 	private int layer;
 	private Rectangle rect;
+	private Rectangle relativeAnchor  = new Rectangle(0, 0, 0, 0);
 
 	/**
 	 * Constructs a new {@link ImageViewable}.
@@ -53,15 +54,18 @@ public class ImageViewable implements Viewable {
 		return resKey;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getViewRect()
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getViewRect(java.awt.Point)
 	 */
 	@Override
-	public Rectangle getViewRect() {
-		return rect;
+	public Rectangle getViewRect() {		
+		Rectangle r = new Rectangle(rect);
+		r.translate(-relativeAnchor.x, -relativeAnchor.y);
+		return r;
+		
 	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -72,6 +76,11 @@ public class ImageViewable implements Viewable {
 	public int getLayer() {
 		return layer;
 	}
+	
+	public void setRelativeAnchor(Rectangle relativeAnchor) {
+		this.relativeAnchor = relativeAnchor;
+	}
+	
 
 	/**
 	 * sets the location
@@ -171,5 +180,6 @@ public class ImageViewable implements Viewable {
 		resKey = key;
 
 	}
+
 
 }

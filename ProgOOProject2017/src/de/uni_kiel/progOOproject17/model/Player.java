@@ -5,16 +5,16 @@ import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.JUMPING_AND_CROUCHING;
 import static de.uni_kiel.progOOproject17.model.abs.MoveState.NORMAL;
 
+import java.awt.Point;
+
 import de.uni_kiel.progOOproject17.model.abs.Distance;
 import de.uni_kiel.progOOproject17.model.abs.GameEntity;
 import de.uni_kiel.progOOproject17.model.abs.GameObject;
+import de.uni_kiel.progOOproject17.model.abs.Hitbox;
 import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
-import java.awt.Point;
-
-import org.omg.CORBA.Current;
 
 /**
  * This class represents a {@link GameEntity} that acts as the {@link Player}.
@@ -94,7 +94,7 @@ public class Player extends GameEntity {
 	 *            the y coord
 	 */
 	public Player(String resKey, int x, int y) {
-		super(resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
+		super(new Hitbox.RectHitbox(x, y, PLAYER_W, PLAYER_H_NORMAL), resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
 	}
 
 	// TESTWISE
@@ -123,14 +123,19 @@ public class Player extends GameEntity {
 			switch (currMoveState) {
 			case NORMAL:
 				currMoveState = CROUCHING;
-				if (environment.isOnGround(this))
-					translate(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
-				setSize(PLAYER_W, PLAYER_H_CROUCH);
+				if (environment.isOnGround(this)){
+					Distance headDown = new Distance(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
+					getView().translate(headDown);
+					getHitbox().translate(headDown);
+				}
+				getView().setSize(PLAYER_W, PLAYER_H_CROUCH);
+				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
 				ResourceManager.getInstance().getSound("crouch").play();
 				break;
 			case JUMPING:
 				currMoveState = JUMPING_AND_CROUCHING;
-				setSize(PLAYER_W, PLAYER_H_CROUCH);
+				getView().setSize(PLAYER_W, PLAYER_H_CROUCH);
+				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
 				ResourceManager.getInstance().getSound("crouch").play();
 				break;
 			default:
@@ -142,25 +147,32 @@ public class Player extends GameEntity {
 			switch (currMoveState) {
 			case CROUCHING:
 				currMoveState = NORMAL;
-				if (environment.isOnGround(this))
-					translate(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
+				if (environment.isOnGround(this)){
+					Distance headUp = new Distance(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
+					getView().translate(headUp);
+					getHitbox().translate(headUp);
+				}
 				else if (environment.willCollide(this, crouchingDifference)) {
 					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
-					crouchingDifference.multiply(-1.0);
+					crouchingDifference.scale(-1.0);
 					maxDistance.add(crouchingDifference);
-					translate(maxDistance);
+					getView().translate(maxDistance);
+					getHitbox().translate(maxDistance);
 				}
-				setSize(PLAYER_W, PLAYER_H_NORMAL);
+				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
+				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
 				break;
 			case JUMPING_AND_CROUCHING:
 				currMoveState = JUMPING;
 				if (environment.willCollide(this, crouchingDifference)) {
 					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
-					crouchingDifference.multiply(-1.0);
+					crouchingDifference.scale(-1.0);
 					maxDistance.add(crouchingDifference);
-					translate(maxDistance);
+					getView().translate(maxDistance);
+					getHitbox().translate(maxDistance);
 				}
-				setSize(PLAYER_W, PLAYER_H_NORMAL);
+				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
+				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
 			default:
 				break;
 			}
@@ -237,8 +249,7 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creationHelper
-					.create(new Particle("playerDeath", getX(), getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
+			creationHelper.create(new Particle("playerDeath", getHitbox().getX(), getHitbox().getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;

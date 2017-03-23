@@ -1,7 +1,5 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
-
 /**
  * This class represents a advanced {@link GameElement} that also is can be
  * {@link Deadly} and is {@link Collidable}.
@@ -11,24 +9,26 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 
 	private boolean deadly;
 	private int killcounter;
+	
+	private Hitbox hitbox;
 
 	/**
 	 * Constructs a new {@link GameObject}.
 	 * 
-	 * @param resKey
-	 *            the resource key for the internal {@link Viewable}
-	 * @param x
-	 *            the x coord
-	 * @param y
-	 *            the y coord
-	 * @param w
-	 *            the width
-	 * @param h
-	 *            the height
 	 */
-	public GameObject(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
+	public GameObject(Hitbox hitbox) {
+		super();
+		this.hitbox = hitbox;
 	}
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.model.abs.Collidable#getHitbox()
+	 */
+	@Override
+	public Hitbox getHitbox() {
+		return hitbox;
+	}
+	
 
 	/*
 	 * (non-Javadoc)

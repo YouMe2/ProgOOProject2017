@@ -1,94 +1,107 @@
 package de.uni_kiel.progOOproject17.model.abs;
 
-import de.uni_kiel.progOOproject17.model.CreationHelper;
-import de.uni_kiel.progOOproject17.view.abs.Viewable;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-/**
- * This class represents a advanced {@link GameComponent} that specifically acts
- * as a {@link Viewable} and a {@link Destroyable}.
- * Therefore it need to be activated!
- */
-public abstract class GameElement extends GameComponent implements Viewable, Destroyable {
+import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.ImageViewable;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
+public abstract class GameElement implements Viewable, Destroyable, Ticked {
 
 	private boolean alive = false;
-
-	private String resKey;
-	private int layer;
+	private ImageViewable view;
 
 	/**
-	 * stores the {@link Environment} after this {@link GameElement} was {@link #activate(Environment, CreationHelper)}d
+	 * stores the {@link Environment} after this {@link GameElement} was
+	 * {@link #activate(Environment, CreationHelper)}d
 	 */
 	protected Environment environment;
 	/**
-	 * stores the {@link CreationHelper} after this {@link GameElement} was {@link #activate(Environment, CreationHelper)}d
+	 * stores the {@link CreationHelper} after this {@link GameElement} was
+	 * {@link #activate(Environment, CreationHelper)}d
 	 */
 	protected CreationHelper creationHelper;
+
+	public GameElement() {
+		this(null, 0, 0, 0, 0, -1);
+	}
 
 	/**
 	 * Constructs a new {@link GameElement} which still needs to be activated.
 	 * 
-	 * @param resKey the resource key for the internal {@link Viewable}
-	 * @param x the x coord
-	 * @param y the y coord
-	 * @param w the width
-	 * @param h the height
+	 * @param resKey
+	 *            the resource key for the internal {@link Viewable}
+	 * @param x
+	 *            the x coord
+	 * @param y
+	 *            the y coord
+	 * @param w
+	 *            the width
+	 * @param h
+	 *            the height
 	 */
-	public GameElement(String resKey, int x, int y, int w, int h) {
-		super(x, y, w, h);
-		setResKey(resKey);
-		setLayer(0);
+	public GameElement(String resKey, int x, int y, int w, int h, int layer) {
+		setView(resKey, x, y, w, h, layer);
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * @param view
+	 *            the view to set
+	 */
+	public void setView(String resKey, int x, int y, int w, int h, int layer) {
+		view = new ImageViewable(resKey, x, y, w, h, layer);
+	}
+
+	/**
+	 * 
+	 */
+	public void setView(ImageViewable view) {
+		this.view = view;
+	}
+
+	public ImageViewable getView() {
+		return view;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getResourceKey()
 	 */
 	@Override
 	public String getResourceKey() {
-		return resKey;
+		return view.getResourceKey();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getViewRect()
 	 */
 	@Override
 	public Rectangle getViewRect() {
-		Point p = environment.getScreenRect().getLocation();
 
-		Rectangle rect = getBoundingRect();
-		rect.translate(-p.x, -p.y);
-		return rect;
+		return view.getViewRect();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getLayer()
 	 */
 	@Override
 	public int getLayer() {
-		return layer;
+		return view.getLayer();
 	}
 
-	/**
-	 * Sets the resource key.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param resKey
-	 */
-	public void setResKey(String resKey) {
-		this.resKey = resKey;
-	}
-
-	/**
-	 * Sets the layer.
-	 * 
-	 * @param layer
-	 */
-	public void setLayer(int layer) {
-		this.layer = layer;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.uni_kiel.progOOproject17.model.abs.Destroyable#activate(de.uni_kiel.progOOproject17.model.abs.Environment, de.uni_kiel.progOOproject17.model.CreationHelper)
+	 * @see
+	 * de.uni_kiel.progOOproject17.model.abs.Destroyable#activate(de.uni_kiel.
+	 * progOOproject17.model.abs.Environment,
+	 * de.uni_kiel.progOOproject17.model.CreationHelper)
 	 */
 	@Override
 	public void activate(Environment environment, CreationHelper creationHelper) {
@@ -97,7 +110,9 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 		this.creationHelper = creationHelper;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.abs.Destroyable#destroy()
 	 */
 	@Override
@@ -108,7 +123,9 @@ public abstract class GameElement extends GameComponent implements Viewable, Des
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.abs.Destroyable#isAlive()
 	 */
 	@Override

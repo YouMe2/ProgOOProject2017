@@ -20,8 +20,7 @@ public class Background extends GameElement {
 	 * @param h the height
 	 */
 	public Background(String resKey, int x, int y, int w, int h) {
-		super(resKey, x, y, w, h);
-		setLayer(BG_LAYER);
+		super(resKey, x, y, w, h, BG_LAYER);
 	}
 
 	@Override
