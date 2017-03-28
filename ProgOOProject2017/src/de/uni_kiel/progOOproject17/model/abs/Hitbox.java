@@ -6,6 +6,8 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
+import javax.annotation.Generated;
+
 /**
  * @author Yannik Eikmeier
  * @since 14.03.2017
@@ -29,12 +31,10 @@ public abstract class Hitbox {
 	public int getX() {
 		return x;
 	}
-	
+
 	protected void setX(int x) {
 		this.x = x;
 	}
-	
-	
 
 	/**
 	 * @return the y
@@ -42,9 +42,10 @@ public abstract class Hitbox {
 	public int getY() {
 		return y;
 	}
-	
+
 	/**
-	 * @param y the y to set
+	 * @param y
+	 *            the y to set
 	 */
 	protected void setY(int y) {
 		this.y = y;
@@ -102,6 +103,22 @@ public abstract class Hitbox {
 		setLocation(getX() + d.x, getY() + d.y);
 	}
 
+	/**
+	 * Determins whether this {@link Hitbox} could intersect with the other
+	 * {@link Hitbox}. If this returns false, the two have no chance to
+	 * intersect. If true, the two could, but dont have to be intersecting!
+	 * 
+	 * @param other
+	 * @return
+	 */
+	public boolean intersectsFAST(Hitbox other) {
+		return (other.minX() >= this.minX() && other.minX() <= this.maxX()
+				|| other.maxX() >= this.minX() && other.maxX() <= this.maxX())
+				&& (other.minY() >= this.minY() && other.minY() <= this.maxY()
+						|| other.maxY() >= this.minY() && other.maxY() <= this.maxY());
+
+	}
+
 	// ABSTRACT -----------------------------------------------------
 
 	/**
@@ -147,44 +164,17 @@ public abstract class Hitbox {
 	public abstract boolean contacts(Hitbox hitbox);
 
 	// STATIC --------------------------------------------------
-	/*
-	 * public static enum Types { RECT, CIRCLE, LINE, POINT, NONE }
-	 *
-	 * public static Hitbox newHitbox(Types type, int... arg) { try { switch
-	 * (type) { case RECT: return new RectHitbox(arg[0], arg[1], arg[2],
-	 * arg[3]);
-	 *
-	 * case CIRCLE: return new CircleHitbox(arg[0], arg[1], arg[2]);
-	 *
-	 * case LINE: return new LineHitbox(arg[0], arg[1], arg[2], arg[3]);
-	 *
-	 * case POINT: return new PointHitbox(arg[0], arg[1]);
-	 *
-	 * case NONE: return new NoHitbox(arg[0], arg[1]); default: break; } } catch
-	 * (Exception e) { }
-	 *
-	 * throw new IllegalArgumentException("Too few arguments!");
-	 *
-	 * }
-	 *
-	 * public static Hitbox.Types getHitboxSubType(Hitbox h) {
-	 *
-	 * if (h instanceof RectHitbox) return Types.RECT; if (h instanceof
-	 * CircleHitbox) return Types.CIRCLE; if (h instanceof LineHitbox) return
-	 * Types.LINE; if (h instanceof PointHitbox) return Types.POINT; if (h
-	 * instanceof NoHitbox) return Types.NONE;
-	 *
-	 * return Types.NONE; }
-	 */
 
 	public static class RectHitbox extends PolygonHitbox {
 
-		private int w, h;
+		private final Point ur, dr, dl;
 
 		public RectHitbox(int x, int y, int w, int h) {
 			super(new Point[] { new Point(x, y), new Point(x + w, y), new Point(x + w, y + h), new Point(x, y + h) });
-			this.w = w;
-			this.h = h;
+
+			ur = getPoints()[1];
+			dr = getPoints()[2];
+			dl = getPoints()[3];
 
 		}
 
@@ -195,7 +185,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public RectHitbox clone() {
-			return new RectHitbox(this.getX(), this.getY(), w, h);
+			return new RectHitbox(this.getX(), this.getY(), getSize().width, getSize().height);
 		}
 
 		/*
@@ -230,16 +220,18 @@ public abstract class Hitbox {
 		}
 
 		protected Rectangle getRectangle() {
-			return new Rectangle(this.getX(), this.getY(), w, h);
+			return new Rectangle(this.getX(), this.getY(), getSize().width, getSize().height);
 		}
 
 		public void setSize(int w, int h) {
-			this.w = w;
-			this.h = h;
+			ur.setLocation(getX()+w, getY());
+			dr.setLocation(getX()+w, getY()+h);
+			dl.setLocation(getX(), getY()+h);
+			super.updateMinMax();
 		}
 
 		public Dimension getSize() {
-			return new Dimension(w, h);
+			return new Dimension(ur.x-getX(), dl.y-getY());
 		}
 
 	}
@@ -277,7 +269,7 @@ public abstract class Hitbox {
 			if (other instanceof CircleHitbox) {
 				CircleHitbox hb = ((CircleHitbox) other);
 				Point oCenter = hb.getCenter();
-				return this.getDistanceToCenter(oCenter.x, oCenter.y).getSqLength() < r * r;
+				return this.getDistanceToCenter(oCenter.x, oCenter.y).getLength() < this.getRadius() + hb.getRadius();
 
 			}
 
@@ -309,9 +301,9 @@ public abstract class Hitbox {
 		public void setRadius(int r) {
 			this.r = r;
 		}
-		
+
 		public Point getCenter() {
-			return new Point(getX()+r, getY()+r);
+			return new Point(getX() + r, getY() + r);
 		}
 
 		/**
@@ -333,43 +325,54 @@ public abstract class Hitbox {
 			return new CircleHitbox(getX() - 1, getY() - 2, getRadius() + 2).intersects(hitbox);
 		}
 
-		/* (non-Javadoc)
-		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#setLocation(int, int)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#setLocation(int,
+		 * int)
 		 */
 		@Override
 		public void setLocation(int x, int y) {
 			setX(x);
 			setY(y);
-			
+
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#maxX()
 		 */
 		@Override
 		public int maxX() {
-			return getX() + 2*r;
+			return getX() + 2 * r;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#minX()
 		 */
 		@Override
 		public int minX() {
-			
+
 			return getX();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#maxY()
 		 */
 		@Override
 		public int maxY() {
-			
-			return getY() + 2*r;
+
+			return getY() + 2 * r;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#minY()
 		 */
 		@Override
@@ -381,10 +384,11 @@ public abstract class Hitbox {
 
 	public static class LineHitbox extends PolygonHitbox {
 
-		protected int x2, y2;
+		private final Point to;
 
 		public LineHitbox(int x1, int y1, int x2, int y2) {
 			super(new Point[] { new Point(x1, y1), new Point(x2, y2) });
+			to = getPoints()[1];
 		}
 
 		/*
@@ -394,7 +398,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public LineHitbox clone() {
-			return new LineHitbox(this.getX(), this.getY(), x2, y2);
+			return new LineHitbox(this.getX(), this.getY(), getToPoint().x, getToPoint().y);
 		}
 
 		/*
@@ -409,9 +413,8 @@ public abstract class Hitbox {
 
 			if (other instanceof LineHitbox) {
 				LineHitbox hb = ((LineHitbox) other);
-
-				return Line2D.linesIntersect(this.getX(), this.getY(), this.x2, this.x2, hb.getX(), hb.getY(), hb.x2,
-						hb.y2);
+				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(), hb.getY(), hb.getToPoint().x,
+						hb.getToPoint().y);
 
 			}
 
@@ -419,12 +422,12 @@ public abstract class Hitbox {
 		}
 
 		public void setToPoint(int x2, int y2) {
-			this.x2 = x2;
-			this.y2 = y2;
+			to.setLocation(x2, y2);
+			super.updateMinMax();
 		}
 
 		public Point getToPoint() {
-			return new Point(x2, y2);
+			return new Point(to);
 		}
 
 	}
@@ -510,14 +513,19 @@ public abstract class Hitbox {
 			return false;
 		}
 
-		/* (non-Javadoc)
-		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#setLocation(int, int)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#setLocation(int,
+		 * int)
 		 */
 		@Override
 		public void setLocation(int x, int y) {
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#maxX()
 		 */
 		@Override
@@ -525,7 +533,9 @@ public abstract class Hitbox {
 			return getX();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#minX()
 		 */
 		@Override
@@ -533,7 +543,9 @@ public abstract class Hitbox {
 			return getX();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#maxY()
 		 */
 		@Override
@@ -541,7 +553,9 @@ public abstract class Hitbox {
 			return getY();
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#minY()
 		 */
 		@Override
@@ -562,21 +576,7 @@ public abstract class Hitbox {
 			assert points.length >= 1;
 			this.points = points;
 
-			minX = maxX = getX();
-			minY = maxY = getY();
-			for (Point p : points) {
-
-				if (p.x < minX)
-					minX = p.x;
-				if (p.y < minY)
-					minY = p.y;
-
-				if (p.x > maxX)
-					maxX = p.x;
-				if (p.y > maxY)
-					maxY = p.y;
-
-			}
+			updateMinMax();
 
 		}
 
@@ -605,6 +605,10 @@ public abstract class Hitbox {
 			this.setX(x);
 			this.setY(y);
 
+			minX = maxX = getX();
+			minY = maxY = getY();
+			updateMinMax();
+
 		}
 
 		/*
@@ -621,6 +625,10 @@ public abstract class Hitbox {
 				PolygonHitbox oPoly = (PolygonHitbox) other;
 				Point[] oPoints = oPoly.getPoints();
 
+				if (oPoints.length < 2) {
+					assert oPoints.length == 1;
+					return isInside(oPoints[0]);
+				}
 
 				for (int j = 0; j < oPoints.length; j++) {
 					if (isInside(oPoints[j])) {
@@ -738,6 +746,28 @@ public abstract class Hitbox {
 		 */
 		public Point[] getPoints() {
 			return points;
+		}
+
+		/**
+		 * 
+		 */
+		private void updateMinMax() {
+			minX = maxX = getX();
+			minY = maxY = getY();
+			for (Point p : points) {
+
+				if (p.x < minX)
+					minX = p.x;
+				if (p.y < minY)
+					minY = p.y;
+
+				if (p.x > maxX)
+					maxX = p.x;
+				if (p.y > maxY)
+					maxY = p.y;
+
+			}
+
 		}
 	}
 
