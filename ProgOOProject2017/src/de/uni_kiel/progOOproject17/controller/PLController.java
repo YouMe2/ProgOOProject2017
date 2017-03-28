@@ -42,7 +42,7 @@ public class PLController extends TickedController {
 	 * @see #stop()
 	 * @see #start(long)
 	 */
-	private long gametimeSafer = 0;
+	private long gametimeSafe = 0;
 
 	/**
 	 * Constructs a new {@link PLController} and sets the standard view and
@@ -59,13 +59,20 @@ public class PLController extends TickedController {
 		super(view, view, model, Integer.valueOf(GameProperties.getInstance().getProperty("tickLength")));
 
 		// standard Game Actions:
-		standardIn.addAction("pressed S", model.getAction(InputActionKey.P_UP));
-		standardIn.addAction("released S", model.getAction(InputActionKey.R_UP));
-		standardIn.addAction("pressed D", model.getAction(InputActionKey.P_DOWN));
-		standardIn.addAction("released D", model.getAction(InputActionKey.R_DOWN));
-		standardIn.addAction("pressed SPACE", model.getAction(InputActionKey.P_SELECT));
-		standardIn.addAction("released SPACE", model.getAction(InputActionKey.R_SELECT));
+		standardIn.addAction("pressed W", model.getAction(InputActionKey.UP_P));
+		standardIn.addAction("released W", model.getAction(InputActionKey.UP_R));
+		standardIn.addAction("pressed S", model.getAction(InputActionKey.DOWN_P));
+		standardIn.addAction("released S", model.getAction(InputActionKey.DOWN_R));
+		
+		standardIn.addAction("pressed D", model.getAction(InputActionKey.RIGHT_P));
+		standardIn.addAction("released D", model.getAction(InputActionKey.RIGHT_R));
+		standardIn.addAction("pressed A", model.getAction(InputActionKey.LEFT_P));
+		standardIn.addAction("released A", model.getAction(InputActionKey.LEFT_R));
+		
+		standardIn.addAction("pressed SPACE", model.getAction(InputActionKey.SELECT_P));
+		standardIn.addAction("released SPACE", model.getAction(InputActionKey.SELECT_R));
 
+		
 		
 		// LH Action
 		standardIn.addAction("pressed F", new AbstractAction() {
@@ -96,7 +103,7 @@ public class PLController extends TickedController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gametimeSafer = stop();
+				gametimeSafe = stop();
 			}
 		});
 
@@ -109,10 +116,39 @@ public class PLController extends TickedController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				start(gametimeSafer);
+				start(gametimeSafe);
 			}
 		});
 
+		standardIn.addAction("pressed R", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.toggelResDebuggRender();
+				System.out.println("ResDebuggRender toggel");
+				
+			}
+		});
+		
+		standardIn.addAction("pressed H", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.toggelHitboxDebugRender();
+				System.out.println("HitboxDebugRender toggel");
+				
+			}
+		});
+		
+		standardIn.addAction("pressed 1", new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.showDebugScreen();
+				System.out.println("Showing DegubScreen");
+			}
+		});
+		
 		standardIn.addAction("pressed T", new AbstractAction() {
 
 			/**

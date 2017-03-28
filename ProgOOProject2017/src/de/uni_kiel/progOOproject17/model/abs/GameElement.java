@@ -4,13 +4,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import de.uni_kiel.progOOproject17.model.CreationHelper;
-import de.uni_kiel.progOOproject17.model.ImageViewable;
+import de.uni_kiel.progOOproject17.model.SimpleViewable;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 public abstract class GameElement implements Viewable, Destroyable, Ticked {
 
 	private boolean alive = false;
-	private ImageViewable view;
+	private SimpleViewable view;
 
 	/**
 	 * stores the {@link Environment} after this {@link GameElement} was
@@ -50,17 +50,17 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	 *            the view to set
 	 */
 	public void setView(String resKey, int x, int y, int w, int h, int layer) {
-		view = new ImageViewable(resKey, x, y, w, h, layer);
+		view = new SimpleViewable(resKey, x, y, w, h, layer);
 	}
 
 	/**
 	 * 
 	 */
-	public void setView(ImageViewable view) {
+	public void setView(SimpleViewable view) {
 		this.view = view;
 	}
 
-	public ImageViewable getView() {
+	public SimpleViewable getView() {
 		return view;
 	}
 

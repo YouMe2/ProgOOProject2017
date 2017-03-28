@@ -21,7 +21,7 @@ public class StartMenu extends MenuScreen {
 		super(w, h, new String[] { "play", "exit" }, new Action[] { newGameAction, exitAction });
 		setBackground("black");
 
-		addViewable(new ImageViewable(GameProperties.getInstance().getProperty("titleResKey"),
+		addViewable(new SimpleViewable(GameProperties.getInstance().getProperty("titleResKey"),
 				PLBaseModel.lhToGam(8, 0, 12, 3), Viewable.FLOOR_LAYER));
 
 	}

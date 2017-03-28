@@ -16,10 +16,20 @@ public enum MoveCommand {
 	/**
 	 * start to crouch
 	 */
-	START_CROUCH,
+	CROUCH_START,
 	/**
 	 * stop to crouch
 	 */
-	END_CROUCH
+	CROUCH_END,
+	
+	UP,
+	UP_END,
+	DOWN,
+	DOWN_END,
+	LEFT,
+	LEFT_END,
+	RIGHT,
+	RIGHT_END,
+	
 
 }

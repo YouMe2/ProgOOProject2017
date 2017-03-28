@@ -119,14 +119,13 @@ public class Player extends GameEntity {
 
 		case NONE:
 			break;
-		case START_CROUCH:
+		case CROUCH_START:
 			switch (currMoveState) {
 			case NORMAL:
 				currMoveState = CROUCHING;
 				if (environment.isOnGround(this)){
 					Distance headDown = new Distance(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
-					getView().translate(headDown);
-					getHitbox().translate(headDown);
+					move(headDown);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_CROUCH);
 				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
@@ -142,22 +141,20 @@ public class Player extends GameEntity {
 				break;
 			}
 			break;
-		case END_CROUCH:
+		case CROUCH_END:
 			Distance crouchingDifference = new Distance(0, PLAYER_H_NORMAL - PLAYER_H_CROUCH);
 			switch (currMoveState) {
 			case CROUCHING:
 				currMoveState = NORMAL;
 				if (environment.isOnGround(this)){
 					Distance headUp = new Distance(0, PLAYER_H_CROUCH - PLAYER_H_NORMAL);
-					getView().translate(headUp);
-					getHitbox().translate(headUp);
+					move(headUp);
 				}
 				else if (environment.willCollide(this, crouchingDifference)) {
 					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
 					crouchingDifference.scale(-1.0);
 					maxDistance.add(crouchingDifference);
-					getView().translate(maxDistance);
-					getHitbox().translate(maxDistance);
+					move(maxDistance);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
 				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
@@ -168,8 +165,7 @@ public class Player extends GameEntity {
 					Distance maxDistance = environment.getCollisionDistance(this, crouchingDifference);
 					crouchingDifference.scale(-1.0);
 					maxDistance.add(crouchingDifference);
-					getView().translate(maxDistance);
-					getHitbox().translate(maxDistance);
+					move(maxDistance);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
 				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);

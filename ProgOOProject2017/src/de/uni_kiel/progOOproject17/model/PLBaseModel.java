@@ -2,6 +2,8 @@ package de.uni_kiel.progOOproject17.model;
 
 import de.uni_kiel.progOOproject17.controller.PLController;
 import de.uni_kiel.progOOproject17.model.abs.Screen;
+import de.uni_kiel.progOOproject17.model.abs.ScreenedBaseModel;
+import de.uni_kiel.progOOproject17.model.abs.DebugScreen;
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
@@ -85,7 +87,7 @@ public class PLBaseModel extends ScreenedBaseModel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setActiveScreen(new PauseMenu(GAME_WIDTH, GAME_HEIGHT, resumeGame, exitGame));
+			setActiveScreen(new PauseMenu(GAME_WIDTH, GAME_HEIGHT, resumeAction, exitGame));
 			setShowPausedScreen(true);
 		}
 	};
@@ -93,7 +95,7 @@ public class PLBaseModel extends ScreenedBaseModel {
 	/**
 	 * The {@link Action} which resumes a previously paused Game
 	 */
-	public AbstractAction resumeGame = new AbstractAction() {
+	public AbstractAction resumeAction = new AbstractAction() {
 
 		/**
 		 * 
@@ -152,6 +154,11 @@ public class PLBaseModel extends ScreenedBaseModel {
 	public PLBaseModel() {
 		setActiveScreen(new StartMenu(GAME_WIDTH, GAME_HEIGHT, newGame, exitGame));
 	}
+	
+	public void showDebugScreen(){
+		setActiveScreen( new DebugScreen(GAME_WIDTH, GAME_HEIGHT, resumeAction));
+	}
+	
 
 	/**
 	 * Converts the given Coords from Lighthouse scaling to ingame scaling

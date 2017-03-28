@@ -90,6 +90,8 @@ public class LevelGenerator implements Ticked {
 	 */
 	private Stage[] stages;
 
+	private final Rectangle screenRectangle;
+	
 	/**
 	 * Creates a new inactive level generator based on the given environment,
 	 * creation helper and stage spawn listener.
@@ -102,10 +104,11 @@ public class LevelGenerator implements Ticked {
 	 *            the stage spawn listener that is being notified every time a
 	 *            new stage is being generated
 	 */
-	public LevelGenerator(Environment environment, CreationHelper createHelper, Runnable stageSpawnListener) {
+	public LevelGenerator(Environment environment, CreationHelper createHelper, Runnable stageSpawnListener, Rectangle screenRect) {
 		this.createHelper = createHelper;
 		this.environment = environment;
 		this.stageSpawnListener = stageSpawnListener;
+		this.screenRectangle = screenRect;
 		generatedTerrain = generatedBackground = 0;
 		currentStage = 0;
 		stages = Stage.values();
@@ -127,7 +130,7 @@ public class LevelGenerator implements Ticked {
 	@Override
 	public void tick(long timestamp) {
 		if (running) {
-			Rectangle screenRectangle = environment.getScreenRect();
+			
 			int rightScreenBorder = screenRectangle.x + screenRectangle.width;
 			if (generatedTerrain <= rightScreenBorder) {
 				lastGeneratedTerrain = generatedTerrain;

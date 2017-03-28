@@ -1,6 +1,8 @@
-package de.uni_kiel.progOOproject17.model;
+/**
+ * 
+ */
+package de.uni_kiel.progOOproject17.model.abs;
 
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,39 +12,22 @@ import java.util.function.Consumer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import de.uni_kiel.progOOproject17.model.abs.Collidable;
-import de.uni_kiel.progOOproject17.model.abs.Destroyable;
-import de.uni_kiel.progOOproject17.model.abs.Distance;
-import de.uni_kiel.progOOproject17.model.abs.Environment;
-import de.uni_kiel.progOOproject17.model.abs.GameElement;
-import de.uni_kiel.progOOproject17.model.abs.GameObject;
-import de.uni_kiel.progOOproject17.model.abs.Hitbox;
-import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
-import de.uni_kiel.progOOproject17.model.abs.Screen;
-import de.uni_kiel.progOOproject17.model.levelgen.LevelGenerator;
-import de.uni_kiel.progOOproject17.resources.GameProperties;
-import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.model.Block;
+import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.InputActionKey;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
- * This class represents a {@link Screen} that serves as the environment for the
- * game. It holds all the {@link GameElement}s, the {@link Scoreboard} and the
- * {@link LevelGenerator}, as well as the relevant actions for the player.
+ * @author Yannik Eikmeier
+ * @since 28.03.2017
+ *
  */
-public class GameScreen extends Screen implements Stats {
+public class DebugScreen extends Screen {
 
 	private final LinkedList<GameElement> gameElements;
 	private final LinkedList<GameElement> createdElements;
 	private final LinkedList<Destroyable> destroyedElements;
 
-	private final Player player;
-	private int screenVelocity = Integer.valueOf(GameProperties.getInstance().getProperty("startVelocity"));
-
-	private Scoreboard scoreboard;
-	private LevelGenerator levelGenerator;
-	private final Action endAction;
-
-	private final Rectangle inGameScreenBoarder;
 	
 	private Environment environment = new Environment() {
 
@@ -241,10 +226,9 @@ public class GameScreen extends Screen implements Stats {
 			}
 		}
 
-
 	};
 
-	private CreationHelper creatHelp = new CreationHelper() {
+	private CreationHelper creationHelper = new CreationHelper() {
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -254,204 +238,148 @@ public class GameScreen extends Screen implements Stats {
 		@Override
 		public void create(GameElement g) {
 
-			// System.out.println("Created: " + g.getResourceKey());
+			 System.out.println("Created: " + g.getResourceKey());
 
 			createdElements.add(g);
-			g.getView().setRelativeAnchor(inGameScreenBoarder);
 			g.activate(environment, this);
 		}
 
 		@Override
 		public void onDestruction(Destroyable d) {
-			// System.out.println("Destroyed: " + ((GameElement)
-			// d).getResourceKey());
+			System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
 
 			destroyedElements.add(d);
 		}
 
 	};
 
-	private long deathtime = -1;
-
 	/**
-	 * Constructs a new {@link GameScreen} which essentially constructs a fully
-	 * new game. Creates a {@link Player}. Starts the {@link LevelGenerator} and
-	 * initializes the player actions.
-	 * 
 	 * @param w
-	 *            the width
 	 * @param h
-	 *            the height
-	 * @param pauseAction
-	 *            the action for when the game is paused
-	 * @param endAction
-	 *            the action for when the game ended (Player died)
 	 */
-	public GameScreen(int w, int h, Action pauseAction, Action endAction) {
+	public DebugScreen(int w, int h, Action resumeAction) {
 		super(w, h);
-		this.inGameScreenBoarder = new Rectangle(0, 0, w, h);
-		this.endAction = endAction;
 		gameElements = new LinkedList<>();
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		player = new Player(GameProperties.getInstance().getProperty("playerResKey"),
-				PLBaseModel.lhToGame(3, PLBaseModel.LH_HEIGHT - 3));
-		player.setPermaXVel(screenVelocity);
-		scoreboard = new Scoreboard(getPlayerStats());
+		Block testBlock = new Block(new Hitbox.RectHitbox(w / 2, h / 2, 20, 20));
+		testBlock.setView("floor", w / 2, h / 2, 20, 20, Viewable.ENTITY_LAYER);
+		testBlock.activate(environment, creationHelper);
 
-		levelGenerator = new LevelGenerator(environment, creatHelp, () -> {
-			player.addPoint();
-			player.addLife();
-
-			// speed up :D
-			screenVelocity *= Double.valueOf(GameProperties.getInstance().getProperty("stageSpeedup"));
-			player.setPermaXVel(screenVelocity);
-			ResourceManager.getInstance().getSound("speedup").play();
-		}, inGameScreenBoarder);
-
-		levelGenerator.setRunning(true);
-
+		Block block = new Block(new Hitbox.RectHitbox(40, 20, 100, 30));
+		block.setView("floor", 40, 20, 100, 30, Viewable.ENTITY_LAYER);
+		
+		creationHelper.create(block);
+		creationHelper.create(testBlock);
+		
 		putAction(InputActionKey.UP_P, new AbstractAction() {
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2653404899012756232L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				player.setCurrMoveCommand(MoveCommand.JUMP);
+				testBlock.setCurrMoveCommand(MoveCommand.UP);
 
 			}
 		});
-
 		putAction(InputActionKey.DOWN_P, new AbstractAction() {
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -5121077967094929482L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				testBlock.setCurrMoveCommand(MoveCommand.DOWN);
+
+			}
+		});
+		putAction(InputActionKey.LEFT_P, new AbstractAction() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				player.setCurrMoveCommand(MoveCommand.CROUCH_START);
+				testBlock.setCurrMoveCommand(MoveCommand.LEFT);
+
+			}
+		});
+		putAction(InputActionKey.RIGHT_P, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				testBlock.setCurrMoveCommand(MoveCommand.RIGHT);
 
 			}
 		});
 
+		putAction(InputActionKey.UP_R, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				testBlock.setCurrMoveCommand(MoveCommand.NONE);
+
+			}
+		});
 		putAction(InputActionKey.DOWN_R, new AbstractAction() {
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -8089055634210864468L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				player.setCurrMoveCommand(MoveCommand.CROUCH_END);
+				testBlock.setCurrMoveCommand(MoveCommand.NONE);
 
 			}
 		});
+		putAction(InputActionKey.LEFT_R, new AbstractAction() {
 
-		putAction(InputActionKey.SELECT_P, pauseAction);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				testBlock.setCurrMoveCommand(MoveCommand.NONE);
 
-		creatHelp.create(player);
+			}
+		});
+		putAction(InputActionKey.RIGHT_R, new AbstractAction() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				testBlock.setCurrMoveCommand(MoveCommand.NONE);
+
+			}
+		});
+		
+		putAction(InputActionKey.SELECT_P, resumeAction);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.abs.Ticked#tick(long)
 	 */
 	@Override
 	public void tick(long timestamp) {
 
-		if (!player.isAlive())
-
-			if (!player.isAlive()) {
-				if (deathtime == -1)
-					deathtime = timestamp;
-				if (deathtime + 1600 < timestamp)
-					endAction.actionPerformed(null);
-
-			}
-
-		inGameScreenBoarder.setLocation((int) (player.getHitbox().getX() - PLBaseModel.LHPIXEL_WIDTH * 2.5), 0);
-
-		levelGenerator.tick(timestamp);
-		gameElements.forEach(new Consumer<GameElement>() {
-
-			@Override
-			public void accept(GameElement e) {
-
-				e.tick(timestamp);
-				if (e.getView().getViewRect().getMaxX() < GameScreen.this.getX())
-					e.destroy();
-
-			};
-
-		});
-
-		scoreboard.tick(timestamp);
+		for (GameElement gameElement : gameElements) {
+			gameElement.tick(timestamp);
+		}
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();
 
 		gameElements.addAll(createdElements);
 		createdElements.clear();
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see de.uni_kiel.progOOproject17.model.abs.GameCompound#getViewables()
 	 */
 	@Override
 	public Viewable[] getViewables() {
+
 		ArrayList<Viewable> views = new ArrayList<>();
-		views.addAll(Arrays.asList(scoreboard.getViewables()));
+
+		for (GameElement e : gameElements) {
+			if (e instanceof Collidable)
+				views.addAll(Arrays.asList(((Collidable) e).getHitbox().getDebugViewables()));
+		}
 		views.addAll(gameElements);
 		return views.toArray(new Viewable[views.size()]);
+
 	}
 
-	/**
-	 * Returns the {@link Stats} of the player.
-	 * 
-	 * @return the {@link Stats} of the player
-	 */
-	public Stats getPlayerStats() {
-		return this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.uni_kiel.progOOproject17.model.Stats#getProgress()
-	 */
-	@Override
-	public double getProgress() {
-		return levelGenerator.getProgressOf(player.getHitbox().getX());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.uni_kiel.progOOproject17.model.Stats#getPoints()
-	 */
-	@Override
-	public int getPoints() {
-		return player.getPoints();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.uni_kiel.progOOproject17.model.Stats#getLifes()
-	 */
-	@Override
-	public int getLifes() {
-		return player.getLifes();
-	}
 }

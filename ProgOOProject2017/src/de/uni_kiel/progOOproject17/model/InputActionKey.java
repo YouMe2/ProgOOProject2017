@@ -10,26 +10,43 @@ public enum InputActionKey {
 	/**
 	 * pressed UP
 	 */
-	P_UP,
+	UP_P,
 	/**
 	 * pressed DOWN
 	 */
-	P_DOWN,
+	DOWN_P,
+	/**
+	 * pressed LEFT
+	 */
+	LEFT_P,
+	/**
+	 * pressed RIGHT
+	 */
+	RIGHT_P,
 	/**
 	 * pressed SELECT
 	 */
-	P_SELECT,
+	SELECT_P,
+	
 	/**
 	 * released UP
 	 */
-	R_UP, 
+	UP_R, 
 	/**
 	 * released DOWN
 	 */
-	R_DOWN, 
+	DOWN_R, 
 	/**
-	 * releaased SELECT
+	 * released LEFT
 	 */
-	R_SELECT
+	LEFT_R,
+	/**
+	 * released RIGHT
+	 */
+	RIGHT_R,
+	/**
+	 * released SELECT
+	 */
+	SELECT_R
 
 }

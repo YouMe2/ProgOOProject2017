@@ -103,11 +103,4 @@ public interface Environment {
 
 	
 
-	/**
-	 * * Gets the position of the game screen.
-	 *
-	 * @return the position of the game screen
-	 */
-	public Rectangle getScreenRect();
-
 }

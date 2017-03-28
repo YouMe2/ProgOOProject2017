@@ -8,12 +8,18 @@ import java.awt.geom.Line2D;
 
 import javax.annotation.Generated;
 
+import de.uni_kiel.progOOproject17.model.SimpleViewable;
+import de.uni_kiel.progOOproject17.view.abs.Viewable;
+
 /**
  * @author Yannik Eikmeier
  * @since 14.03.2017
  *
  */
 public abstract class Hitbox {
+
+	public static final String LINE_KEY = "line";
+	public static final String CIRCLE_KEY = "circle";
 
 	private int x, y;
 	private boolean movementRestricting = true;
@@ -163,6 +169,8 @@ public abstract class Hitbox {
 	 */
 	public abstract boolean contacts(Hitbox hitbox);
 
+	public abstract Viewable[] getDebugViewables();
+
 	// STATIC --------------------------------------------------
 
 	public static class RectHitbox extends PolygonHitbox {
@@ -224,14 +232,14 @@ public abstract class Hitbox {
 		}
 
 		public void setSize(int w, int h) {
-			ur.setLocation(getX()+w, getY());
-			dr.setLocation(getX()+w, getY()+h);
-			dl.setLocation(getX(), getY()+h);
+			ur.setLocation(getX() + w, getY());
+			dr.setLocation(getX() + w, getY() + h);
+			dl.setLocation(getX(), getY() + h);
 			super.updateMinMax();
 		}
 
 		public Dimension getSize() {
-			return new Dimension(ur.x-getX(), dl.y-getY());
+			return new Dimension(ur.x - getX(), dl.y - getY());
 		}
 
 	}
@@ -380,6 +388,18 @@ public abstract class Hitbox {
 			return getY();
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#getDebugViewables()
+		 */
+		@Override
+		public Viewable[] getDebugViewables() {
+
+			return new Viewable[] { new SimpleViewable(Viewable.DEBUGKEY_PREFIX + CIRCLE_KEY, getX(), getY(),
+					getRadius() * 2, getRadius() * 2, Viewable.DEBUG_LAYER) };
+		}
+
 	}
 
 	public static class LineHitbox extends PolygonHitbox {
@@ -413,8 +433,8 @@ public abstract class Hitbox {
 
 			if (other instanceof LineHitbox) {
 				LineHitbox hb = ((LineHitbox) other);
-				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(), hb.getY(), hb.getToPoint().x,
-						hb.getToPoint().y);
+				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(),
+						hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
 
 			}
 
@@ -563,6 +583,16 @@ public abstract class Hitbox {
 			return getY();
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#getDebugViewables()
+		 */
+		@Override
+		public Viewable[] getDebugViewables() {
+			return new Viewable[0];
+		}
+
 	}
 
 	public static class PolygonHitbox extends Hitbox {
@@ -578,6 +608,10 @@ public abstract class Hitbox {
 
 			updateMinMax();
 
+			for (Point p : points) {
+				System.out.print(p +" ");
+			}
+			
 		}
 
 		/*
@@ -599,14 +633,12 @@ public abstract class Hitbox {
 		@Override
 		public void setLocation(int x, int y) {
 			Distance movedDistance = new Distance(x - getX(), y - getY());
-			for (Point p : points) {
-				p.move(movedDistance.x, movedDistance.y);
+			for (int i = 0; i< points.length; i++) {
+				points[i].move(movedDistance.x, movedDistance.y);
 			}
 			this.setX(x);
 			this.setY(y);
 
-			minX = maxX = getX();
-			minY = maxY = getY();
 			updateMinMax();
 
 		}
@@ -767,6 +799,30 @@ public abstract class Hitbox {
 					maxY = p.y;
 
 			}
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#getDebugViewable()
+		 */
+		@Override
+		public Viewable[] getDebugViewables() {
+
+			Viewable[] views = new Viewable[points.length];
+
+			for (int i = 0; i < views.length; i++) {
+				Point edgeP1 = points[i];
+				Point edgeP2 = points[i + 1 == points.length ? 0 : i + 1];
+
+				views[i] = new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY, edgeP1.x, edgeP1.y,
+						edgeP2.x - edgeP1.x, edgeP2.y - edgeP1.y, Viewable.DEBUG_LAYER);
+				
+//				System.out.println(edgeP1 + " " +edgeP2);
+			}
+
+			return views;
 
 		}
 	}

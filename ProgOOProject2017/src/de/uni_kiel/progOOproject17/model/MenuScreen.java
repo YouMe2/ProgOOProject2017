@@ -18,11 +18,11 @@ import de.uni_kiel.progOOproject17.view.abs.Viewable;
  */
 public abstract class MenuScreen extends Screen {
 
-	private ImageViewable background;
+	private SimpleViewable background;
 
-	private final ImageViewable selectionCursor;
+	private final SimpleViewable selectionCursor;
 
-	private final ImageViewable[] entries;
+	private final SimpleViewable[] entries;
 
 	private final ArrayList<Viewable> externalViews = new ArrayList<>();
 
@@ -50,19 +50,19 @@ public abstract class MenuScreen extends Screen {
 	public MenuScreen(int w, int h, String[] resKeys, Action[] actions) {
 		super(w, h);
 
-		entries = new ImageViewable[resKeys.length];
+		entries = new SimpleViewable[resKeys.length];
 
 		for (int i = 0; i < actions.length; i++) {
-			entries[i] = new ImageViewable(resKeys[i], (getWidth() - ENTRY_WIDTH) / 2,
+			entries[i] = new SimpleViewable(resKeys[i], (getWidth() - ENTRY_WIDTH) / 2,
 					4 * PLBaseModel.LHPIXEL_HEIGHT + i * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT), ENTRY_WIDTH,
 					ENTRY_HEIGHT, Viewable.MENU_LAYER);
 		}
 
-		selectionCursor = new ImageViewable("selection", (getWidth() - ENTRY_WIDTH) / 2,
+		selectionCursor = new SimpleViewable("selection", (getWidth() - ENTRY_WIDTH) / 2,
 				4 * PLBaseModel.LHPIXEL_HEIGHT + selction * (ENTRY_HEIGHT + PLBaseModel.LHPIXEL_HEIGHT), CURSOR_WIDTH,
 				CURSOR_HEIGHT, Viewable.MENU2_LAYER);
 
-		putAction(InputActionKey.P_UP, new AbstractAction() {
+		putAction(InputActionKey.UP_P, new AbstractAction() {
 
 			/**
 			 * 
@@ -75,7 +75,7 @@ public abstract class MenuScreen extends Screen {
 
 			}
 		});
-		putAction(InputActionKey.P_DOWN, new AbstractAction() {
+		putAction(InputActionKey.DOWN_P, new AbstractAction() {
 
 			/**
 			 * 
@@ -89,7 +89,7 @@ public abstract class MenuScreen extends Screen {
 
 			}
 		});
-		putAction(InputActionKey.P_SELECT, new AbstractAction() {
+		putAction(InputActionKey.SELECT_P, new AbstractAction() {
 
 			/**
 			 * 
@@ -143,7 +143,7 @@ public abstract class MenuScreen extends Screen {
 	 * @param resKey the resource key of the bg
 	 */
 	public void setBackground(String resKey) {
-		background = new ImageViewable(resKey, 0, 0, getWidth(), getHeight(), Viewable.BG_LAYER);
+		background = new SimpleViewable(resKey, 0, 0, getWidth(), getHeight(), Viewable.BG_LAYER);
 	}
 
 	/**

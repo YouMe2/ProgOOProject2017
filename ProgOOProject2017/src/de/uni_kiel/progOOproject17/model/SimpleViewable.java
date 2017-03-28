@@ -10,7 +10,7 @@ import java.awt.Rectangle;
  * This class serves as a simple implementation on the {@link Viewable} interface.
  *
  */
-public class ImageViewable implements Viewable {
+public class SimpleViewable implements Viewable {
 
 	private String resKey;
 	private int layer;
@@ -18,7 +18,7 @@ public class ImageViewable implements Viewable {
 	private Rectangle relativeAnchor  = new Rectangle(0, 0, 0, 0);
 
 	/**
-	 * Constructs a new {@link ImageViewable}.
+	 * Constructs a new {@link SimpleViewable}.
 	 * 
 	 * @param resKey the resource key
 	 * @param x the x coord
@@ -27,18 +27,18 @@ public class ImageViewable implements Viewable {
 	 * @param h the height
 	 * @param layer the layer
 	 */
-	public ImageViewable(String resKey, int x, int y, int w, int h, int layer) {
+	public SimpleViewable(String resKey, int x, int y, int w, int h, int layer) {
 		this(resKey, new Rectangle(x, y, w, h), layer);
 	}
 
 	/**
-	 * Constructs a new {@link ImageViewable}.
+	 * Constructs a new {@link SimpleViewable}.
 	 * 
 	 * @param resKey the resource key
 	 * @param rect the {@link Rectangle} 
 	 * @param layer the layer
 	 */
-	public ImageViewable(String resKey, Rectangle rect, int layer) {
+	public SimpleViewable(String resKey, Rectangle rect, int layer) {
 		this.resKey = resKey;
 		this.rect = rect;
 		this.layer = layer;

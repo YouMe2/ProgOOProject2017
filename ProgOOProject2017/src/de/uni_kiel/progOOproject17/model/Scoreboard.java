@@ -25,18 +25,18 @@ public class Scoreboard extends GameCompound {
 	/**
 	 * The {@link Viewable} that make up the display for the progress
 	 */
-	private ImageViewable progressDisplay;
+	private SimpleViewable progressDisplay;
 
 	/**
 	 * The {@link Viewable}s that make up the display for the points
 	 */
-	private ImageViewable[] pointsDisplay;
+	private SimpleViewable[] pointsDisplay;
 	private String pointsKey = "point";
 
 	/**
 	 * The {@link Viewable}s that make up the display for the lifes
 	 */
-	private ImageViewable[] lifesDisplay;
+	private SimpleViewable[] lifesDisplay;
 	private String lifesKey = "life";
 
 	/**
@@ -48,18 +48,18 @@ public class Scoreboard extends GameCompound {
 		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
 		this.stats = stats;
 
-		pointsDisplay = new ImageViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
-		lifesDisplay = new ImageViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
+		pointsDisplay = new SimpleViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
+		lifesDisplay = new SimpleViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
 
-		progressDisplay = new ImageViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
+		progressDisplay = new SimpleViewable("stepbar", 0, Math.round(LHPIXEL_HEIGHT * 0.1f), 0,
 				Math.round(LHPIXEL_HEIGHT * 0.8f), Viewable.SB_LAYER);
 
 		for (int i = 0; i < pointsDisplay.length; i++)
-			pointsDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT * 2,
+			pointsDisplay[i] = new SimpleViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT * 2,
 					LHPIXEL_WIDTH * 2, LHPIXEL_HEIGHT, Viewable.SB_LAYER);
 
 		for (int i = 0; i < lifesDisplay.length; i++)
-			lifesDisplay[i] = new ImageViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
+			lifesDisplay[i] = new SimpleViewable(null, LHPIXEL_WIDTH * (1 + 3 * i), LHPIXEL_HEIGHT, LHPIXEL_WIDTH * 2,
 					LHPIXEL_HEIGHT, Viewable.SB_LAYER);
 
 	}

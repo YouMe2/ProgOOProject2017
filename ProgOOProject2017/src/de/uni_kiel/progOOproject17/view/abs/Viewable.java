@@ -17,10 +17,13 @@ import de.uni_kiel.progOOproject17.model.abs.GameEntity;
  */
 public interface Viewable {
 
+	public static final String DEBUGKEY_PREFIX = "DEBUG-";
+	
+	
 	/**
 	 * The number of layers there are.
 	 */
-	public static final int LAYERsSIZE = 7; // 0 1 2 3 4;
+	public static final int LAYERsSIZE = 8; // 0 1 2 3 4;
 
 	/**
 	 * The {@link Background} layer.
@@ -42,14 +45,16 @@ public interface Viewable {
 	 * The {@link Particle} layer.
 	 */
 	public static final int PARTICLE_LAYER = 4;
+	public static final int DEBUG_LAYER = 5;
+	
 	/**
 	 * The 1st {@link MenuScreen} layer.
 	 */
-	public static final int MENU_LAYER = 5;
+	public static final int MENU_LAYER = 6;
 	/**
 	 * The 2nd {@link MenuScreen} layer.
 	 */
-	public static final int MENU2_LAYER = 6;
+	public static final int MENU2_LAYER = 7;
 
 	/**
 	 * Returns the resource key of this {@link Viewable} which is used by the

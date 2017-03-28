@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.uni_kiel.progOOproject17.model;
+package de.uni_kiel.progOOproject17.model.abs;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -10,8 +10,7 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-import de.uni_kiel.progOOproject17.model.abs.Screen;
-import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
+import de.uni_kiel.progOOproject17.model.InputActionKey;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
 /**
@@ -43,7 +42,6 @@ public abstract class ScreenedBaseModel extends TickedBaseModel {
 	 */
 	public void tick(long timestamp) {
 		activeScreeen.tick(timestamp);
-
 	}
 
 	/* (non-Javadoc)
