@@ -84,7 +84,7 @@ public class PLDektopView extends FramedIOView {
 						gr.setColor(Color.WHITE);
 						gr.drawRect(rect.x, rect.y, rect.width, rect.height);
 						gr.drawString(key, rect.x+2, rect.y + 16);
-					} else {
+					} else if ( !key.equals("null")){
 						gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
 					}
 				}
