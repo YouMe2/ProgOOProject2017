@@ -51,17 +51,17 @@ public class Block extends GameEntity {
 		switch (currMoveCommand) {
 		case UP:
 			
-			setVelocity(0, -1);
+			setVelocity(0, -3);
 
 			break;
 		case DOWN:
-			setVelocity(0, 1);
+			setVelocity(0, 3);
 			break;
 		case LEFT:
-			setVelocity(-1, 0);
+			setVelocity(-3, 0);
 			break;
 		case RIGHT:
-			setVelocity(1, 0);
+			setVelocity(3, 0);
 			break;
 		default:
 			setVelocity(0, 0);

@@ -3,6 +3,7 @@
  */
 package de.uni_kiel.progOOproject17.model.abs;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,8 +13,10 @@ import java.util.function.Consumer;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
+import de.uni_kiel.progOOproject17.model.Background;
 import de.uni_kiel.progOOproject17.model.Block;
 import de.uni_kiel.progOOproject17.model.CreationHelper;
+import de.uni_kiel.progOOproject17.model.Floor;
 import de.uni_kiel.progOOproject17.model.InputActionKey;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
 
@@ -28,7 +31,6 @@ public class DebugScreen extends Screen {
 	private final LinkedList<GameElement> createdElements;
 	private final LinkedList<Destroyable> destroyedElements;
 
-	
 	private Environment environment = new Environment() {
 
 		/*
@@ -45,8 +47,9 @@ public class DebugScreen extends Screen {
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable)
-						if (!e.equals(coll) && tHitbox.intersects(((Collidable) e).getHitbox()))
-							return true;
+						if (!e.equals(coll) && tHitbox.intersectsFAST(((Collidable) e).getHitbox()))
+							if (tHitbox.intersects(((Collidable) e).getHitbox()))
+								return true;
 			}
 			return false;
 		}
@@ -68,7 +71,10 @@ public class DebugScreen extends Screen {
 				return false;
 
 			Hitbox tHitbox = c1.getHitbox().getCloneTranslate(d1);
-			return c2.getHitbox().intersects(tHitbox);
+			
+			if (c2.getHitbox().intersectsFAST(tHitbox))
+				return c2.getHitbox().intersects(tHitbox);
+			return false;
 		}
 
 		/*
@@ -171,8 +177,9 @@ public class DebugScreen extends Screen {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable) {
 						Collidable c = (Collidable) e;
-						if (!c.equals(coll) && c.getHitbox().intersects(tHitbox))
-							return true;
+						if (!c.equals(coll) && c.getHitbox().intersectsFAST(tHitbox))
+							if (c.getHitbox().intersects(tHitbox))
+								return true;
 
 					}
 			}
@@ -238,7 +245,7 @@ public class DebugScreen extends Screen {
 		@Override
 		public void create(GameElement g) {
 
-			 System.out.println("Created: " + g.getResourceKey());
+			System.out.println("Created: " + g.getResourceKey());
 
 			createdElements.add(g);
 			g.activate(environment, this);
@@ -255,7 +262,7 @@ public class DebugScreen extends Screen {
 
 	private Block testBlock;
 	private Block block;
-	
+
 	/**
 	 * @param w
 	 * @param h
@@ -266,16 +273,31 @@ public class DebugScreen extends Screen {
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		testBlock = new Block(new Hitbox.RectHitbox(80, 80, 20, 20));
-		testBlock.setView("floor", 80, 80, 20, 20, Viewable.ENTITY_LAYER);
+		testBlock = new Block(new Hitbox.PolygonHitbox(
+				new Point[] { new Point(60, 60), new Point(90, 90), new Point(60, 90), new Point(50, 70) }));
+
+		// testBlock = new Block(new Hitbox.CircleHitbox(60, 60, 6));
+
+		// testBlock = new Block(new Hitbox.LineHitbox(60, 60, 60, 6));
+
+		testBlock.setView("floor", 60, 60, 4, 4, Viewable.ENTITY_LAYER);
 		testBlock.activate(environment, creationHelper);
 
-		block = new Block(new Hitbox.RectHitbox(40, 20, 100, 30));
-		block.setView("floor", 40, 20, 100, 30, Viewable.ENTITY_LAYER);
-		
+		creationHelper.create(new Block(new Hitbox.LineHitbox(300, 50, 280, 150)));
+
+		creationHelper.create(new Block(new Hitbox.CircleHitbox(170, 170, 32)));
+
+		creationHelper.create(new Block(new Hitbox.PointHitbox(50, 200)));
+
+		// creationHelper.create(new Background("floor", 50, 50, 1, 1));
+
+		block = new Block(
+				new Hitbox.PolygonHitbox(new Point[] { new Point(100, 100), new Point(200, 90), new Point(100, 130) }));
+		block.setView("floor", 100, 100, 100, 30, Viewable.ENTITY_LAYER);
+
 		creationHelper.create(block);
 		creationHelper.create(testBlock);
-		
+
 		putAction(InputActionKey.UP_P, new AbstractAction() {
 
 			@Override
@@ -341,10 +363,9 @@ public class DebugScreen extends Screen {
 
 			}
 		});
-		
+
 		putAction(InputActionKey.SELECT_P, resumeAction);
 
-		
 	}
 
 	/*
@@ -358,9 +379,12 @@ public class DebugScreen extends Screen {
 		for (GameElement gameElement : gameElements) {
 			gameElement.tick(timestamp);
 		}
-//		
-//		System.out.println(testBlock.getHitbox());
-//		System.out.println(block.getHitbox());
+		//
+		// System.out.println(testBlock.getHitbox());
+		// System.out.println(block.getHitbox());
+
+		// System.out.println(((Hitbox.PolygonHitbox)testBlock.getHitbox()).isInside(new
+		// Point(50, 50)));
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();

@@ -149,7 +149,8 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 		if (gravity)
 			applyGravity();
 		Distance collDist = environment.getCollisionDistance(this, getVelocity());
-		move(collDist);
+		if (collDist.getSqLength() != 0)
+			move(collDist);
 		setVelocity(collDist);
 		environment.forEachContact(this, t -> onContactWith(t));
 	}

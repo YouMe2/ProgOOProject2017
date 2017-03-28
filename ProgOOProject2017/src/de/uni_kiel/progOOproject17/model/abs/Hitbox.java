@@ -199,22 +199,23 @@ public abstract class Hitbox {
 			return new RectHitbox(this.getX(), this.getY(), getSize().width, getSize().height);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-		 * progOOproject17.model.abs.Hitbox)
-		 */
-		@Override
-		public boolean intersects(Hitbox other) {
-
-			if (other instanceof RectHitbox) {
-
-				return this.getRectangle().intersects(((RectHitbox) other).getRectangle());
-			}
-			return other.intersects(this);
-		}
+//		/*
+//		 * (non-Javadoc)
+//		 * 
+//		 * @see
+//		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
+//		 * progOOproject17.model.abs.Hitbox)
+//		 */
+//		@Override
+//		public boolean intersects(Hitbox other) {
+//
+//			if (other instanceof RectHitbox) {
+//
+//				return this.getRectangle().intersects(((RectHitbox) other).getRectangle());
+//			}
+//
+//			return super.intersects(this);
+//		}
 
 		/*
 		 * (non-Javadoc)
@@ -431,25 +432,25 @@ public abstract class Hitbox {
 			return new LineHitbox(this.getX(), this.getY(), getToPoint().x, getToPoint().y);
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-		 * progOOproject17.model.abs.Hitbox)
-		 */
-		@Override
-		public boolean intersects(Hitbox other) {
-
-			if (other instanceof LineHitbox) {
-				LineHitbox hb = ((LineHitbox) other);
-				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(),
-						hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
-
-			}
-
-			return other.intersects(this);
-		}
+//		/*
+//		 * (non-Javadoc)
+//		 * 
+//		 * @see
+//		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
+//		 * progOOproject17.model.abs.Hitbox)
+//		 */
+//		@Override
+//		public boolean intersects(Hitbox other) {
+//
+//			if (other instanceof LineHitbox) {
+//				LineHitbox hb = ((LineHitbox) other);
+//				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(),
+//						hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
+//
+//			}
+//
+//			return super.intersects(this);
+//		}
 
 		public void setToPoint(int x2, int y2) {
 			to.setLocation(x2, y2);
@@ -478,24 +479,24 @@ public abstract class Hitbox {
 			return new PointHitbox(this.getX(), this.getY());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-		 * progOOproject17.model.abs.Hitbox)
-		 */
-		@Override
-		public boolean intersects(Hitbox other) {
-
-			if (other instanceof PointHitbox) {
-
-				return this.getX() == other.getX() && this.getY() == other.getY();
-
-			}
-			return other.intersects(this);
-
-		}
+//		/*
+//		 * (non-Javadoc)
+//		 * 
+//		 * @see
+//		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
+//		 * progOOproject17.model.abs.Hitbox)
+//		 */
+//		@Override
+//		public boolean intersects(Hitbox other) {
+//
+//			if (other instanceof PointHitbox) {
+//
+//				return this.getX() == other.getX() && this.getY() == other.getY();
+//
+//			}
+//			return super.intersects(this);
+//
+//		}
 	}
 
 	public static class NoHitbox extends Hitbox {
@@ -639,7 +640,13 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public Hitbox clone() {
-			return new PolygonHitbox(points.clone());
+			
+			Point[] ps = new Point[points.length];
+			for (int i = 0; i < ps.length; i++) {
+				ps[i] = new Point(points[i]);
+			}
+			
+			return new PolygonHitbox(ps);
 		}
 
 		/*
@@ -659,19 +666,6 @@ public abstract class Hitbox {
 
 		}
 		
-//		/* (non-Javadoc)
-//		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#translate(de.uni_kiel.progOOproject17.model.abs.Distance)
-//		 */
-//		@Override
-//		public void translate(Distance d) {
-//			
-//			for (int i = 0; i < points.length; i++) {
-//				points[i].move(d.x, d.y);
-//			}
-//			assert getLocation() == points[0];
-//			updateMinMaxXY();
-//		
-//		}
 
 		/*
 		 * (non-Javadoc)
@@ -691,6 +685,11 @@ public abstract class Hitbox {
 					assert oPoints.length == 1;
 					return isInside(oPoints[0]);
 				}
+				
+				if (points.length < 2) {
+					assert points.length == 1;
+					return oPoly.isInside(points[0]);
+				}
 
 				for (int j = 0; j < oPoints.length; j++) {
 					if (isInside(oPoints[j])) {
@@ -702,7 +701,7 @@ public abstract class Hitbox {
 						Point p2 = points[(i - 1 >= 0) ? (i - 1) : (points.length - 1)];
 
 						Point p3 = oPoints[j];
-						Point p4 = oPoints[(i - 1 >= 0) ? (i - 1) : (oPoints.length - 1)];
+						Point p4 = oPoints[(j - 1 >= 0) ? (j - 1) : (oPoints.length - 1)];
 
 						if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y))
 							return true;
@@ -735,6 +734,7 @@ public abstract class Hitbox {
 					|| intersects(this.getCloneTranslate(new Distance(0, -1)))
 					|| intersects(this.getCloneTranslate(new Distance(1, 0)))
 					|| intersects(this.getCloneTranslate(new Distance(-1, 0)));
+//			return false;
 		}
 
 		public boolean isInside(Point p) {

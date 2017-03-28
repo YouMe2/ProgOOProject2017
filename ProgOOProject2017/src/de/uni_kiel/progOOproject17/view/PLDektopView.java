@@ -78,7 +78,7 @@ public class PLDektopView extends FramedIOView {
 				}
 
 				if (hitboxDebugRender && key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
-					gr.setColor(nextColor());
+					gr.setColor(Color.CYAN);
 					String key2 = key.replaceFirst(Viewable.DEBUGKEY_PREFIX, "");
 					if (key2.equals(Hitbox.CIRCLE_KEY)) {
 						gr.drawOval(rect.x, rect.y, rect.width, rect.height);
