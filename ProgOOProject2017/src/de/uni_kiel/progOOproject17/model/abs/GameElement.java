@@ -42,6 +42,7 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	 *            the height
 	 */
 	public GameElement(String resKey, int x, int y, int w, int h, int layer) {
+		view = new SimpleViewable(resKey, x, y, w, h, layer);
 		setView(resKey, x, y, w, h, layer);
 	}
 
@@ -53,12 +54,12 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 		view = new SimpleViewable(resKey, x, y, w, h, layer);
 	}
 
-	/**
-	 * 
-	 */
-	public void setView(SimpleViewable view) {
-		this.view = view;
-	}
+//	/**
+//	 * 
+//	 */
+//	public void setView(SimpleViewable view) {
+//		this.view = view;
+//	}
 
 	public SimpleViewable getView() {
 		return view;

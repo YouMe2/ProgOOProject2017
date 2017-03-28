@@ -66,8 +66,19 @@ public class PLDektopView extends FramedIOView {
 				if (key == null)
 					key = "null";
 
+				if (!key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
+
+					if (resDebuggRender) {
+						gr.setColor(Color.WHITE);
+						gr.drawRect(rect.x, rect.y, rect.width, rect.height);
+						gr.drawString(key, rect.x + 2, rect.y + 16);
+					} else if (!key.equals("null")) {
+						gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
+					}
+				}
+
 				if (hitboxDebugRender && key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
-					gr.setColor(Color.WHITE);
+					gr.setColor(nextColor());
 					String key2 = key.replaceFirst(Viewable.DEBUGKEY_PREFIX, "");
 					if (key2.equals(Hitbox.CIRCLE_KEY)) {
 						gr.drawOval(rect.x, rect.y, rect.width, rect.height);
@@ -76,17 +87,6 @@ public class PLDektopView extends FramedIOView {
 						gr.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
 					}
 
-				}
-
-				if (!key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
-
-					if (resDebuggRender) {
-						gr.setColor(Color.WHITE);
-						gr.drawRect(rect.x, rect.y, rect.width, rect.height);
-						gr.drawString(key, rect.x+2, rect.y + 16);
-					} else if ( !key.equals("null")){
-						gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
-					}
 				}
 
 			});
@@ -98,6 +98,20 @@ public class PLDektopView extends FramedIOView {
 		gr2.drawImage(img, 0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, null);
 		gr2.dispose();
 
+	}
+
+	int colorCounter = 0;
+	Color colors[] = new Color[] { Color.WHITE, Color.CYAN, Color.YELLOW, Color.GREEN, Color.PINK, Color.MAGENTA,
+			Color.ORANGE, Color.ORANGE };
+
+	/**
+	 * @return
+	 */
+	private Color nextColor() {
+
+		colorCounter = (colorCounter + 1) % colors.length;
+
+		return colors[colorCounter];
 	}
 
 	/**

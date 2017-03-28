@@ -39,18 +39,15 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	 *            the heigt
 	 */
 	public GameEntity(Hitbox hitbox) {
-		this(hitbox, null);
+		this(hitbox, null, 0, 0, 0, 0);
 	}
 
 	public GameEntity(Hitbox hitbox, String resKey, int x, int y, int w, int h) {
-		this(hitbox, new SimpleViewable(resKey, x, y, w, h, ENTITY_LAYER));
-	}
-
-	private GameEntity(Hitbox hitbox, SimpleViewable view) {
-		super(hitbox);
-		setView(view);
+		super(hitbox, resKey, x, y, w, h, ENTITY_LAYER);
 		velocity = new Distance(0, 0);
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -158,7 +155,7 @@ public abstract class GameEntity extends GameObject implements Gravitational {
 	}
 	
 	public void move(Distance d){	
-		getHitbox().translate(d);
+		getThisHitbox().translate(d);
 		if (getView() != null)
 			getView().translate(d);
 	}

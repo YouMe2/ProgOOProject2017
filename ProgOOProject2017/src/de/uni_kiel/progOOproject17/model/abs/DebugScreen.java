@@ -253,6 +253,9 @@ public class DebugScreen extends Screen {
 
 	};
 
+	private Block testBlock;
+	private Block block;
+	
 	/**
 	 * @param w
 	 * @param h
@@ -263,11 +266,11 @@ public class DebugScreen extends Screen {
 		destroyedElements = new LinkedList<>();
 		createdElements = new LinkedList<>();
 
-		Block testBlock = new Block(new Hitbox.RectHitbox(w / 2, h / 2, 20, 20));
-		testBlock.setView("floor", w / 2, h / 2, 20, 20, Viewable.ENTITY_LAYER);
+		testBlock = new Block(new Hitbox.RectHitbox(80, 80, 20, 20));
+		testBlock.setView("floor", 80, 80, 20, 20, Viewable.ENTITY_LAYER);
 		testBlock.activate(environment, creationHelper);
 
-		Block block = new Block(new Hitbox.RectHitbox(40, 20, 100, 30));
+		block = new Block(new Hitbox.RectHitbox(40, 20, 100, 30));
 		block.setView("floor", 40, 20, 100, 30, Viewable.ENTITY_LAYER);
 		
 		creationHelper.create(block);
@@ -341,6 +344,7 @@ public class DebugScreen extends Screen {
 		
 		putAction(InputActionKey.SELECT_P, resumeAction);
 
+		
 	}
 
 	/*
@@ -354,6 +358,9 @@ public class DebugScreen extends Screen {
 		for (GameElement gameElement : gameElements) {
 			gameElement.tick(timestamp);
 		}
+//		
+//		System.out.println(testBlock.getHitbox());
+//		System.out.println(block.getHitbox());
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();

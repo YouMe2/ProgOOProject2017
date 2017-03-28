@@ -17,8 +17,16 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 	 * 
 	 */
 	public GameObject(Hitbox hitbox) {
-		super();
+		this(hitbox, null, 0, 0, 0, 0, -1);		
+	}
+	
+	/**
+	 * 
+	 */
+	public GameObject(Hitbox hitbox, String resKey, int x, int y, int w, int h, int layer) {
+		super(resKey, x, y, w, h, layer);
 		this.hitbox = hitbox;
+		
 	}
 	
 	/* (non-Javadoc)
@@ -26,9 +34,12 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 	 */
 	@Override
 	public Hitbox getHitbox() {
-		return hitbox;
+		return hitbox.clone();
 	}
 	
+	protected Hitbox getThisHitbox() {
+		return hitbox;
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -128,13 +128,13 @@ public class Player extends GameEntity {
 					move(headDown);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_CROUCH);
-				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
+				((Hitbox.RectHitbox)getThisHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
 				ResourceManager.getInstance().getSound("crouch").play();
 				break;
 			case JUMPING:
 				currMoveState = JUMPING_AND_CROUCHING;
 				getView().setSize(PLAYER_W, PLAYER_H_CROUCH);
-				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
+				((Hitbox.RectHitbox)getThisHitbox()).setSize(PLAYER_W, PLAYER_H_CROUCH);
 				ResourceManager.getInstance().getSound("crouch").play();
 				break;
 			default:
@@ -157,7 +157,7 @@ public class Player extends GameEntity {
 					move(maxDistance);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
-				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
+				((Hitbox.RectHitbox)getThisHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
 				break;
 			case JUMPING_AND_CROUCHING:
 				currMoveState = JUMPING;
@@ -168,7 +168,7 @@ public class Player extends GameEntity {
 					move(maxDistance);
 				}
 				getView().setSize(PLAYER_W, PLAYER_H_NORMAL);
-				((Hitbox.RectHitbox)getHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
+				((Hitbox.RectHitbox)getThisHitbox()).setSize(PLAYER_W, PLAYER_H_NORMAL);
 			default:
 				break;
 			}

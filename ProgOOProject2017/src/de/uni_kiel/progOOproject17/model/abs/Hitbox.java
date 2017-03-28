@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
+import java.lang.reflect.GenericArrayType;
+import java.security.SecurityPermission;
 
 import javax.annotation.Generated;
 
@@ -21,12 +23,11 @@ public abstract class Hitbox {
 	public static final String LINE_KEY = "line";
 	public static final String CIRCLE_KEY = "circle";
 
-	private int x, y;
+	private Point pos;
 	private boolean movementRestricting = true;
 
-	private Hitbox(int x, int y) {
-		this.x = x;
-		this.y = y;
+	private Hitbox(Point p) {
+		this.pos = p;
 	}
 
 	// PUBLIC --------------------------------------------------
@@ -35,34 +36,30 @@ public abstract class Hitbox {
 	 * @return the x
 	 */
 	public int getX() {
-		return x;
-	}
-
-	protected void setX(int x) {
-		this.x = x;
+		return pos.x;
 	}
 
 	/**
 	 * @return the y
 	 */
 	public int getY() {
-		return y;
+		return pos.y;
 	}
 
 	/**
-	 * @param y
-	 *            the y to set
+	 * @param pos
+	 *            the pos to set
 	 */
-	protected void setY(int y) {
-		this.y = y;
+	protected void setPos(Point pos) {
+		this.pos = pos;
 	}
 
 	/**
 	 * 
-	 * @return a new {@link Point} holding the Location of this {@link Hitbox}
+	 * @return the {@link Point} holding the Location of this {@link Hitbox}
 	 */
 	public Point getLocation() {
-		return new Point(x, y);
+		return pos;
 	}
 
 	/**
@@ -125,6 +122,12 @@ public abstract class Hitbox {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public abstract String toString();
+	
 	// ABSTRACT -----------------------------------------------------
 
 	/**
@@ -235,7 +238,7 @@ public abstract class Hitbox {
 			ur.setLocation(getX() + w, getY());
 			dr.setLocation(getX() + w, getY() + h);
 			dl.setLocation(getX(), getY() + h);
-			super.updateMinMax();
+			super.updateMinMaxXY();
 		}
 
 		public Dimension getSize() {
@@ -249,7 +252,7 @@ public abstract class Hitbox {
 		private int r;
 
 		public CircleHitbox(int x, int y, int r) {
-			super(x, y);
+			super(new Point(x, y));
 			this.r = r;
 
 		}
@@ -341,8 +344,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public void setLocation(int x, int y) {
-			setX(x);
-			setY(y);
+			getLocation().setLocation(x, y);
 
 		}
 
@@ -400,6 +402,14 @@ public abstract class Hitbox {
 					getRadius() * 2, getRadius() * 2, Viewable.DEBUG_LAYER) };
 		}
 
+		/* (non-Javadoc)
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#toString()
+		 */
+		@Override
+		public String toString() {
+			return "CircleHitbox: C("+getX()+", "+getY()+"), R = "+getRadius();
+		}
+
 	}
 
 	public static class LineHitbox extends PolygonHitbox {
@@ -443,7 +453,7 @@ public abstract class Hitbox {
 
 		public void setToPoint(int x2, int y2) {
 			to.setLocation(x2, y2);
-			super.updateMinMax();
+			super.updateMinMaxXY();
 		}
 
 		public Point getToPoint() {
@@ -480,7 +490,7 @@ public abstract class Hitbox {
 
 			if (other instanceof PointHitbox) {
 
-				return this.getX() == other.x && this.getY() == other.y;
+				return this.getX() == other.getX() && this.getY() == other.getY();
 
 			}
 			return other.intersects(this);
@@ -494,7 +504,7 @@ public abstract class Hitbox {
 		 * 
 		 */
 		public NoHitbox(int x, int y) {
-			super(x, y);
+			super(new Point(x, y));
 		}
 
 		/*
@@ -593,25 +603,33 @@ public abstract class Hitbox {
 			return new Viewable[0];
 		}
 
+		/* (non-Javadoc)
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#toString()
+		 */
+		@Override
+		public String toString() {
+			return "NoHitbox: ("+getX()+", "+getY()+")";
+		}
+
 	}
 
 	public static class PolygonHitbox extends Hitbox {
 
-		private Point[] points;
+		private final Point[] points;
 
 		private int maxX, minX, maxY, minY;
 
 		public PolygonHitbox(Point[] points) {
-			super(points[0].x, points[0].y);
+			super(points[0]);
 			assert points.length >= 1;
 			this.points = points;
+//			System.out.println(this);
+			updateMinMaxXY();
 
-			updateMinMax();
+			// for (Point p : points) {
+			// System.out.print(p +" ");
+			// }
 
-			for (Point p : points) {
-				System.out.print(p +" ");
-			}
-			
 		}
 
 		/*
@@ -621,7 +639,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public Hitbox clone() {
-			return new PolygonHitbox(points);
+			return new PolygonHitbox(points.clone());
 		}
 
 		/*
@@ -633,15 +651,27 @@ public abstract class Hitbox {
 		@Override
 		public void setLocation(int x, int y) {
 			Distance movedDistance = new Distance(x - getX(), y - getY());
-			for (int i = 0; i< points.length; i++) {
-				points[i].move(movedDistance.x, movedDistance.y);
+			for (int i = 0; i < points.length; i++) {
+				points[i].translate(movedDistance.x, movedDistance.y);
 			}
-			this.setX(x);
-			this.setY(y);
-
-			updateMinMax();
+			assert getLocation() == points[0];
+			updateMinMaxXY();
 
 		}
+		
+//		/* (non-Javadoc)
+//		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#translate(de.uni_kiel.progOOproject17.model.abs.Distance)
+//		 */
+//		@Override
+//		public void translate(Distance d) {
+//			
+//			for (int i = 0; i < points.length; i++) {
+//				points[i].move(d.x, d.y);
+//			}
+//			assert getLocation() == points[0];
+//			updateMinMaxXY();
+//		
+//		}
 
 		/*
 		 * (non-Javadoc)
@@ -783,7 +813,7 @@ public abstract class Hitbox {
 		/**
 		 * 
 		 */
-		private void updateMinMax() {
+		private void updateMinMaxXY() {
 			minX = maxX = getX();
 			minY = maxY = getY();
 			for (Point p : points) {
@@ -818,12 +848,25 @@ public abstract class Hitbox {
 
 				views[i] = new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY, edgeP1.x, edgeP1.y,
 						edgeP2.x - edgeP1.x, edgeP2.y - edgeP1.y, Viewable.DEBUG_LAYER);
-				
-//				System.out.println(edgeP1 + " " +edgeP2);
+
+				// System.out.println(edgeP1 + " " +edgeP2);
 			}
 
 			return views;
 
+		}
+
+		/* (non-Javadoc)
+		 * @see de.uni_kiel.progOOproject17.model.abs.Hitbox#toString()
+		 */
+		@Override
+		public String toString() {
+			
+			StringBuilder res = new StringBuilder("PolygonHB: ");
+			for (Point p : points) {
+				res.append("("+p.x+", "+p.y+"), ");
+			}		
+			return res.toString();
 		}
 	}
 
