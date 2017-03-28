@@ -24,7 +24,7 @@ import javax.swing.Action;
  * this being a game made to be viewable on the Lighthouse!
  * 
  */
-public class PLBaseModel extends TickedBaseModel {
+public class PLBaseModel extends ScreenedBaseModel {
 
 	/**
 	 * The width of the Lighthouse in pixels
@@ -53,6 +53,7 @@ public class PLBaseModel extends TickedBaseModel {
 	 */
 	public static final int GAME_HEIGHT = LH_HEIGHT * LHPIXEL_HEIGHT; // = 490
 
+	
 	/**
 	 * The {@link Action} which starts a new {@link GameScreen}.
 	 */
@@ -66,8 +67,8 @@ public class PLBaseModel extends TickedBaseModel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			setCurrentScreen(new GameScreen(GAME_WIDTH, GAME_HEIGHT, pauseGame, endGame));
-
+			setActiveScreen(new GameScreen(GAME_WIDTH, GAME_HEIGHT, pauseGame, endGame));
+			setShowPausedScreen(false);
 		}
 	};
 
@@ -84,9 +85,8 @@ public class PLBaseModel extends TickedBaseModel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			pausedScreen = currentScreen;
-			setCurrentScreen(new PauseMenu(GAME_WIDTH, GAME_HEIGHT, resumeGame, exitGame));
-
+			setActiveScreen(new PauseMenu(GAME_WIDTH, GAME_HEIGHT, resumeGame, exitGame));
+			setShowPausedScreen(true);
 		}
 	};
 
@@ -103,9 +103,8 @@ public class PLBaseModel extends TickedBaseModel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			setCurrentScreen(pausedScreen);
-			pausedScreen = null;
-
+			resumeScreen();
+			setShowPausedScreen(false);
 		}
 	};
 
@@ -122,9 +121,9 @@ public class PLBaseModel extends TickedBaseModel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			setCurrentScreen(new EndScreen(GAME_WIDTH, GAME_HEIGHT, ((GameScreen) currentScreen).getPlayerStats(),
+			setActiveScreen(new EndScreen(GAME_WIDTH, GAME_HEIGHT, ((GameScreen) getActiveScreeen()).getPlayerStats(),
 					newGame, exitGame));
-
+			setShowPausedScreen(false);
 		}
 	};
 
@@ -147,20 +146,11 @@ public class PLBaseModel extends TickedBaseModel {
 	};
 
 	/**
-	 * stores the paused {@link Screen} if there is one
-	 */
-	private Screen pausedScreen;
-	/**
-	 * the currently active {@link Screen}
-	 */
-	private Screen currentScreen;
-
-	/**
 	 * Constructs a new {@link PLBaseModel} which starts the
 	 * {@link StartMenu}.
 	 */
 	public PLBaseModel() {
-		setCurrentScreen(new StartMenu(GAME_WIDTH, GAME_HEIGHT, newGame, exitGame));
+		setActiveScreen(new StartMenu(GAME_WIDTH, GAME_HEIGHT, newGame, exitGame));
 	}
 
 	/**
@@ -193,77 +183,4 @@ public class PLBaseModel extends TickedBaseModel {
 		return new Rectangle(Math.round(x * LHPIXEL_WIDTH), Math.round(y * LHPIXEL_HEIGHT),
 				Math.round(w * LHPIXEL_WIDTH), Math.round(h * LHPIXEL_HEIGHT));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.uni_kiel.progOOproject17.model.abs.TickedBaseModel#getViewables()
-	 */
-	public Viewable[] getViewables() {
-
-		ArrayList<Viewable> views = new ArrayList<>();
-
-		if (pausedScreen != null)
-			views.addAll(Arrays.asList(pausedScreen.getViewables()));
-		views.addAll(Arrays.asList(currentScreen.getViewables()));
-
-		return views.toArray(new Viewable[views.size()]);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.uni_kiel.progOOproject17.model.abs.TickedBaseModel#tick(long)
-	 */
-	@Override
-	public void tick(long timestamp) {
-
-		currentScreen.tick(timestamp);
-
-	}
-
-	/**
-	 * Sets the cuurently active {@link Screen} to s.
-	 * 
-	 * @see PLBaseModel#currentScreen
-	 * 
-	 * @param s
-	 *            the new {@link Screen}
-	 */
-	private void setCurrentScreen(Screen s) {
-		currentScreen = s;
-	}
-
-	/**
-	 * Returns a allways up-to-date {@link Action} that performes the
-	 * {@link Action} corresponding to the key.
-	 * 
-	 * @param key
-	 *            the {@link InputActionKey} which action will be returned
-	 * @return the action for the key
-	 */
-	public Action getAction(InputActionKey key) {
-
-		/*
-		 * Returns only a wrapper action which on being called then will get the
-		 * corresponding action and call it. This is done so that the returned
-		 * action will allways be up to date and never as to be refreshed.
-		 */
-		return new AbstractAction() {
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 7564159631540256039L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Action a = currentScreen.getAction(key);
-				if (a != null)
-					a.actionPerformed(e);
-
-			}
-		};
-	}
-
 }
