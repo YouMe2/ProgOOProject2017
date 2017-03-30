@@ -3,7 +3,6 @@ package de.uni_kiel.progOOproject17.model;
 import de.uni_kiel.progOOproject17.controller.PLController;
 import de.uni_kiel.progOOproject17.model.abs.Screen;
 import de.uni_kiel.progOOproject17.model.abs.ScreenedBaseModel;
-import de.uni_kiel.progOOproject17.model.abs.DebugScreen;
 import de.uni_kiel.progOOproject17.model.abs.TickedBaseModel;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;

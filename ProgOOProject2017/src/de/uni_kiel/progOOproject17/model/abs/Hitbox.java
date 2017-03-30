@@ -24,7 +24,7 @@ public abstract class Hitbox {
 	public static final String CIRCLE_KEY = "circle";
 
 	private Point pos;
-	private boolean movementRestricting = true;
+
 
 	private Hitbox(Point p) {
 		this.pos = p;
@@ -60,23 +60,6 @@ public abstract class Hitbox {
 	 */
 	public Point getLocation() {
 		return pos;
-	}
-
-	/**
-	 * @param movementRestricting
-	 *            whether this {@link Hitbox} is restrictin Movent of other
-	 *            Hitboxes
-	 */
-	public void setMovementRestricting(boolean movementRestricting) {
-		this.movementRestricting = movementRestricting;
-	}
-
-	/**
-	 * @return whether this {@link Hitbox} is restrictin Movent of other
-	 *         Hitboxes
-	 */
-	public boolean isMovementRestricting() {
-		return movementRestricting;
 	}
 
 	/**

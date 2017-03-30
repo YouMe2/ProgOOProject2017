@@ -13,5 +13,15 @@ public interface Collidable {
 	 * @return the {@link Hitbox}
 	 */
 	public Hitbox getHitbox();
+	
+	/**
+	 * @return whether this {@link Hitbox} is restrictin Movent of other
+	 *         Hitboxes
+	 */
+	public boolean isMovementRestricting();
+	
+	
+	//TODO on hit effects
+//	public void getOnHitEffects();
 
 }
