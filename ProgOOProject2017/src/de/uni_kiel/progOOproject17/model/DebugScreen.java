@@ -82,9 +82,9 @@ public class DebugScreen extends Screen {
 		testBlock = new Block(new Hitbox.PolygonHitbox( new Point(60, 60), 
 				new Point[] { new Point(0, 0), new Point(30, 30), new Point(0, 30), new Point(-10, 10) }));
 
-		// testBlock = new Block(new Hitbox.CircleHitbox(60, 60, 6));
+		 testBlock = new Block(new Hitbox.CircleHitbox(60, 60, 6));
 
-		// testBlock = new Block(new Hitbox.LineHitbox(60, 60, 60, 6));
+		 testBlock = new Block(new Hitbox.LineHitbox(60, 60, 80, 70));
 
 		testBlock.setView("floor", 60, 60, 4, 4, Viewable.ENTITY_LAYER);
 		testBlock.activate(environment, creationHelper);

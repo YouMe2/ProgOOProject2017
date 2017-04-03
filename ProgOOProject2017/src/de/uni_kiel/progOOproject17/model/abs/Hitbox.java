@@ -438,29 +438,6 @@ public abstract class Hitbox {
 			return new LineHitbox(this.getX(), this.getY(), getToPoint().x + getX(), getToPoint().y + getY());
 		}
 
-		// /*
-		// * (non-Javadoc)
-		// *
-		// * @see
-		// *
-		// *
-		// de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-		// * progOOproject17.model.abs.Hitbox)
-		// */
-		// @Override
-		// public boolean intersects(Hitbox other) {
-		//
-		// if (other instanceof LineHitbox) {
-		// LineHitbox hb = ((LineHitbox) other);
-		// return Line2D.linesIntersect(this.getX(), this.getY(),
-		// getToPoint().x, getToPoint().y, hb.getX(),
-		// hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
-		//
-		// }
-		//
-		// return super.intersects(other);
-		// }
-
 		public void setToPoint(int x2, int y2) {
 			// relative to anchor!
 			to.setLocation(x2 - getX(), y2 - getY());
