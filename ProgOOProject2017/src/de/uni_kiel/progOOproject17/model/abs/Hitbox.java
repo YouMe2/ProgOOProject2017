@@ -96,16 +96,20 @@ public abstract class Hitbox {
 	 * @param other
 	 * @return
 	 */
-	// public boolean intersectsFAST(Hitbox other) {
-	// // FIXME
-	//// return true;
-	//
-	// return (other.minX() >= this.minX() && other.minX() <= this.maxX()
-	// || other.maxX() >= this.minX() && other.maxX() <= this.maxX())
-	// && (other.minY() >= this.minY() && other.minY() <= this.maxY()
-	// || other.maxY() >= this.minY() && other.maxY() <= this.maxY());
-	//
-	// }
+	public boolean intersectsFAST(Hitbox other) {
+		// FIXME
+		// return true;
+
+		return ((other.minX() <= this.minX() && this.minX() <= other.maxX()
+				|| other.minX() <= this.maxX() && this.maxX() <= other.maxX())
+				&& (other.minY() <= this.minY() && this.minY() <= other.maxY()
+						|| other.minY() <= this.maxY() && this.maxY() <= other.maxY()))
+				|| ((this.minX() <= other.minX() && other.minX() <= this.maxX()
+						|| this.minX() <= other.maxX() && other.maxX() <= this.maxX())
+						&& (this.minY() <= other.minY() && other.minY() <= this.maxY()
+								|| this.minY() <= other.maxY() && other.maxY() <= this.maxY()));
+
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -184,6 +188,7 @@ public abstract class Hitbox {
 		// *
 		// * @see
 		// *
+		// *
 		// de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
 		// * progOOproject17.model.abs.Hitbox)
 		// */
@@ -196,7 +201,7 @@ public abstract class Hitbox {
 		// other).getRectangle());
 		// }
 		//
-		// return super.intersects(this);
+		// return super.intersects(other);
 		// }
 
 		/*
@@ -277,12 +282,12 @@ public abstract class Hitbox {
 			}
 
 			if (other instanceof PolygonHitbox) {
-				PolygonHitbox oPoly = (PolygonHitbox) other;
-				Point[] points = oPoly.getPoints();
+				PolygonHitbox poly = (PolygonHitbox) other;
+				Point[] points = poly.getRealPoints();
 
 				for (int i = 0; i < points.length; i++) {
 					Point p1 = points[i];
-					Point p2 = points[(i - 1 >= 0) ? (i - 1) : (points.length - 1)];
+					Point p2 = points[(i + 1 == points.length) ? 0 : i + 1];
 					if (Line2D.ptSegDistSq(p1.x, p1.y, p2.x, p2.y, center.x, center.y) <= r * r)
 						return true;
 
@@ -291,17 +296,18 @@ public abstract class Hitbox {
 
 			}
 
-//			if (other instanceof LineHitbox) {
-//				LineHitbox line = (LineHitbox) other;
-//
-//				return Line2D.ptLineDistSq(line.getX(), line.getY(), line.getToPoint().x, line.getToPoint().y, center.x,
-//						center.y) <= r * r;
-//
-//			}
-			
+			// if (other instanceof LineHitbox) {
+			// LineHitbox line = (LineHitbox) other;
+			//
+			// return Line2D.ptLineDistSq(line.getX(), line.getY(),
+			// line.getToPoint().x, line.getToPoint().y, center.x,
+			// center.y) <= r * r;
+			//
+			// }
+
 			if (other instanceof PointHitbox) {
 				PointHitbox point = (PointHitbox) other;
-				return getDistanceToCenter(point.getX(), point.getY()).getSqLength() <= getRadius()*getRadius();
+				return getDistanceToCenter(point.getX(), point.getY()).getSqLength() <= getRadius() * getRadius();
 			}
 
 			System.err.println("Potential loop with circle intersection!!");
@@ -337,8 +343,8 @@ public abstract class Hitbox {
 		 * progOOproject17.model.abs.Hitbox)
 		 */
 		@Override
-		public boolean contacts(Hitbox hitbox) {
-			return new CircleHitbox(getX(), getY(), getRadius() + 1).intersects(hitbox);
+		public boolean contacts(Hitbox other) {
+			return new CircleHitbox(getCenter().x, getCenter().y, getRadius() + 1).intersects(other);
 		}
 
 		/*
@@ -348,7 +354,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public int maxX() {
-			return getX() + 2 * r;
+			return getCenter().x + r;
 		}
 
 		/*
@@ -359,7 +365,7 @@ public abstract class Hitbox {
 		@Override
 		public int minX() {
 
-			return getX();
+			return getCenter().x - r;
 		}
 
 		/*
@@ -370,7 +376,7 @@ public abstract class Hitbox {
 		@Override
 		public int maxY() {
 
-			return getY() + 2 * r;
+			return getCenter().y + r;
 		}
 
 		/*
@@ -380,7 +386,7 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public int minY() {
-			return getY();
+			return getCenter().y - r;
 		}
 
 		/*
@@ -391,8 +397,13 @@ public abstract class Hitbox {
 		@Override
 		public Viewable[] getDebugViewables() {
 
-			return new Viewable[] { new SimpleViewable(Viewable.DEBUGKEY_PREFIX + CIRCLE_KEY, getX(), getY(),
-					getRadius() * 2, getRadius() * 2, Viewable.DEBUG_LAYER) };
+			Point center = getCenter();
+			int r = getRadius();
+			return new Viewable[] {
+					new SimpleViewable(Viewable.DEBUGKEY_PREFIX + CIRCLE_KEY, center.x - r, center.y - r, r * 2, r * 2,
+							Viewable.DEBUG_LAYER),
+					new SimpleViewable(Viewable.DEBUGKEY_PREFIX + LINE_KEY, center.x, center.y, center.x, center.y,
+							Viewable.DEBUG_LAYER) };
 		}
 
 		/*
@@ -412,7 +423,6 @@ public abstract class Hitbox {
 		private final Point to;
 
 		public LineHitbox(int x1, int y1, int x2, int y2) {
-//			super(new Point(x1, y1), new Point[] { new Point(0, 0), new Point(x2, y2) });		
 			super(new Point(x1, y1), new Point[] { new Point(0, 0), new Point(x2 - x1, y2 - y1) });
 			to = getPoints()[1];
 
@@ -425,29 +435,31 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public LineHitbox clone() {
-			return new LineHitbox(this.getX(), this.getY(), getToPoint().x+getX(), getToPoint().y+getY());
+			return new LineHitbox(this.getX(), this.getY(), getToPoint().x + getX(), getToPoint().y + getY());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 *
-		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-		 * progOOproject17.model.abs.Hitbox)
-		 */
-		@Override
-		public boolean intersects(Hitbox other) {
-
-			if (other instanceof LineHitbox) {
-				LineHitbox hb = ((LineHitbox) other);
-				return Line2D.linesIntersect(this.getX(), this.getY(), getToPoint().x, getToPoint().y, hb.getX(),
-						hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
-
-			}
-
-			return super.intersects(this);
-		}
+		// /*
+		// * (non-Javadoc)
+		// *
+		// * @see
+		// *
+		// *
+		// de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
+		// * progOOproject17.model.abs.Hitbox)
+		// */
+		// @Override
+		// public boolean intersects(Hitbox other) {
+		//
+		// if (other instanceof LineHitbox) {
+		// LineHitbox hb = ((LineHitbox) other);
+		// return Line2D.linesIntersect(this.getX(), this.getY(),
+		// getToPoint().x, getToPoint().y, hb.getX(),
+		// hb.getY(), hb.getToPoint().x, hb.getToPoint().y);
+		//
+		// }
+		//
+		// return super.intersects(other);
+		// }
 
 		public void setToPoint(int x2, int y2) {
 			// relative to anchor!
@@ -457,6 +469,17 @@ public abstract class Hitbox {
 
 		public Point getToPoint() {
 			return new Point(to);
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Hitbox.PolygonHitbox#toString()
+		 */
+		@Override
+		public String toString() {
+			return "LineHitbox: (" + getX() + ", " + getY() + ") -> (" + (to.x + getX()) + ", " + (to.y + getY()) + ")";
 		}
 
 	}
@@ -492,6 +515,7 @@ public abstract class Hitbox {
 
 			} else if (other instanceof PolygonHitbox) {
 				return ((PolygonHitbox) other).isInside(this.getLocation());
+
 			} else {
 				return other.intersects(this); // No hitbox or what ever
 			}
@@ -569,8 +593,8 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public Viewable[] getDebugViewables() {
-			return new Viewable[] { new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY, getX(), getY(), getX(), getY(),
-					Viewable.DEBUG_LAYER) };
+			return new Viewable[] { new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY, getX(), getY(),
+					getX(), getY(), Viewable.DEBUG_LAYER) };
 		}
 	}
 
@@ -711,6 +735,18 @@ public abstract class Hitbox {
 		}
 
 		/**
+		 * @return
+		 */
+		public Point[] getRealPoints() {
+			Point[] rps = new Point[points.length];
+			for (int i = 0; i < rps.length; i++) {
+				rps[i] = new Point(points[i]);
+				rps[i].translate(getX(), getY());
+			}
+			return rps;
+		}
+
+		/**
 		 * 
 		 */
 		public void updateMinMax() {
@@ -758,26 +794,50 @@ public abstract class Hitbox {
 		@Override
 		public boolean intersects(Hitbox other) {
 
-			if (other instanceof PolygonHitbox) {
-				PolygonHitbox oPoly = (PolygonHitbox) other;
-				Point[] oPoints = oPoly.getPoints();
+			// if (other instanceof LineHitbox) {
+			// LineHitbox line = (LineHitbox) other;
+			// Point p3 = line.getLocation();
+			// Point p4 = line.getToPoint();
+			//
+			// if (isInside(p3) || isInside(p4)) {
+			// return true;
+			// }
+			//
+			// Point[] thisPoints = this.getRealPoints();
+			// for (int i = 0; i < thisPoints.length; i++) {
+			//
+			// Point p1 = new Point(thisPoints[i]);
+			// Point p2 = thisPoints[(i + 1 == thisPoints.length) ? 0 : i + 1];
+			//
+			// if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y,
+			// p4.x, p4.y))
+			// return true;
+			//
+			// }
+			//
+			// return false;
+			//
+			// }
 
-				for (int j = 0; j < oPoints.length; j++) {
-					if (isInside(oPoints[j])) {
+			if (other instanceof PolygonHitbox) {
+				PolygonHitbox otherPoly = (PolygonHitbox) other;
+				Point[] otherPoints = otherPoly.getRealPoints();
+				Point[] thisPoints = this.getRealPoints();
+
+				for (int j = 0; j < otherPoints.length; j++) {
+
+					Point p3 = otherPoints[j];
+					Point p4 = otherPoints[(j + 1 == otherPoints.length) ? 0 : j + 1];
+
+					if (isInside(p3) || isInside(p4)) {
 						return true;
 					}
-					for (int i = 0; i < points.length; i++) {
 
-						Point p1 = new Point(points[i]);
-						p1.translate(getX(), getY());
-						Point p2 = points[(i - 1 >= 0) ? (i - 1) : (points.length - 1)];
-						p2.translate(getX(), getY());
-						
-						Point p3 = oPoints[j];
-						p3.translate(oPoly.getX(), oPoly.getY());
-						Point p4 = oPoints[(j - 1 >= 0) ? (j - 1) : (oPoints.length - 1)];
-						p4.translate(oPoly.getX(), oPoly.getY());
-						
+					for (int i = 0; i < thisPoints.length; i++) {
+
+						Point p1 = new Point(thisPoints[i]);
+						Point p2 = thisPoints[(i + 1 == thisPoints.length) ? 0 : i + 1];
+
 						if (Line2D.linesIntersect(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y))
 							return true;
 
@@ -787,7 +847,7 @@ public abstract class Hitbox {
 				return false;
 
 			}
-
+			// return false;
 			return other.intersects(this); // NOHitbox or Circle or something
 											// else
 
@@ -801,33 +861,49 @@ public abstract class Hitbox {
 		 * progOOproject17.model.abs.Hitbox)
 		 */
 		@Override
-		public boolean contacts(Hitbox hitbox) {
+		public boolean contacts(Hitbox other) {
 
 			// TODO CONTACTS WITH POLYGONS
 
-			return intersects(this.getCloneTranslate(new Distance(0, 1)))
-					|| intersects(this.getCloneTranslate(new Distance(0, -1)))
-					|| intersects(this.getCloneTranslate(new Distance(1, 0)))
-					|| intersects(this.getCloneTranslate(new Distance(-1, 0)));
+			Hitbox testBox = this.getCloneTranslate(new Distance(0, 1));
+			if (testBox.intersects(other))
+				return true;
+			testBox.translate(new Distance(0, -2));
+			if (testBox.intersects(other))
+				return true;
+			testBox.translate(new Distance(1, 1));
+			if (testBox.intersects(other))
+				return true;
+			testBox.translate(new Distance(-2, 0));
+			if (testBox.intersects(other))
+				return true;
+			return false;
+
+			// return other.intersects(testBox)
+			// || other.intersects(this.getCloneTranslate(new Distance(0, -1)))
+			// || other.intersects(this.getCloneTranslate(new Distance(1, 0)))
+			// || other.intersects(this.getCloneTranslate(new Distance(-1, 0)));
 			// return false;
 		}
 
 		public boolean isInside(Point p) {
 
-			if (points.length == 2) {
+			Point[] thisPoints = this.getRealPoints();
+
+			if (thisPoints.length == 2) {
 				// TODO Point on line?
 				return Line2D.ptSegDist(getX() + points[0].x, getY() + points[0].y, getX() + points[1].x,
-						getY() + points[1].y, p.x, p.y) < 0.05;
+						getY() + points[1].y, p.x, p.y) == 0.0;
 			}
 
-			assert points.length > 2;
+			assert thisPoints.length > 2;
 			// es gibt eine fläche!
 
 			int hitCounter = 0;
-			for (int i = 0; i < points.length; i++) {
+			for (int i = 0; i < thisPoints.length; i++) {
 
-				Point edgeP1 = points[i];
-				Point edgeP2 = points[i + 1 == points.length ? 0 : i + 1];
+				Point edgeP1 = thisPoints[i];
+				Point edgeP2 = thisPoints[i + 1 == thisPoints.length ? 0 : i + 1];
 
 				if (Line2D.linesIntersect(p.x, p.y, maxX() + 1, p.y + 1, edgeP1.x, edgeP1.y, edgeP2.x, edgeP2.y)) {
 					hitCounter++;
@@ -893,18 +969,16 @@ public abstract class Hitbox {
 		@Override
 		public Viewable[] getDebugViewables() {
 
-			Viewable[] views = new Viewable[points.length];
+			Point[] thisPoints = this.getRealPoints();
+
+			Viewable[] views = new Viewable[thisPoints.length];
 
 			for (int i = 0; i < views.length; i++) {
-				Point edgeP1 = new Point(points[i]);
-				edgeP1.translate(getX(), getY());
-				Point edgeP2 = new Point(points[i + 1 == points.length ? 0 : i + 1]);
-				edgeP2.translate(getX(), getY());
-				
-				views[i] = new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY,
-						edgeP1.x, edgeP1.y,
-						edgeP2.x, edgeP2.y,
-						Viewable.DEBUG_LAYER);
+				Point edgeP1 = new Point(thisPoints[i]);
+				Point edgeP2 = new Point(thisPoints[(i + 1) == thisPoints.length ? 0 : i + 1]);
+
+				views[i] = new SimpleViewable(Viewable.DEBUGKEY_PREFIX + Hitbox.LINE_KEY, edgeP1.x, edgeP1.y, edgeP2.x,
+						edgeP2.y, Viewable.DEBUG_LAYER);
 
 				// System.out.println(edgeP1 + " " +edgeP2);
 			}
@@ -921,7 +995,7 @@ public abstract class Hitbox {
 		@Override
 		public String toString() {
 
-			StringBuilder res = new StringBuilder("PolygonHB at: ("+ getX()+", "+getY()+") with: ");
+			StringBuilder res = new StringBuilder("PolygonHB at: (" + getX() + ", " + getY() + ") with: ");
 			for (Point p : points) {
 				res.append("(" + p.x + ", " + p.y + "), ");
 			}

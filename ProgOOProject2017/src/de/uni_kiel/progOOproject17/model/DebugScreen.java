@@ -91,17 +91,19 @@ public class DebugScreen extends Screen {
 
 		Block line = new Block(new Hitbox.LineHitbox(20, 100, 20, 200));
 		creationHelper.create(line);
-//		System.out.println(line.getHitbox());
+		System.out.println(line.getHitbox());
 
 		creationHelper.create(new Block(new Hitbox.CircleHitbox(170, 170, 32)));
 
 		creationHelper.create(new Block(new Hitbox.PointHitbox(50, 200)));
 
-		 creationHelper.create(new Background("floor", 50, 200, 1, 1));
+//		creationHelper.create(new Background("floor", 50, 20, 1, 1));
 
 		block = new Block( new Hitbox.PolygonHitbox(new Point(100, 100), new Point[] { new Point(0, 0), new Point(100, -10), new Point(0, 30) }));
 		block.setView("floor", 100, 100, 100, 30, Viewable.ENTITY_LAYER);
 
+//		System.out.println(block.getHitbox().intersects(testBlock.getHitbox()));
+		
 		creationHelper.create(block);
 		creationHelper.create(testBlock);
 
@@ -192,7 +194,7 @@ public class DebugScreen extends Screen {
 		// System.out.println(testBlock.getHitbox());
 		// System.out.println(block.getHitbox());
 
-//		System.out.println(((Hitbox.PolygonHitbox) testBlock.getHitbox()).isInside(new Point(50, 200)));
+//		System.out.println(((Hitbox.PolygonHitbox) testBlock.getHitbox()).isInside(new Point(50, 20)));
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();

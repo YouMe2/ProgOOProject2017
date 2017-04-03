@@ -234,8 +234,10 @@ public class Player extends GameEntity {
 			setVelocity(getVelocity().x, (int) (getVelocity().y * 0.7));
 
 		if (obj.isDeadly())
-			if (damage(1))
+			if (damage(1)){
 				obj.addKill();
+				System.out.println("Killed by: " + obj);
+			}
 			else
 				obj.destroy();
 
