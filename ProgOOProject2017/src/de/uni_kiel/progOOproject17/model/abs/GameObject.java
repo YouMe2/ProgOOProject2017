@@ -60,6 +60,7 @@ public abstract class GameObject extends GameElement implements Deadly, Collidab
 	 */
 	@Override
 	public Hitbox getHitbox() {
+//		return hitbox;
 		return hitbox.clone();
 	}
 

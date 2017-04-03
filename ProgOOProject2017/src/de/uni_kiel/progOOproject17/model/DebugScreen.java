@@ -79,8 +79,8 @@ public class DebugScreen extends Screen {
 		createdElements = new LinkedList<>();
 		environment = new SimpleEnvironment(gameElements);
 
-		testBlock = new Block(new Hitbox.PolygonHitbox(
-				new Point[] { new Point(60, 60), new Point(90, 90), new Point(60, 90), new Point(50, 70) }));
+		testBlock = new Block(new Hitbox.PolygonHitbox( new Point(60, 60), 
+				new Point[] { new Point(0, 0), new Point(30, 30), new Point(0, 30), new Point(-10, 10) }));
 
 		// testBlock = new Block(new Hitbox.CircleHitbox(60, 60, 6));
 
@@ -89,7 +89,9 @@ public class DebugScreen extends Screen {
 		testBlock.setView("floor", 60, 60, 4, 4, Viewable.ENTITY_LAYER);
 		testBlock.activate(environment, creationHelper);
 
-		creationHelper.create(new Block(new Hitbox.LineHitbox(300, 50, 280, 150)));
+		Block line = new Block(new Hitbox.LineHitbox(20, 100, 20, 200));
+		creationHelper.create(line);
+//		System.out.println(line.getHitbox());
 
 		creationHelper.create(new Block(new Hitbox.CircleHitbox(170, 170, 32)));
 
@@ -97,8 +99,7 @@ public class DebugScreen extends Screen {
 
 		 creationHelper.create(new Background("floor", 50, 200, 1, 1));
 
-		block = new Block(
-				new Hitbox.PolygonHitbox(new Point[] { new Point(100, 100), new Point(200, 90), new Point(100, 130) }));
+		block = new Block( new Hitbox.PolygonHitbox(new Point(100, 100), new Point[] { new Point(0, 0), new Point(100, -10), new Point(0, 30) }));
 		block.setView("floor", 100, 100, 100, 30, Viewable.ENTITY_LAYER);
 
 		creationHelper.create(block);
@@ -191,8 +192,7 @@ public class DebugScreen extends Screen {
 		// System.out.println(testBlock.getHitbox());
 		// System.out.println(block.getHitbox());
 
-		 System.out.println(((Hitbox.PolygonHitbox)testBlock.getHitbox()).isInside(new
-		 Point(50, 200)));
+//		System.out.println(((Hitbox.PolygonHitbox) testBlock.getHitbox()).isInside(new Point(50, 200)));
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();

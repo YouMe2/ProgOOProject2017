@@ -105,7 +105,8 @@ public class PLDektopView extends FramedIOView {
 					gr.drawOval(rect.x, rect.y, rect.width, rect.height);
 				}
 				if (key2.equals(Hitbox.LINE_KEY)) {
-					gr.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
+//					gr.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
+					gr.drawLine(rect.x, rect.y, rect.width, rect.height);
 				}
 
 			}	

@@ -56,7 +56,8 @@ public class GameScreen extends Screen implements Stats {
 		 */
 		@Override
 		public boolean willCollide(Collidable coll, Distance dist) {
-			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(dist);
+			Hitbox tHitbox = coll.getHitbox();
+			tHitbox.translate(dist);
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable)
@@ -82,7 +83,8 @@ public class GameScreen extends Screen implements Stats {
 			if (c1 == c2)
 				return false;
 
-			Hitbox tHitbox = c1.getHitbox().getCloneTranslate(d1);
+			Hitbox tHitbox = c1.getHitbox();
+			tHitbox.translate(d1);
 			return c2.getHitbox().intersects(tHitbox);
 		}
 
@@ -181,7 +183,8 @@ public class GameScreen extends Screen implements Stats {
 		 */
 		@Override
 		public boolean isOnGround(Collidable coll) {
-			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(new Distance(0, 1));
+			Hitbox tHitbox = coll.getHitbox();
+			tHitbox.translate(new Distance(0, 1));
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable) {

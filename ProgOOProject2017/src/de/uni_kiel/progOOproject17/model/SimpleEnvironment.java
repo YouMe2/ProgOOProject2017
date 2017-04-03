@@ -40,7 +40,8 @@ public class SimpleEnvironment implements Environment {
 		 */
 		@Override
 		public boolean willCollide(Collidable coll, Distance dist) {
-			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(dist);
+			Hitbox tHitbox = coll.getHitbox();
+			tHitbox.translate(dist);
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable)
@@ -69,7 +70,8 @@ public class SimpleEnvironment implements Environment {
 			if (c1 == c2)
 				return false;
 
-			Hitbox tHitbox = c1.getHitbox().getCloneTranslate(d1);
+			Hitbox tHitbox = c1.getHitbox();
+			tHitbox.translate(d1);
 			
 //			if (c2.getHitbox().intersectsFAST(tHitbox))
 				return c2.getHitbox().intersects(tHitbox);
@@ -180,7 +182,8 @@ public class SimpleEnvironment implements Environment {
 		 */
 		@Override
 		public boolean isOnGround(Collidable coll) {
-			Hitbox tHitbox = coll.getHitbox().getCloneTranslate(new Distance(0, 1));
+			Hitbox tHitbox = coll.getHitbox();
+			tHitbox.translate(new Distance(0, 1));
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable) {

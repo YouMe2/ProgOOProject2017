@@ -259,7 +259,7 @@ public class Player extends GameEntity {
 		if (lifes <= 0) {
 			destroy();
 
-			creationHelper.create(new Particle("playerDeath", getHitbox().getX(), getHitbox().getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
+			creationHelper.create(new Particle("playerDeath", getThisHitbox().getX(), getThisHitbox().getY(), PLAYER_H_NORMAL, PLAYER_H_NORMAL, 200, 6));
 			ResourceManager.getInstance().getSound("death").play();
 
 			return true;
