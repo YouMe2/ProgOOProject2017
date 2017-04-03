@@ -97,8 +97,6 @@ public abstract class Hitbox {
 	 * @return
 	 */
 	public boolean intersectsFAST(Hitbox other) {
-		// FIXME
-		// return true;
 
 		return ((other.minX() <= this.minX() && this.minX() <= other.maxX()
 				|| other.minX() <= this.maxX() && this.maxX() <= other.maxX())

@@ -216,7 +216,7 @@ public class GameScreen extends Screen implements Stats {
 	public Viewable[] getViewables() {
 		ArrayList<Viewable> views = new ArrayList<>();
 		views.addAll(Arrays.asList(scoreboard.getViewables()));
-		//TODO DEBUG HITBOX OPTION
+		//TODO fix HITBOX OPTION
 //		for (GameElement e : gameElements) {
 //			if (e instanceof Collidable)
 //				views.addAll(Arrays.asList(((Collidable) e).getHitbox().getDebugViewables()));
