@@ -1,5 +1,7 @@
 package de.uni_kiel.progOOproject17.model;
 
+import java.security.Key;
+
 import de.uni_kiel.progOOproject17.model.abs.GameElement;
 
 /**
@@ -12,6 +14,15 @@ public class Particle extends GameElement {
 	private final int dtime;
 	private long lasttime;
 	private final int max;
+	private final String resKey;
+	
+	private Key key = new Key() {
+		@Override
+		public String getText() {
+			return resKey + "_" + counter;
+		}
+		
+	};
 
 	/**
 	 * Constructs a new {@link Particle}. That after its been activated will be
@@ -34,21 +45,14 @@ public class Particle extends GameElement {
 	 */
 	public Particle(String resKey, int x, int y, int w, int h, int dtime, int lenghth) {
 		super(resKey, x, y, w, h, PARTICLE_LAYER);
+		this.resKey = resKey;
 		this.max = lenghth;
 		this.dtime = dtime;
 	}
 
-	/**
-	 *
-	 *
-	 * @return the resource key ending on "_counter" where counter is an int
-	 *         from 0 to length.
-	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
-	 */
 	@Override
-	public String getResourceKey() {
-
-		return super.getResourceKey() + "_" + counter;
+	public Key getContentKey() {
+		return key;
 	}
 
 	/*

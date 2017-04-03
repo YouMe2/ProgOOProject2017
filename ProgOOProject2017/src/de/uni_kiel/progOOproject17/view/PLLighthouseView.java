@@ -100,7 +100,7 @@ public class PLLighthouseView extends FramedIOView {
 			Arrays.stream(viewables).parallel().filter(v -> v.getLayer() == layer).forEach(v -> {
 
 				Rectangle rect = v.getViewRect();
-				String key = v.getResourceKey();
+				String key = v.getContentKey() != null ? v.getContentKey().getText() : null;
 				if (key != null)
 					 gr.drawImage(res.getImage(key+ lowAppendix), rect.x, rect.y, rect.width, rect.height, null);
 			});

@@ -7,12 +7,14 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
 import de.uni_kiel.progOOproject17.model.PLBaseModel;
+import de.uni_kiel.progOOproject17.model.ViewablesList;
 import de.uni_kiel.progOOproject17.model.abs.Hitbox;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
 import de.uni_kiel.progOOproject17.view.abs.FramedIOView;
 import de.uni_kiel.progOOproject17.view.abs.InputView;
 import de.uni_kiel.progOOproject17.view.abs.OutputView;
 import de.uni_kiel.progOOproject17.view.abs.Viewable;
+import de.uni_kiel.progOOproject17.view.abs.Viewable.Key;
 
 /**
  * This class represents the desktop-only-part of the view of this MVC
@@ -60,34 +62,7 @@ public class PLDektopView extends FramedIOView {
 			final int layer = i;
 			Arrays.stream(viewables).filter(v -> v.getLayer() == layer).forEach(v -> {
 
-				Rectangle rect = v.getViewRect();
-				String key = v.getResourceKey();
-
-				if (key == null)
-					key = "null";
-
-				if (!key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
-
-					if (resDebuggRender) {
-						gr.setColor(Color.WHITE);
-						gr.drawRect(rect.x, rect.y, rect.width, rect.height);
-						gr.drawString(key, rect.x + 2, rect.y + 16);
-					} else if (!key.equals("null")) {
-						gr.drawImage(res.getImage(key), rect.x, rect.y, rect.width, rect.height, null);
-					}
-				}
-
-				if (hitboxDebugRender && key.startsWith(Viewable.DEBUGKEY_PREFIX)) {
-					gr.setColor(Color.CYAN);
-					String key2 = key.replaceFirst(Viewable.DEBUGKEY_PREFIX, "");
-					if (key2.equals(Hitbox.CIRCLE_KEY)) {
-						gr.drawOval(rect.x, rect.y, rect.width, rect.height);
-					}
-					if (key2.equals(Hitbox.LINE_KEY)) {
-						gr.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
-					}
-
-				}
+				render(v, gr);
 
 			});
 
@@ -98,6 +73,55 @@ public class PLDektopView extends FramedIOView {
 		gr2.drawImage(img, 0, 0, PLBaseModel.GAME_WIDTH, PLBaseModel.GAME_HEIGHT, null);
 		gr2.dispose();
 
+	}
+
+	/**
+	 * @param viewable
+	 */
+	private void render(Viewable v, Graphics gr) {
+
+
+		Rectangle rect = v.getViewRect();
+		Key key = v.getContentKey();
+		String keyText = key != null ? key.getText() : "null";
+		if (keyText == null)
+			keyText = "null";
+		if (keyText.equals(ViewablesList.LISTKEY_TEXT) && key instanceof ViewablesList) {
+			ViewablesList list = (ViewablesList) key;
+			
+			for (Viewable viewable : list) {
+				render(viewable, gr);
+				
+			}
+			
+			
+		}
+		else if (keyText.startsWith(Viewable.DEBUGKEY_PREFIX)) {				
+			if (hitboxDebugRender) {
+				//hitbox debugging
+				gr.setColor(Color.CYAN);
+				String key2 = keyText.replaceFirst(Viewable.DEBUGKEY_PREFIX, "");
+				if (key2.equals(Hitbox.CIRCLE_KEY)) {
+					gr.drawOval(rect.x, rect.y, rect.width, rect.height);
+				}
+				if (key2.equals(Hitbox.LINE_KEY)) {
+					gr.drawLine(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height);
+				}
+
+			}	
+		}
+		else {				
+			if (resDebuggRender) {
+				//resource debug mode render
+				gr.setColor(Color.WHITE);
+				gr.drawRect(rect.x, rect.y, rect.width, rect.height);
+				gr.drawString(keyText, rect.x + 2, rect.y + 16);
+			} else if (!keyText.equals("null")) {
+				//standard render
+				gr.drawImage(res.getImage(keyText), rect.x, rect.y, rect.width, rect.height, null);
+			}
+			
+		}
 	}
 
 	int colorCounter = 0;

@@ -15,6 +15,7 @@ import de.uni_kiel.progOOproject17.model.abs.MoveCommand;
 import de.uni_kiel.progOOproject17.model.abs.MoveState;
 import de.uni_kiel.progOOproject17.resources.GameProperties;
 import de.uni_kiel.progOOproject17.resources.ResourceManager;
+import de.uni_kiel.progOOproject17.view.abs.Viewable.Key;
 
 /**
  * This class represents a {@link GameEntity} that acts as the {@link Player}.
@@ -71,6 +72,18 @@ public class Player extends GameEntity {
 	 */
 	public static final int PLAYER_H_CROUCH = PLAYER_H_NORMAL / 2;
 
+	
+	private final String resKey;
+	
+	private Key key = new Key() {
+		@Override
+		public String getText() {
+			return (currMoveState == CROUCHING || currMoveState == MoveState.JUMPING_AND_CROUCHING) ? resKey + "_C" : resKey;
+		}
+		
+	};
+	
+	
 	/**
 	 * Constructs a new Player.
 	 * 
@@ -95,6 +108,7 @@ public class Player extends GameEntity {
 	 */
 	public Player(String resKey, int x, int y) {
 		super(new Hitbox.RectHitbox(x, y, PLAYER_W, PLAYER_H_NORMAL), resKey, x, y, PLAYER_W, PLAYER_H_NORMAL);
+		this.resKey = resKey;
 	}
 
 	// TESTWISE
@@ -290,9 +304,8 @@ public class Player extends GameEntity {
 	 * @see de.uni_kiel.progOOproject17.model.abs.GameElement#getResourceKey()
 	 */
 	@Override
-	public String getResourceKey() {
-		String key = super.getResourceKey();
-		return (currMoveState == CROUCHING || currMoveState == MoveState.JUMPING_AND_CROUCHING) ? key + "_C" : key;
+	public Key getContentKey() {
+		return key;
 	}
 
 	/**

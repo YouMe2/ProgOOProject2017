@@ -97,13 +97,16 @@ public abstract class Hitbox {
 	 * @param other
 	 * @return
 	 */
-	public boolean intersectsFAST(Hitbox other) {
-		return (other.minX() >= this.minX() && other.minX() <= this.maxX()
-				|| other.maxX() >= this.minX() && other.maxX() <= this.maxX())
-				&& (other.minY() >= this.minY() && other.minY() <= this.maxY()
-						|| other.maxY() >= this.minY() && other.maxY() <= this.maxY());
-
-	}
+//	public boolean intersectsFAST(Hitbox other) {
+//		// FIXME
+////		return true;
+//		
+//		return (other.minX() >= this.minX() && other.minX() <= this.maxX()
+//				|| other.maxX() >= this.minX() && other.maxX() <= this.maxX())
+//				&& (other.minY() >= this.minY() && other.minY() <= this.maxY()
+//						|| other.maxY() >= this.minY() && other.maxY() <= this.maxY());
+//
+//	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -462,24 +465,24 @@ public abstract class Hitbox {
 			return new PointHitbox(this.getX(), this.getY());
 		}
 
-//		/*
-//		 * (non-Javadoc)
-//		 * 
-//		 * @see
-//		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
-//		 * progOOproject17.model.abs.Hitbox)
-//		 */
-//		@Override
-//		public boolean intersects(Hitbox other) {
-//
-//			if (other instanceof PointHitbox) {
-//
-//				return this.getX() == other.getX() && this.getY() == other.getY();
-//
-//			}
-//			return super.intersects(this);
-//
-//		}
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * de.uni_kiel.progOOproject17.model.abs.Hitbox#intersects(de.uni_kiel.
+		 * progOOproject17.model.abs.Hitbox)
+		 */
+		@Override
+		public boolean intersects(Hitbox other) {
+
+			if (other instanceof PointHitbox) {
+
+				return this.getX() == other.getX() && this.getY() == other.getY();
+
+			}
+			return super.intersects(this);
+
+		}
 	}
 
 	public static class NoHitbox extends Hitbox {
@@ -659,14 +662,16 @@ public abstract class Hitbox {
 		 */
 		@Override
 		public boolean intersects(Hitbox other) {
-
+			//TODO fix intersection with PointHitbox
+			
+			
 			if (other instanceof PolygonHitbox) {
 				PolygonHitbox oPoly = (PolygonHitbox) other;
 				Point[] oPoints = oPoly.getPoints();
 
 				if (oPoints.length < 2) {
 					assert oPoints.length == 1;
-					return isInside(oPoints[0]);
+					return this.isInside(oPoints[0]);
 				}
 				
 				if (points.length < 2) {

@@ -44,9 +44,11 @@ public class SimpleEnvironment implements Environment {
 			synchronized (gameElements) {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable)
-						if (!e.equals(coll) && tHitbox.intersectsFAST(((Collidable) e).getHitbox()))
-							if (tHitbox.intersects(((Collidable) e).getHitbox()))
+						if (!e.equals(coll) /*&& tHitbox.intersectsFAST(((Collidable) e).getHitbox())*/)
+							if (tHitbox.intersects(((Collidable) e).getHitbox())) {
+								assert ((Collidable) e).getHitbox().intersects(tHitbox) : "hitbox intersection failed";
 								return true;
+							}
 			}
 			return false;
 		}
@@ -69,9 +71,9 @@ public class SimpleEnvironment implements Environment {
 
 			Hitbox tHitbox = c1.getHitbox().getCloneTranslate(d1);
 			
-			if (c2.getHitbox().intersectsFAST(tHitbox))
+//			if (c2.getHitbox().intersectsFAST(tHitbox))
 				return c2.getHitbox().intersects(tHitbox);
-			return false;
+//			return false;
 		}
 
 		/*
@@ -183,7 +185,7 @@ public class SimpleEnvironment implements Environment {
 				for (GameElement e : gameElements)
 					if (e instanceof Collidable) {
 						Collidable c = (Collidable) e;
-						if (!c.equals(coll) && c.isMovementRestricting() && c.getHitbox().intersectsFAST(tHitbox))
+						if (!c.equals(coll) && c.isMovementRestricting() /*&& c.getHitbox().intersectsFAST(tHitbox)*/)
 							if (c.getHitbox().intersects(tHitbox))
 								return true;
 

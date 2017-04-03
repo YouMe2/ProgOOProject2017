@@ -45,7 +45,7 @@ public class Scoreboard extends GameCompound {
 	 * @param stats the {@link Stats} to display
 	 */
 	public Scoreboard(Stats stats) {
-		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 2);
+		super(0, 0, GAME_WIDTH, LHPIXEL_HEIGHT * 3);
 		this.stats = stats;
 
 		pointsDisplay = new SimpleViewable[GAME_WIDTH / (LHPIXEL_WIDTH * 3)];
@@ -76,18 +76,18 @@ public class Scoreboard extends GameCompound {
 		if (p > pointsDisplay.length)
 			p = pointsDisplay.length;
 		for (int i = 0; i < p; i++)
-			pointsDisplay[i].setResKey(pointsKey);
+			pointsDisplay[i].setKeyText(pointsKey);
 		for (int i = p; i < pointsDisplay.length; i++)
-			pointsDisplay[i].setResKey(null);
+			pointsDisplay[i].setKeyText(null);
 
 		int l = stats.getLifes();
 		if (l > lifesDisplay.length)
 			l = lifesDisplay.length;
 
 		for (int i = 0; i < l; i++)
-			lifesDisplay[i].setResKey(lifesKey);
+			lifesDisplay[i].setKeyText(lifesKey);
 		for (int i = l; i < lifesDisplay.length; i++)
-			lifesDisplay[i].setResKey(null);
+			lifesDisplay[i].setKeyText(null);
 
 	}
 

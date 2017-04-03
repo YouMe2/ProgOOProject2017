@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.SortedSet;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -49,7 +50,7 @@ public class DebugScreen extends Screen {
 		@Override
 		public void create(GameElement g) {
 
-			System.out.println("Created: " + g.getResourceKey());
+			System.out.println("Created: " + g.getContentKey());
 
 			createdElements.add(g);
 			g.activate(environment, this);
@@ -57,7 +58,7 @@ public class DebugScreen extends Screen {
 
 		@Override
 		public void onDestruction(Destroyable d) {
-			System.out.println("Destroyed: " + ((GameElement) d).getResourceKey());
+			System.out.println("Destroyed: " + ((GameElement) d).getContentKey());
 
 			destroyedElements.add(d);
 		}
@@ -94,7 +95,7 @@ public class DebugScreen extends Screen {
 
 		creationHelper.create(new Block(new Hitbox.PointHitbox(50, 200)));
 
-		// creationHelper.create(new Background("floor", 50, 50, 1, 1));
+		 creationHelper.create(new Background("floor", 50, 200, 1, 1));
 
 		block = new Block(
 				new Hitbox.PolygonHitbox(new Point[] { new Point(100, 100), new Point(200, 90), new Point(100, 130) }));
@@ -170,7 +171,9 @@ public class DebugScreen extends Screen {
 		});
 
 		putAction(InputActionKey.SELECT_P, resumeAction);
-
+		
+		
+		
 	}
 
 	/*
@@ -188,8 +191,8 @@ public class DebugScreen extends Screen {
 		// System.out.println(testBlock.getHitbox());
 		// System.out.println(block.getHitbox());
 
-		// System.out.println(((Hitbox.PolygonHitbox)testBlock.getHitbox()).isInside(new
-		// Point(50, 50)));
+		 System.out.println(((Hitbox.PolygonHitbox)testBlock.getHitbox()).isInside(new
+		 Point(50, 200)));
 
 		gameElements.removeAll(destroyedElements);
 		destroyedElements.clear();

@@ -42,7 +42,6 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	 *            the height
 	 */
 	public GameElement(String resKey, int x, int y, int w, int h, int layer) {
-		view = new SimpleViewable(resKey, x, y, w, h, layer);
 		setView(resKey, x, y, w, h, layer);
 	}
 
@@ -54,12 +53,6 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 		view = new SimpleViewable(resKey, x, y, w, h, layer);
 	}
 
-//	/**
-//	 * 
-//	 */
-//	public void setView(SimpleViewable view) {
-//		this.view = view;
-//	}
 
 	public SimpleViewable getView() {
 		return view;
@@ -71,8 +64,8 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getResourceKey()
 	 */
 	@Override
-	public String getResourceKey() {
-		return view.getResourceKey();
+	public Key getContentKey() {
+		return view.getContentKey();
 	}
 
 	/*
@@ -82,7 +75,6 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	 */
 	@Override
 	public Rectangle getViewRect() {
-
 		return view.getViewRect();
 	}
 
@@ -94,6 +86,22 @@ public abstract class GameElement implements Viewable, Destroyable, Ticked {
 	@Override
 	public int getLayer() {
 		return view.getLayer();
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#isVisble()
+	 */
+	@Override
+	public boolean isVisble() {
+		return view.isVisble();
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.uni_kiel.progOOproject17.view.abs.Viewable#getPriority()
+	 */
+	@Override
+	public float getPriority() {
+		return view.getPriority();
 	}
 
 	/*
