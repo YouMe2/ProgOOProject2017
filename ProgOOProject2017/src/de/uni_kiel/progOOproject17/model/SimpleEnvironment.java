@@ -188,22 +188,18 @@ public class SimpleEnvironment implements Environment {
 	@Override
 	public boolean isOnGround(Collidable coll) {
 		
-		return true;
-		
-//		Hitbox tHitbox = coll.getHitbox();
-//		tHitbox.translate(new Distance(0, 5));
-//		synchronized (gameElements) {
-//			for (GameElement e : gameElements)
-//				if (e instanceof Collidable) {
-//					Collidable c = (Collidable) e;
-//
-//					if (c.isMovementRestricting() && collide(coll, c))
-//						return true;
-//
-//				}
-//		}
-//
-//		return false;
+		synchronized (gameElements) {
+			for (GameElement e : gameElements)
+				if (e instanceof Collidable) {
+					Collidable c = (Collidable) e;
+
+					if (c.isMovementRestricting() && willCollide(coll, new Distance(0, 1), c))
+						return true;
+
+				}
+		}
+
+		return false;
 	}
 
 	/*

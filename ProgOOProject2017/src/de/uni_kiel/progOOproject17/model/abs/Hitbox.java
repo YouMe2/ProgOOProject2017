@@ -870,7 +870,7 @@ public abstract class Hitbox {
 			if (thisPoints.length == 2) {
 				// TODO Point on line?
 				return Line2D.ptSegDist(getX() + points[0].x, getY() + points[0].y, getX() + points[1].x,
-						getY() + points[1].y, p.x, p.y) == 0.0;
+						getY() + points[1].y, p.x, p.y) <= 0.4;
 			}
 
 			assert thisPoints.length > 2;
